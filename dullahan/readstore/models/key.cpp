@@ -7,17 +7,15 @@
 
 namespace dullahan {
 
+namespace models {
+
 ReadStoreKey::ReadStoreKey() : column_(0), bytes_(), slice_repr_() {
   updateSlice();
 }
 
-ReadStoreKey::~ReadStoreKey() {
-
-}
-
 ReadStoreKey::ReadStoreKey(ReadStoreKey const &aConst) :
-  column_(aConst.column_),
-  bytes_(aConst.bytes_) {
+    column_(aConst.column_),
+    bytes_(aConst.bytes_) {
   updateSlice();
 }
 
@@ -52,12 +50,15 @@ column_t ReadStoreKey::column() const {
 
 void ReadStoreKey::updateSlice() {
   slice_repr_.clear();
-  slice_repr_.reserve(sizeof(column_t) + bytes_.size());
-  append_numbers::addBytes(&slice_repr_, column_);
+  slice_repr_.reserve(sizeof(column_) + bytes_.size());
+  const byte * ptr = reinterpret_cast<const byte *>(&column_);
+  slice_repr_.insert(slice_repr_.end(), ptr, ptr + sizeof(column_));
   slice_repr_.insert(slice_repr_.end(), bytes_.begin(), bytes_.end());
 }
 
 rocksdb::Slice ReadStoreKey::toSlice() const {
   return rocksdb::Slice(slice_repr_.data(), slice_repr_.size());
+}
+
 }
 }

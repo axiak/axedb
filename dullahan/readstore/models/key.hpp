@@ -9,37 +9,44 @@
 #include <limits.h>
 #include <MurmurHash3.h>
 
-#include "utils.hpp"
-
-
 
 namespace dullahan {
+
+
 using column_t = std::uint16_t;
 using byte = char;
 const column_t META_COLUMN = -1;
 const column_t MATERIALIZED_ROW_COLUMN = -2;
 
+namespace models {
+
 class ReadStoreKey {
 public:
 
   template<typename T1>
-  ReadStoreKey(T1&& column, const std::string & columnData) : bytes_{} {
+  ReadStoreKey(T1 &&column, const std::string &columnData) : bytes_{} {
     column_ = std::forward<T1>(column);
     bytes_.reserve(columnData.size());
     bytes_.insert(bytes_.end(), columnData.begin(), columnData.end());
   }
 
   template<typename T1, typename T2>
-  ReadStoreKey(T1&& column, T2&& bytes) {
+  ReadStoreKey(T1 &&column, T2 &&bytes) {
     column_ = std::forward<T1>(column);
     bytes_ = std::forward<T2>(bytes);
   }
+
   ReadStoreKey();
-  ~ReadStoreKey();
+
+  ~ReadStoreKey() = default;
+
   ReadStoreKey(const ReadStoreKey &);
-  ReadStoreKey & operator=(const ReadStoreKey &);
+
+  ReadStoreKey &operator=(const ReadStoreKey &);
+
   ReadStoreKey(ReadStoreKey &&);
-  ReadStoreKey & operator=(ReadStoreKey &&);
+
+  ReadStoreKey &operator=(ReadStoreKey &&);
 
   size_t columnSize() const;
 
@@ -65,7 +72,7 @@ public:
   rocksdb::Slice toSlice() const;
 
   struct Comparator_ {
-    bool operator()(const ReadStoreKey & a, const ReadStoreKey & b) const {
+    bool operator()(const ReadStoreKey &a, const ReadStoreKey &b) const {
       if (a.column_ < b.column_) {
         return true;
       }
@@ -87,7 +94,7 @@ public:
   }
 
   struct Equality_ {
-    bool operator()(const ReadStoreKey & a, const ReadStoreKey & b) const {
+    bool operator()(const ReadStoreKey &a, const ReadStoreKey &b) const {
       if (a.column_ != b.column_) {
         return false;
       }
@@ -110,7 +117,8 @@ public:
 
   struct Hasher_ {
     constexpr static uint32_t seed = 796788753;
-    size_t operator()(const ReadStoreKey & a) const {
+
+    size_t operator()(const ReadStoreKey &a) const {
       uint32_t output;
       MurmurHash3_x86_32(
           reinterpret_cast<const void *>(a.bytes_.data()),
@@ -135,7 +143,8 @@ public:
 
   static ReadStoreKey materializedRowKey(long rowId) {
     std::vector<byte> vector;
-    append_numbers::addBytes(&vector, rowId);
+    const byte *ptr = reinterpret_cast<const byte *>(&rowId);
+    vector.insert(vector.end(), ptr, ptr + sizeof(rowId));
     ReadStoreKey rowKey(MATERIALIZED_ROW_COLUMN, vector);
     return rowKey;
   }
@@ -149,6 +158,7 @@ private:
 };
 
 
+}
 }
 
 

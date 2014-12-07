@@ -14,34 +14,14 @@
 #include <ewah.h>
 
 #include "../env.hpp"
-#include "../records/record.pb.h"
-#include "key.hpp"
+#include "../protos/dullahan.pb.h"
+#include "models/key.hpp"
+#include "models/value.hpp"
 
 
 namespace dullahan {
 
-class ScratchValue {
-public:
-  ScratchValue();
-  ScratchValue(const Record & record);
-  ~ScratchValue() =default;
-  ScratchValue(const ScratchValue &);
-  ScratchValue(ScratchValue&&);
-
-  ScratchValue & operator=(const ScratchValue &);
-  ScratchValue & operator=(ScratchValue &&);
-
-  void setRecord(const Record & record);
-
-  EWAHBoolArray<uint32_t> * bitarray();
-  const EWAHBoolArray<uint32_t> * const bitarray() const;
-  const Record * const record() const;
-  const rocksdb::Slice recordValue(std::string * buffer) const;
-
-private:
-  EWAHBoolArray<uint32_t> bitarray_;
-  const Record * record_;
-};
+using namespace models;
 
 class Tablet {
 public:
@@ -68,7 +48,7 @@ public:
             Record>::value,
         "Required Record::Reader iterator."
     );
-    std::for_each(begin, end, [this](Record & record) {
+    std::for_each(begin, end, [this](const Record & record) {
         addToScratch(record);
     });
     std::cout << "Size of scratch: " << scratch.size() << std::endl;
@@ -81,14 +61,15 @@ private:
   uint64_t volatile id_watermark;
   uint64_t committed_id_watermark;
   uint64_t num_bits_in_scratch;
-  google::sparse_hash_map<ReadStoreKey, ScratchValue, decltype(ReadStoreKey::hasher()), decltype(ReadStoreKey::equality())> scratch;
-      /*
-      sparse_hash_map<const char*, int, hash<const char*>, eqstr> months;
-       */
+  google::sparse_hash_map<
+      ReadStoreKey,
+      ScratchValue,
+      decltype(ReadStoreKey::hasher()),
+      decltype(ReadStoreKey::equality())> scratch;
 
   void moveTablet(Tablet& dest, Tablet &&src);
 
-  void addToScratch(Record & record);
+  void addToScratch(const Record & record);
   void flushScratch();
   void commitWatermark();
   void readWatermark();
@@ -104,6 +85,7 @@ private:
   }
 };
 
+
 class TabletLevelDbException : std::ios_base::failure {
 public:
   TabletLevelDbException(rocksdb::Status status) :
@@ -118,8 +100,6 @@ public:
 
 private:
   rocksdb::Status status_;
-
-
 };
 
 

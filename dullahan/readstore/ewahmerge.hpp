@@ -1,5 +1,7 @@
 #pragma once
 #ifndef __DULLAHAN_EWAHMERGE_H_
+#define __DULLAHAN_EWAHMERGE_H_
+
 #include <rocksdb/merge_operator.h>
 
 namespace dullahan {

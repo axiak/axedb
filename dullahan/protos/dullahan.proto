@@ -1,0 +1,40 @@
+package dullahan.models;
+
+message Record {
+    message KeyValue {
+        optional uint32 column = 1;
+        optional bytes value = 2;
+        // Record last field: 2
+    }
+
+    optional fixed64 timestamp = 1;
+    optional bytes id = 2;
+    repeated KeyValue values = 3;
+    // Record last field: 3
+}
+
+
+message TabletMetadata {
+    optional uint64 last_tablet_id = 1;
+
+    enum Endianness {
+        BIG = 0;
+        LITTLE = 1;
+    }
+    optional Endianness written_endianness = 2;
+    optional uint32 size_of_bitword = 3;
+
+    message ColumnMetadata {
+        optional uint32 column = 1;
+
+        enum IndexType {
+            BITMAP = 0;
+        }
+        optional IndexType type = 2;
+
+        // ColumnMetadata last field: 2
+    }
+
+    repeated ColumnMetadata column_metadatas = 4;
+    // TabletMetadata last field: 4
+}

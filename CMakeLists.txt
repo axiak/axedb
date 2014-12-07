@@ -17,14 +17,16 @@ set(SOURCE_FILES
 
         dullahan/readstore/tablet.cpp
         dullahan/readstore/tablet.hpp
-        dullahan/readstore/key.hpp
-        dullahan/readstore/key.cpp
-        dullahan/readstore/utils.hpp
+        dullahan/readstore/models/key.hpp
+        dullahan/readstore/models/key.cpp
+        dullahan/readstore/models/value.hpp
+        dullahan/readstore/models/value.cpp
         dullahan/readstore/ewahmerge.hpp
         dullahan/readstore/ewahmerge.cpp
 
-        dullahan/records/record.pb.h
-        dullahan/records/record.pb.cc
+        dullahan/protos/dullahan.pb.h
+        dullahan/protos/dullahan.pb.cc
+        dullahan/protos/utils.hpp
 
         3rdparty/EWAHBoolArray/headers/ewahutil.h
         3rdparty/EWAHBoolArray/headers/boolarray.h
