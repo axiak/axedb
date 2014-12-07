@@ -8,7 +8,7 @@ include_directories(
         3rdparty/EWAHBoolArray/headers
 )
 
-set(CMAKE_CXX_FLAGS  "-DOS_LINUX -DROCKSDB_PLATFORM_POSIX -g -pedantic -pthread -Wall -std=c++11")
+set(CMAKE_CXX_FLAGS  "-DOS_LINUX -DROCKSDB_PLATFORM_POSIX -O3 -g -pedantic -pthread -Wall -std=c++11")
 
 set(SOURCE_FILES
         dullahan/env.hpp
@@ -347,4 +347,4 @@ set(SOURCE_FILES
 )
 
 add_executable(dullahan_test ./dullahan/test.cpp ${SOURCE_FILES})
-target_link_libraries(dullahan_test protobuf folly profiler)
+target_link_libraries(dullahan_test protobuf jemalloc folly profiler)

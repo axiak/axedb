@@ -13,6 +13,17 @@ message Record {
     // Record last field: 3
 }
 
+message ColumnMetadata {
+    optional uint32 column = 1;
+
+    enum IndexType {
+        NONE = 0;
+        BITMAP = 1;
+    }
+    optional IndexType type = 2 [default=BITMAP];
+
+    // ColumnMetadata last field: 2
+}
 
 message TabletMetadata {
     optional uint64 last_tablet_id = 1;
@@ -23,17 +34,6 @@ message TabletMetadata {
     }
     optional Endianness written_endianness = 2;
     optional uint32 size_of_bitword = 3;
-
-    message ColumnMetadata {
-        optional uint32 column = 1;
-
-        enum IndexType {
-            BITMAP = 0;
-        }
-        optional IndexType type = 2;
-
-        // ColumnMetadata last field: 2
-    }
 
     repeated ColumnMetadata column_metadatas = 4;
     // TabletMetadata last field: 4

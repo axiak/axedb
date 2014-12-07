@@ -116,10 +116,8 @@ void Tablet::flushScratch() {
 void Tablet::commitWatermark() {
   uint64_t committing_watermark = id_watermark;
   rocksdb::WriteOptions writeOptions;
-  std::stringstream ss;
-  ss.write(reinterpret_cast<const char *> (&committing_watermark), sizeof(id_watermark));
 
-  rocksdb::Slice value{ss.str()};
+  rocksdb::Slice value{reinterpret_cast<const char *> (&committing_watermark), sizeof(id_watermark)};
 
   rocksdb::Status status = (*db)->Put(
       writeOptions,

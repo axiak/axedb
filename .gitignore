@@ -1,7 +1,10 @@
 .idea/
 /dullahan_server
+/dullahan_test
+
 
 # cmake cruft
+/Makefile
 /CMakeFiles/
 /CMakeCache.txt
 /cmake_install.cmake

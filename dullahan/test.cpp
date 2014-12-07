@@ -15,7 +15,7 @@ int main() {
     Tablet tablet(env, 0, 3);
 
     const int max_j = 256;
-    const int max_k = 50;
+    const int max_k = 20;
 
     for (int k = 0; k < max_k; ++k) {
       std::vector<models::Record> records;

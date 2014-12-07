@@ -37,26 +37,27 @@ void protobuf_ShutdownFile_dullahan_2eproto();
 
 class Record;
 class Record_KeyValue;
+class ColumnMetadata;
 class TabletMetadata;
-class TabletMetadata_ColumnMetadata;
 
-enum TabletMetadata_ColumnMetadata_IndexType {
-  TabletMetadata_ColumnMetadata_IndexType_BITMAP = 0
+enum ColumnMetadata_IndexType {
+  ColumnMetadata_IndexType_NONE = 0,
+  ColumnMetadata_IndexType_BITMAP = 1
 };
-bool TabletMetadata_ColumnMetadata_IndexType_IsValid(int value);
-const TabletMetadata_ColumnMetadata_IndexType TabletMetadata_ColumnMetadata_IndexType_IndexType_MIN = TabletMetadata_ColumnMetadata_IndexType_BITMAP;
-const TabletMetadata_ColumnMetadata_IndexType TabletMetadata_ColumnMetadata_IndexType_IndexType_MAX = TabletMetadata_ColumnMetadata_IndexType_BITMAP;
-const int TabletMetadata_ColumnMetadata_IndexType_IndexType_ARRAYSIZE = TabletMetadata_ColumnMetadata_IndexType_IndexType_MAX + 1;
+bool ColumnMetadata_IndexType_IsValid(int value);
+const ColumnMetadata_IndexType ColumnMetadata_IndexType_IndexType_MIN = ColumnMetadata_IndexType_NONE;
+const ColumnMetadata_IndexType ColumnMetadata_IndexType_IndexType_MAX = ColumnMetadata_IndexType_BITMAP;
+const int ColumnMetadata_IndexType_IndexType_ARRAYSIZE = ColumnMetadata_IndexType_IndexType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* TabletMetadata_ColumnMetadata_IndexType_descriptor();
-inline const ::std::string& TabletMetadata_ColumnMetadata_IndexType_Name(TabletMetadata_ColumnMetadata_IndexType value) {
+const ::google::protobuf::EnumDescriptor* ColumnMetadata_IndexType_descriptor();
+inline const ::std::string& ColumnMetadata_IndexType_Name(ColumnMetadata_IndexType value) {
   return ::google::protobuf::internal::NameOfEnum(
-    TabletMetadata_ColumnMetadata_IndexType_descriptor(), value);
+    ColumnMetadata_IndexType_descriptor(), value);
 }
-inline bool TabletMetadata_ColumnMetadata_IndexType_Parse(
-    const ::std::string& name, TabletMetadata_ColumnMetadata_IndexType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<TabletMetadata_ColumnMetadata_IndexType>(
-    TabletMetadata_ColumnMetadata_IndexType_descriptor(), name, value);
+inline bool ColumnMetadata_IndexType_Parse(
+    const ::std::string& name, ColumnMetadata_IndexType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ColumnMetadata_IndexType>(
+    ColumnMetadata_IndexType_descriptor(), name, value);
 }
 enum TabletMetadata_Endianness {
   TabletMetadata_Endianness_BIG = 0,
@@ -282,14 +283,14 @@ class Record : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class TabletMetadata_ColumnMetadata : public ::google::protobuf::Message {
+class ColumnMetadata : public ::google::protobuf::Message {
  public:
-  TabletMetadata_ColumnMetadata();
-  virtual ~TabletMetadata_ColumnMetadata();
+  ColumnMetadata();
+  virtual ~ColumnMetadata();
 
-  TabletMetadata_ColumnMetadata(const TabletMetadata_ColumnMetadata& from);
+  ColumnMetadata(const ColumnMetadata& from);
 
-  inline TabletMetadata_ColumnMetadata& operator=(const TabletMetadata_ColumnMetadata& from) {
+  inline ColumnMetadata& operator=(const ColumnMetadata& from) {
     CopyFrom(from);
     return *this;
   }
@@ -303,17 +304,17 @@ class TabletMetadata_ColumnMetadata : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const TabletMetadata_ColumnMetadata& default_instance();
+  static const ColumnMetadata& default_instance();
 
-  void Swap(TabletMetadata_ColumnMetadata* other);
+  void Swap(ColumnMetadata* other);
 
   // implements Message ----------------------------------------------
 
-  TabletMetadata_ColumnMetadata* New() const;
+  ColumnMetadata* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const TabletMetadata_ColumnMetadata& from);
-  void MergeFrom(const TabletMetadata_ColumnMetadata& from);
+  void CopyFrom(const ColumnMetadata& from);
+  void MergeFrom(const ColumnMetadata& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -333,27 +334,28 @@ class TabletMetadata_ColumnMetadata : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-  typedef TabletMetadata_ColumnMetadata_IndexType IndexType;
-  static const IndexType BITMAP = TabletMetadata_ColumnMetadata_IndexType_BITMAP;
+  typedef ColumnMetadata_IndexType IndexType;
+  static const IndexType NONE = ColumnMetadata_IndexType_NONE;
+  static const IndexType BITMAP = ColumnMetadata_IndexType_BITMAP;
   static inline bool IndexType_IsValid(int value) {
-    return TabletMetadata_ColumnMetadata_IndexType_IsValid(value);
+    return ColumnMetadata_IndexType_IsValid(value);
   }
   static const IndexType IndexType_MIN =
-    TabletMetadata_ColumnMetadata_IndexType_IndexType_MIN;
+    ColumnMetadata_IndexType_IndexType_MIN;
   static const IndexType IndexType_MAX =
-    TabletMetadata_ColumnMetadata_IndexType_IndexType_MAX;
+    ColumnMetadata_IndexType_IndexType_MAX;
   static const int IndexType_ARRAYSIZE =
-    TabletMetadata_ColumnMetadata_IndexType_IndexType_ARRAYSIZE;
+    ColumnMetadata_IndexType_IndexType_ARRAYSIZE;
   static inline const ::google::protobuf::EnumDescriptor*
   IndexType_descriptor() {
-    return TabletMetadata_ColumnMetadata_IndexType_descriptor();
+    return ColumnMetadata_IndexType_descriptor();
   }
   static inline const ::std::string& IndexType_Name(IndexType value) {
-    return TabletMetadata_ColumnMetadata_IndexType_Name(value);
+    return ColumnMetadata_IndexType_Name(value);
   }
   static inline bool IndexType_Parse(const ::std::string& name,
       IndexType* value) {
-    return TabletMetadata_ColumnMetadata_IndexType_Parse(name, value);
+    return ColumnMetadata_IndexType_Parse(name, value);
   }
 
   // accessors -------------------------------------------------------
@@ -365,14 +367,14 @@ class TabletMetadata_ColumnMetadata : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 column() const;
   inline void set_column(::google::protobuf::uint32 value);
 
-  // optional .dullahan.models.TabletMetadata.ColumnMetadata.IndexType type = 2;
+  // optional .dullahan.models.ColumnMetadata.IndexType type = 2 [default = BITMAP];
   inline bool has_type() const;
   inline void clear_type();
   static const int kTypeFieldNumber = 2;
-  inline ::dullahan::models::TabletMetadata_ColumnMetadata_IndexType type() const;
-  inline void set_type(::dullahan::models::TabletMetadata_ColumnMetadata_IndexType value);
+  inline ::dullahan::models::ColumnMetadata_IndexType type() const;
+  inline void set_type(::dullahan::models::ColumnMetadata_IndexType value);
 
-  // @@protoc_insertion_point(class_scope:dullahan.models.TabletMetadata.ColumnMetadata)
+  // @@protoc_insertion_point(class_scope:dullahan.models.ColumnMetadata)
  private:
   inline void set_has_column();
   inline void clear_has_column();
@@ -390,7 +392,7 @@ class TabletMetadata_ColumnMetadata : public ::google::protobuf::Message {
   friend void protobuf_ShutdownFile_dullahan_2eproto();
 
   void InitAsDefaultInstance();
-  static TabletMetadata_ColumnMetadata* default_instance_;
+  static ColumnMetadata* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -445,8 +447,6 @@ class TabletMetadata : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-  typedef TabletMetadata_ColumnMetadata ColumnMetadata;
-
   typedef TabletMetadata_Endianness Endianness;
   static const Endianness BIG = TabletMetadata_Endianness_BIG;
   static const Endianness LITTLE = TabletMetadata_Endianness_LITTLE;
@@ -494,16 +494,16 @@ class TabletMetadata : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 size_of_bitword() const;
   inline void set_size_of_bitword(::google::protobuf::uint32 value);
 
-  // repeated .dullahan.models.TabletMetadata.ColumnMetadata column_metadatas = 4;
+  // repeated .dullahan.models.ColumnMetadata column_metadatas = 4;
   inline int column_metadatas_size() const;
   inline void clear_column_metadatas();
   static const int kColumnMetadatasFieldNumber = 4;
-  inline const ::dullahan::models::TabletMetadata_ColumnMetadata& column_metadatas(int index) const;
-  inline ::dullahan::models::TabletMetadata_ColumnMetadata* mutable_column_metadatas(int index);
-  inline ::dullahan::models::TabletMetadata_ColumnMetadata* add_column_metadatas();
-  inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::TabletMetadata_ColumnMetadata >&
+  inline const ::dullahan::models::ColumnMetadata& column_metadatas(int index) const;
+  inline ::dullahan::models::ColumnMetadata* mutable_column_metadatas(int index);
+  inline ::dullahan::models::ColumnMetadata* add_column_metadatas();
+  inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >&
       column_metadatas() const;
-  inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::TabletMetadata_ColumnMetadata >*
+  inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >*
       mutable_column_metadatas();
 
   // @@protoc_insertion_point(class_scope:dullahan.models.TabletMetadata)
@@ -522,7 +522,7 @@ class TabletMetadata : public ::google::protobuf::Message {
   ::google::protobuf::uint64 last_tablet_id_;
   int written_endianness_;
   ::google::protobuf::uint32 size_of_bitword_;
-  ::google::protobuf::RepeatedPtrField< ::dullahan::models::TabletMetadata_ColumnMetadata > column_metadatas_;
+  ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata > column_metadatas_;
   friend void  protobuf_AddDesc_dullahan_2eproto();
   friend void protobuf_AssignDesc_dullahan_2eproto();
   friend void protobuf_ShutdownFile_dullahan_2eproto();
@@ -773,55 +773,55 @@ Record::mutable_values() {
 
 // -------------------------------------------------------------------
 
-// TabletMetadata_ColumnMetadata
+// ColumnMetadata
 
 // optional uint32 column = 1;
-inline bool TabletMetadata_ColumnMetadata::has_column() const {
+inline bool ColumnMetadata::has_column() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void TabletMetadata_ColumnMetadata::set_has_column() {
+inline void ColumnMetadata::set_has_column() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void TabletMetadata_ColumnMetadata::clear_has_column() {
+inline void ColumnMetadata::clear_has_column() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void TabletMetadata_ColumnMetadata::clear_column() {
+inline void ColumnMetadata::clear_column() {
   column_ = 0u;
   clear_has_column();
 }
-inline ::google::protobuf::uint32 TabletMetadata_ColumnMetadata::column() const {
-  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.ColumnMetadata.column)
+inline ::google::protobuf::uint32 ColumnMetadata::column() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.ColumnMetadata.column)
   return column_;
 }
-inline void TabletMetadata_ColumnMetadata::set_column(::google::protobuf::uint32 value) {
+inline void ColumnMetadata::set_column(::google::protobuf::uint32 value) {
   set_has_column();
   column_ = value;
-  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.ColumnMetadata.column)
+  // @@protoc_insertion_point(field_set:dullahan.models.ColumnMetadata.column)
 }
 
-// optional .dullahan.models.TabletMetadata.ColumnMetadata.IndexType type = 2;
-inline bool TabletMetadata_ColumnMetadata::has_type() const {
+// optional .dullahan.models.ColumnMetadata.IndexType type = 2 [default = BITMAP];
+inline bool ColumnMetadata::has_type() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void TabletMetadata_ColumnMetadata::set_has_type() {
+inline void ColumnMetadata::set_has_type() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void TabletMetadata_ColumnMetadata::clear_has_type() {
+inline void ColumnMetadata::clear_has_type() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void TabletMetadata_ColumnMetadata::clear_type() {
-  type_ = 0;
+inline void ColumnMetadata::clear_type() {
+  type_ = 1;
   clear_has_type();
 }
-inline ::dullahan::models::TabletMetadata_ColumnMetadata_IndexType TabletMetadata_ColumnMetadata::type() const {
-  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.ColumnMetadata.type)
-  return static_cast< ::dullahan::models::TabletMetadata_ColumnMetadata_IndexType >(type_);
+inline ::dullahan::models::ColumnMetadata_IndexType ColumnMetadata::type() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.ColumnMetadata.type)
+  return static_cast< ::dullahan::models::ColumnMetadata_IndexType >(type_);
 }
-inline void TabletMetadata_ColumnMetadata::set_type(::dullahan::models::TabletMetadata_ColumnMetadata_IndexType value) {
-  assert(::dullahan::models::TabletMetadata_ColumnMetadata_IndexType_IsValid(value));
+inline void ColumnMetadata::set_type(::dullahan::models::ColumnMetadata_IndexType value) {
+  assert(::dullahan::models::ColumnMetadata_IndexType_IsValid(value));
   set_has_type();
   type_ = value;
-  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.ColumnMetadata.type)
+  // @@protoc_insertion_point(field_set:dullahan.models.ColumnMetadata.type)
 }
 
 // -------------------------------------------------------------------
@@ -901,31 +901,31 @@ inline void TabletMetadata::set_size_of_bitword(::google::protobuf::uint32 value
   // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.size_of_bitword)
 }
 
-// repeated .dullahan.models.TabletMetadata.ColumnMetadata column_metadatas = 4;
+// repeated .dullahan.models.ColumnMetadata column_metadatas = 4;
 inline int TabletMetadata::column_metadatas_size() const {
   return column_metadatas_.size();
 }
 inline void TabletMetadata::clear_column_metadatas() {
   column_metadatas_.Clear();
 }
-inline const ::dullahan::models::TabletMetadata_ColumnMetadata& TabletMetadata::column_metadatas(int index) const {
+inline const ::dullahan::models::ColumnMetadata& TabletMetadata::column_metadatas(int index) const {
   // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.column_metadatas)
   return column_metadatas_.Get(index);
 }
-inline ::dullahan::models::TabletMetadata_ColumnMetadata* TabletMetadata::mutable_column_metadatas(int index) {
+inline ::dullahan::models::ColumnMetadata* TabletMetadata::mutable_column_metadatas(int index) {
   // @@protoc_insertion_point(field_mutable:dullahan.models.TabletMetadata.column_metadatas)
   return column_metadatas_.Mutable(index);
 }
-inline ::dullahan::models::TabletMetadata_ColumnMetadata* TabletMetadata::add_column_metadatas() {
+inline ::dullahan::models::ColumnMetadata* TabletMetadata::add_column_metadatas() {
   // @@protoc_insertion_point(field_add:dullahan.models.TabletMetadata.column_metadatas)
   return column_metadatas_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::TabletMetadata_ColumnMetadata >&
+inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >&
 TabletMetadata::column_metadatas() const {
   // @@protoc_insertion_point(field_list:dullahan.models.TabletMetadata.column_metadatas)
   return column_metadatas_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::TabletMetadata_ColumnMetadata >*
+inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >*
 TabletMetadata::mutable_column_metadatas() {
   // @@protoc_insertion_point(field_mutable_list:dullahan.models.TabletMetadata.column_metadatas)
   return &column_metadatas_;
@@ -941,10 +941,10 @@ TabletMetadata::mutable_column_metadatas() {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::dullahan::models::TabletMetadata_ColumnMetadata_IndexType> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::dullahan::models::ColumnMetadata_IndexType> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::TabletMetadata_ColumnMetadata_IndexType>() {
-  return ::dullahan::models::TabletMetadata_ColumnMetadata_IndexType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::ColumnMetadata_IndexType>() {
+  return ::dullahan::models::ColumnMetadata_IndexType_descriptor();
 }
 template <> struct is_proto_enum< ::dullahan::models::TabletMetadata_Endianness> : ::google::protobuf::internal::true_type {};
 template <>
