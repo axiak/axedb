@@ -1,0 +1,6 @@
+[submodule "3rdparty/EWAHBoolArray"]
+	path = 3rdparty/EWAHBoolArray
+	url = git@github.com:axiak/EWAHBoolArray.git
+[submodule "3rdparty/rocksdb"]
+	path = 3rdparty/rocksdb
+	url = git@github.com:axiak/rocksdb.git
