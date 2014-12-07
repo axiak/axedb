@@ -4,3 +4,6 @@
 [submodule "3rdparty/rocksdb"]
 	path = 3rdparty/rocksdb
 	url = git@github.com:axiak/rocksdb.git
+[submodule "3rdparty/fast-cpp-csv-parser"]
+	path = 3rdparty/fast-cpp-csv-parser
+	url = https://code.google.com/p/fast-cpp-csv-parser/

@@ -6,6 +6,7 @@ include_directories(
         3rdparty/rocksdb
         3rdparty/smhasher
         3rdparty/EWAHBoolArray/headers
+        3rdparty/fast-cpp-csv-parser
 )
 
 set(CMAKE_CXX_FLAGS  "-DOS_LINUX -DROCKSDB_PLATFORM_POSIX -O3 -g -pedantic -pthread -Wall -std=c++11")
@@ -344,6 +345,8 @@ set(SOURCE_FILES
 
         3rdparty/smhasher/MurmurHash3.cpp
         3rdparty/smhasher/MurmurHash3.h
+
+        3rdparty/fast-cpp-csv-parser/csv.h
 )
 
 add_executable(dullahan_test ./dullahan/test.cpp ${SOURCE_FILES})
