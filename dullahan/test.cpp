@@ -53,7 +53,7 @@ int main(int argc, char ** argv) {
     Env *env = Env::getEnv();
     StringBuffer stringBuffer;
 
-    env->setDataDir("/home/axiak/BigDocuments/test-tablets2");
+    env->setDataDir("/home/axiak/BigDocuments/dullahan-data");
 
     TabletReader tabletReader(env, 0, 3);
 
@@ -61,34 +61,17 @@ int main(int argc, char ** argv) {
 
     if (argc > 1) {
       int64_t campaignId = std::stol(argv[1]);
-      int total{0};
       std::string value{};
       value.append(reinterpret_cast<const char *>(&campaignId), sizeof(int64_t));
+      std::cout << "Looking for campaign id " << campaignId << std::endl;
+      /*
       tabletReader.queryExactByColumn(6, value, [&total](const std::string & id) {
         std::cout << "id: " << id << std::endl;
-        ++total;
       });
-      std::cout << "Total: " << total << std::endl;
+      */
+      std::cout << "Total: " << tabletReader.countExactByColumn(6, value) << std::endl;
 
     }
-
-    {
-      int total{0};
-      long campaignId{0};
-      tabletReader.getAllRecords([&total, &campaignId](const Record &record) {
-        campaignId = 0;
-        for (const Record_KeyValue & keyValue : record.values()) {
-          if (keyValue.column() == 6) {
-            campaignId = *reinterpret_cast<const long *>(keyValue.value().data());
-          }
-        }
-        std::cout << "id: " << record.id() << std::endl;
-        std::cout << "campaignId: " << campaignId << std::endl;
-        ++total;
-      });
-      std::cout << "Total: " << total << std::endl;
-    }
-
 
 
     return 0;
@@ -170,9 +153,6 @@ int main(int argc, char ** argv) {
         std::cout << "Completed row " << total << std::endl;
       }
 
-      if (total > 100) {
-        break;
-      }
     }
 
     if (!records.empty()) {

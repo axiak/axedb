@@ -37,6 +37,24 @@ public:
 
   }
 
+  uint32_t countExactByColumn(column_t column, const std::string &value) const {
+    rocksdb::Status status;
+    ReadStoreKey key{column, value};
+    std::string result;
+
+    status = (*db)->Get(env->getReadStoreReadOptions(), key.toSlice(), &result);
+    if (status.IsNotFound()) {
+      return 0;
+    } else if (!status.ok()) {
+      throw TabletLevelDbException{status};
+    }
+
+    EWAHBoolArray<bitarrayword> bitArray;
+    bitArray.readStream(result.data(), result.size());
+
+    return bitArray.numberOfOnes();
+  }
+
   template<typename Function>
   void queryExactByColumn(column_t column, const std::string &value, Function callable) const {
     rocksdb::Status status;
