@@ -1,5 +1,4 @@
 #include <rocksdb/statistics.h>
-#include <util/auto_roll_logger.h>
 #include <rocksdb/memtablerep.h>
 #include "env.hpp"
 #include "readstore/ewahmerge.hpp"
@@ -77,6 +76,7 @@ void Env::updateRocksDbOptions() {
 
   dbOptions.stats_dump_period_sec = 10;
 
+  /*
   rocksdb::CreateLoggerFromOptions(
     "read-only-tablet",
       "/tmp",
@@ -86,6 +86,7 @@ void Env::updateRocksDbOptions() {
   );
 
   rocksdb_write_readstore_options.info_log = logger;
+  */
   //rocksdb_options.error_if_exists = true;
 }
 

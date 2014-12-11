@@ -1,19 +1,25 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(dullahan)
 
+include(ProcessorCount)
+
+ProcessorCount(PROCESSOR_COUNT)
+
 include_directories(
-        3rdparty/rocksdb/include
-        3rdparty/rocksdb
         3rdparty/smhasher
         3rdparty/EWAHBoolArray/headers
         3rdparty/fast-cpp-csv-parser
 )
 
-set(CMAKE_CXX_FLAGS  "-DOS_LINUX -DROCKSDB_PLATFORM_POSIX -pedantic -pthread -Wall -std=c++11")
+set(CMAKE_CXX_FLAGS  "-pedantic -pthread -Wall -std=c++11")
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DOS_LINUX")
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 set(SOURCE_FILES
         dullahan/env.hpp
@@ -42,315 +48,6 @@ set(SOURCE_FILES
         3rdparty/EWAHBoolArray/headers/boolarray.h
         3rdparty/EWAHBoolArray/headers/runninglengthword.h
         3rdparty/EWAHBoolArray/headers/ewah.h
-
-        3rdparty/rocksdb/db/internal_stats.cc
-        3rdparty/rocksdb/db/skiplist.h
-        3rdparty/rocksdb/db/compaction_picker.h
-        3rdparty/rocksdb/db/dbformat.h
-        3rdparty/rocksdb/db/compaction.cc
-        3rdparty/rocksdb/db/flush_scheduler.cc
-        3rdparty/rocksdb/db/file_indexer.cc
-        3rdparty/rocksdb/db/merge_operator.cc
-        3rdparty/rocksdb/db/merge_helper.h
-        3rdparty/rocksdb/db/snapshot.h
-        3rdparty/rocksdb/db/compaction_job.h
-        3rdparty/rocksdb/db/filename.h
-        3rdparty/rocksdb/db/table_properties_collector.cc
-        3rdparty/rocksdb/db/table_cache.h
-        3rdparty/rocksdb/db/forward_iterator.cc
-        3rdparty/rocksdb/db/log_writer.h
-        3rdparty/rocksdb/db/merge_helper.cc
-        3rdparty/rocksdb/db/flush_scheduler.h
-        3rdparty/rocksdb/db/builder.h
-        3rdparty/rocksdb/db/job_context.h
-        3rdparty/rocksdb/db/filename.cc
-        3rdparty/rocksdb/db/column_family.cc
-        3rdparty/rocksdb/db/version_builder.h
-        3rdparty/rocksdb/db/log_reader.cc
-        3rdparty/rocksdb/db/write_thread.cc
-        3rdparty/rocksdb/db/builder.cc
-        3rdparty/rocksdb/db/flush_job.cc
-        3rdparty/rocksdb/db/flush_job.h
-        3rdparty/rocksdb/db/merge_context.h
-        3rdparty/rocksdb/db/wal_manager.h
-        3rdparty/rocksdb/db/version_set.cc
-        3rdparty/rocksdb/db/db_impl_readonly.h
-        3rdparty/rocksdb/db/memtable_list.cc
-        3rdparty/rocksdb/db/compaction.h
-        3rdparty/rocksdb/db/file_indexer.h
-        3rdparty/rocksdb/db/table_properties_collector.h
-        3rdparty/rocksdb/db/internal_stats.h
-        3rdparty/rocksdb/db/write_batch.cc
-        3rdparty/rocksdb/db/write_controller.h
-        3rdparty/rocksdb/db/version_builder.cc
-        3rdparty/rocksdb/db/dbformat.cc
-        3rdparty/rocksdb/db/transaction_log_impl.h
-        3rdparty/rocksdb/db/db_iter.h
-        3rdparty/rocksdb/db/version_set.h
-        3rdparty/rocksdb/db/db_impl.cc
-        3rdparty/rocksdb/db/db_impl_debug.cc
-        3rdparty/rocksdb/db/db_filesnapshot.cc
-        3rdparty/rocksdb/db/c.cc
-        3rdparty/rocksdb/db/version_edit.cc
-        3rdparty/rocksdb/db/write_batch_internal.h
-        3rdparty/rocksdb/db/db_iter.cc
-        3rdparty/rocksdb/db/write_thread.h
-        3rdparty/rocksdb/db/compaction_picker.cc
-        3rdparty/rocksdb/db/repair.cc
-        3rdparty/rocksdb/db/log_reader.h
-        3rdparty/rocksdb/db/table_cache.cc
-        3rdparty/rocksdb/db/log_format.h
-        3rdparty/rocksdb/db/version_edit.h
-        3rdparty/rocksdb/db/memtable_list.h
-        3rdparty/rocksdb/db/forward_iterator.h
-        3rdparty/rocksdb/db/transaction_log_impl.cc
-        3rdparty/rocksdb/db/write_controller.cc
-        3rdparty/rocksdb/db/wal_manager.cc
-        3rdparty/rocksdb/db/memtable.cc
-        3rdparty/rocksdb/db/log_writer.cc
-        3rdparty/rocksdb/db/db_impl_readonly.cc
-        3rdparty/rocksdb/db/compaction_job.cc
-        3rdparty/rocksdb/db/db_impl.h
-        3rdparty/rocksdb/db/column_family.h
-        3rdparty/rocksdb/db/memtable.h
-        3rdparty/rocksdb/helpers/memenv/memenv.cc
-        3rdparty/rocksdb/hdfs/env_hdfs.h
-        3rdparty/rocksdb/include/rocksdb/version.h
-        3rdparty/rocksdb/include/rocksdb/universal_compaction.h
-        3rdparty/rocksdb/include/rocksdb/listener.h
-        3rdparty/rocksdb/include/rocksdb/iterator.h
-        3rdparty/rocksdb/include/rocksdb/immutable_options.h
-        3rdparty/rocksdb/include/rocksdb/options.h
-        3rdparty/rocksdb/include/rocksdb/status.h
-        3rdparty/rocksdb/include/rocksdb/write_batch.h
-        3rdparty/rocksdb/include/rocksdb/c.h
-        3rdparty/rocksdb/include/rocksdb/filter_policy.h
-        3rdparty/rocksdb/include/rocksdb/cache.h
-        3rdparty/rocksdb/include/rocksdb/metadata.h
-        3rdparty/rocksdb/include/rocksdb/compaction_filter.h
-        3rdparty/rocksdb/include/rocksdb/iostats_context.h
-        3rdparty/rocksdb/include/rocksdb/db.h
-        3rdparty/rocksdb/include/rocksdb/table_properties.h
-        3rdparty/rocksdb/include/rocksdb/memtablerep.h
-        3rdparty/rocksdb/include/rocksdb/ldb_tool.h
-        3rdparty/rocksdb/include/rocksdb/merge_operator.h
-        3rdparty/rocksdb/include/rocksdb/utilities/spatial_db.h
-        3rdparty/rocksdb/include/rocksdb/utilities/write_batch_with_index.h
-        3rdparty/rocksdb/include/rocksdb/utilities/stackable_db.h
-        3rdparty/rocksdb/include/rocksdb/utilities/document_db.h
-        3rdparty/rocksdb/include/rocksdb/utilities/checkpoint.h
-        3rdparty/rocksdb/include/rocksdb/utilities/json_document.h
-        3rdparty/rocksdb/include/rocksdb/utilities/leveldb_options.h
-        3rdparty/rocksdb/include/rocksdb/utilities/geo_db.h
-        3rdparty/rocksdb/include/rocksdb/utilities/convenience.h
-        3rdparty/rocksdb/include/rocksdb/utilities/backupable_db.h
-        3rdparty/rocksdb/include/rocksdb/utilities/utility_db.h
-        3rdparty/rocksdb/include/rocksdb/utilities/db_ttl.h
-        3rdparty/rocksdb/include/rocksdb/statistics.h
-        3rdparty/rocksdb/include/rocksdb/sst_dump_tool.h
-        3rdparty/rocksdb/include/rocksdb/env.h
-        3rdparty/rocksdb/include/rocksdb/rate_limiter.h
-        3rdparty/rocksdb/include/rocksdb/thread_status.h
-        3rdparty/rocksdb/include/rocksdb/perf_context.h
-        3rdparty/rocksdb/include/rocksdb/comparator.h
-        3rdparty/rocksdb/include/rocksdb/slice.h
-        3rdparty/rocksdb/include/rocksdb/table.h
-        3rdparty/rocksdb/include/rocksdb/transaction_log.h
-        3rdparty/rocksdb/include/rocksdb/slice_transform.h
-        3rdparty/rocksdb/include/rocksdb/types.h
-        3rdparty/rocksdb/include/rocksdb/flush_block_policy.h
-        3rdparty/rocksdb/include/utilities/stackable_db.h
-        3rdparty/rocksdb/include/utilities/document_db.h
-        3rdparty/rocksdb/include/utilities/json_document.h
-        3rdparty/rocksdb/include/utilities/geo_db.h
-        3rdparty/rocksdb/include/utilities/backupable_db.h
-        3rdparty/rocksdb/include/utilities/utility_db.h
-        3rdparty/rocksdb/include/utilities/db_ttl.h
-        3rdparty/rocksdb/util/mutable_cf_options.cc
-        3rdparty/rocksdb/util/log_buffer.cc
-        3rdparty/rocksdb/util/slice.cc
-        3rdparty/rocksdb/util/string_util.cc
-        3rdparty/rocksdb/util/skiplistrep.cc
-        3rdparty/rocksdb/util/dynamic_bloom.h
-        3rdparty/rocksdb/util/ldb_cmd.cc
-        3rdparty/rocksdb/util/options.cc
-        3rdparty/rocksdb/util/thread_local.h
-        3rdparty/rocksdb/util/ldb_cmd_execute_result.h
-        3rdparty/rocksdb/util/thread_status_impl.h
-        3rdparty/rocksdb/util/murmurhash.cc
-        3rdparty/rocksdb/util/logging.cc
-        3rdparty/rocksdb/util/mock_env.cc
-        3rdparty/rocksdb/util/env.cc
-        3rdparty/rocksdb/util/env_posix.cc
-        3rdparty/rocksdb/util/blob_store.cc
-        3rdparty/rocksdb/util/auto_roll_logger.cc
-        3rdparty/rocksdb/util/thread_local.cc
-        3rdparty/rocksdb/util/arena.cc
-        3rdparty/rocksdb/util/sst_dump_tool.cc
-        3rdparty/rocksdb/util/coding.cc
-        3rdparty/rocksdb/util/stop_watch.h
-        3rdparty/rocksdb/util/hash_skiplist_rep.cc
-        3rdparty/rocksdb/util/env_hdfs.cc
-        3rdparty/rocksdb/util/status.cc
-        3rdparty/rocksdb/util/ldb_cmd.h
-        3rdparty/rocksdb/util/statistics.cc
-        3rdparty/rocksdb/util/random.h
-        3rdparty/rocksdb/util/coding.h
-        3rdparty/rocksdb/util/ldb_tool.cc
-        3rdparty/rocksdb/util/hash.cc
-        3rdparty/rocksdb/util/db_info_dumper.cc
-        3rdparty/rocksdb/util/build_version.h
-        3rdparty/rocksdb/util/comparator.cc
-        3rdparty/rocksdb/util/histogram.cc
-        3rdparty/rocksdb/util/sync_point.h
-        3rdparty/rocksdb/util/crc32c.cc
-        3rdparty/rocksdb/util/xxhash.h
-        3rdparty/rocksdb/util/crc32c.h
-        3rdparty/rocksdb/util/perf_context.cc
-        3rdparty/rocksdb/util/logging.h
-        3rdparty/rocksdb/util/iostats_context.cc
-        3rdparty/rocksdb/util/histogram.h
-        3rdparty/rocksdb/util/hash_cuckoo_rep.cc
-        3rdparty/rocksdb/util/perf_context_imp.h
-        3rdparty/rocksdb/util/options_helper.h
-        3rdparty/rocksdb/util/autovector.h
-        3rdparty/rocksdb/util/db_info_dumper.h
-        3rdparty/rocksdb/util/file_util.cc
-        3rdparty/rocksdb/util/murmurhash.h
-        3rdparty/rocksdb/util/auto_roll_logger.h
-        3rdparty/rocksdb/util/string_util.h
-        3rdparty/rocksdb/util/sync_point.cc
-        3rdparty/rocksdb/util/mock_env.h
-        3rdparty/rocksdb/util/thread_status_impl.cc
-        3rdparty/rocksdb/util/hash_cuckoo_rep.h
-        3rdparty/rocksdb/util/hash_linklist_rep.h
-        3rdparty/rocksdb/util/hash_skiplist_rep.h
-        3rdparty/rocksdb/util/hash_linklist_rep.cc
-        3rdparty/rocksdb/util/statistics.h
-        3rdparty/rocksdb/util/log_buffer.h
-        3rdparty/rocksdb/util/dynamic_bloom.cc
-        3rdparty/rocksdb/util/filter_policy.cc
-        3rdparty/rocksdb/util/stl_wrappers.h
-        3rdparty/rocksdb/util/blob_store.h
-        3rdparty/rocksdb/util/scoped_arena_iterator.h
-        3rdparty/rocksdb/util/options_builder.cc
-        3rdparty/rocksdb/util/rate_limiter.h
-        3rdparty/rocksdb/util/posix_logger.h
-        3rdparty/rocksdb/util/mutable_cf_options.h
-        3rdparty/rocksdb/util/file_util.h
-        3rdparty/rocksdb/util/xxhash.cc
-        3rdparty/rocksdb/util/mutexlock.h
-        3rdparty/rocksdb/util/rate_limiter.cc
-        3rdparty/rocksdb/util/iostats_context_imp.h
-        3rdparty/rocksdb/util/vectorrep.cc
-        3rdparty/rocksdb/util/hash.h
-        3rdparty/rocksdb/util/options_helper.cc
-        3rdparty/rocksdb/util/arena.h
-        3rdparty/rocksdb/util/thread_status_impl_debug.cc
-        3rdparty/rocksdb/util/bloom.cc
-        3rdparty/rocksdb/util/cache.cc
-        3rdparty/rocksdb/util/build_version.cc
-        3rdparty/rocksdb/utilities/ttl/db_ttl_impl.h
-        3rdparty/rocksdb/utilities/ttl/db_ttl_impl.cc
-        3rdparty/rocksdb/utilities/compacted_db/compacted_db_impl.h
-        3rdparty/rocksdb/utilities/compacted_db/compacted_db_impl.cc
-        3rdparty/rocksdb/utilities/write_batch_with_index/write_batch_with_index.cc
-        3rdparty/rocksdb/utilities/backupable/backupable_db.cc
-        3rdparty/rocksdb/utilities/redis/redis_lists.h
-        3rdparty/rocksdb/utilities/redis/redis_list_iterator.h
-        3rdparty/rocksdb/utilities/redis/redis_list_exception.h
-        3rdparty/rocksdb/utilities/redis/redis_lists.cc
-        3rdparty/rocksdb/utilities/checkpoint/checkpoint.cc
-        3rdparty/rocksdb/utilities/leveldb_options/leveldb_options.cc
-        3rdparty/rocksdb/utilities/geodb/geodb_impl.cc
-        3rdparty/rocksdb/utilities/geodb/geodb_impl.h
-        3rdparty/rocksdb/utilities/merge_operators.h
-        3rdparty/rocksdb/utilities/document/document_db.cc
-        3rdparty/rocksdb/utilities/document/json_document.cc
-        3rdparty/rocksdb/utilities/merge_operators/put.cc
-        3rdparty/rocksdb/utilities/merge_operators/string_append/stringappend.h
-        3rdparty/rocksdb/utilities/merge_operators/string_append/stringappend2.cc
-        3rdparty/rocksdb/utilities/merge_operators/string_append/stringappend2.h
-        3rdparty/rocksdb/utilities/merge_operators/string_append/stringappend.cc
-        3rdparty/rocksdb/utilities/merge_operators/uint64add.cc
-        3rdparty/rocksdb/utilities/spatialdb/utils.h
-        3rdparty/rocksdb/utilities/spatialdb/spatial_db.cc
-        3rdparty/rocksdb/third-party/rapidjson/document.h
-        3rdparty/rocksdb/third-party/rapidjson/internal/pow10.h
-        3rdparty/rocksdb/third-party/rapidjson/internal/stack.h
-        3rdparty/rocksdb/third-party/rapidjson/internal/strfunc.h
-        3rdparty/rocksdb/third-party/rapidjson/rapidjson.h
-        3rdparty/rocksdb/third-party/rapidjson/reader.h
-        3rdparty/rocksdb/third-party/rapidjson/prettywriter.h
-        3rdparty/rocksdb/third-party/rapidjson/writer.h
-        3rdparty/rocksdb/third-party/rapidjson/stringbuffer.h
-        3rdparty/rocksdb/third-party/rapidjson/filestream.h
-        3rdparty/rocksdb/table/meta_blocks.h
-        3rdparty/rocksdb/table/block_hash_index.cc
-        3rdparty/rocksdb/table/iterator_wrapper.h
-        3rdparty/rocksdb/table/block_based_table_builder.cc
-        3rdparty/rocksdb/table/cuckoo_table_builder.cc
-        3rdparty/rocksdb/table/plain_table_reader.cc
-        3rdparty/rocksdb/table/block.h
-        3rdparty/rocksdb/table/block_based_table_factory.cc
-        3rdparty/rocksdb/table/plain_table_builder.h
-        3rdparty/rocksdb/table/filter_block.h
-        3rdparty/rocksdb/table/full_filter_block.h
-        3rdparty/rocksdb/table/bloom_block.h
-        3rdparty/rocksdb/table/block_prefix_index.cc
-        3rdparty/rocksdb/table/iter_heap.h
-        3rdparty/rocksdb/table/get_context.cc
-        3rdparty/rocksdb/table/block_based_table_factory.h
-        3rdparty/rocksdb/table/merger.h
-        3rdparty/rocksdb/table/adaptive_table_factory.h
-        3rdparty/rocksdb/table/table_reader.h
-        3rdparty/rocksdb/table/table_properties.cc
-        3rdparty/rocksdb/table/block_builder.cc
-        3rdparty/rocksdb/table/format.cc
-        3rdparty/rocksdb/table/block_based_table_builder.h
-        3rdparty/rocksdb/table/table_properties_internal.h
-        3rdparty/rocksdb/table/plain_table_factory.h
-        3rdparty/rocksdb/table/format.h
-        3rdparty/rocksdb/table/plain_table_builder.cc
-        3rdparty/rocksdb/table/block_based_table_reader.h
-        3rdparty/rocksdb/table/two_level_iterator.h
-        3rdparty/rocksdb/table/cuckoo_table_factory.cc
-        3rdparty/rocksdb/table/adaptive_table_factory.cc
-        3rdparty/rocksdb/table/full_filter_block.cc
-        3rdparty/rocksdb/table/merger.cc
-        3rdparty/rocksdb/table/block_prefix_index.h
-        3rdparty/rocksdb/table/cuckoo_table_builder.h
-        3rdparty/rocksdb/table/block_builder.h
-        3rdparty/rocksdb/table/plain_table_reader.h
-        3rdparty/rocksdb/table/flush_block_policy.cc
-        3rdparty/rocksdb/table/plain_table_index.h
-        3rdparty/rocksdb/table/table_builder.h
-        3rdparty/rocksdb/table/plain_table_index.cc
-        3rdparty/rocksdb/table/block_hash_index.h
-        3rdparty/rocksdb/table/plain_table_factory.cc
-        3rdparty/rocksdb/table/two_level_iterator.cc
-        3rdparty/rocksdb/table/cuckoo_table_reader.h
-        3rdparty/rocksdb/table/plain_table_key_coding.cc
-        3rdparty/rocksdb/table/block_based_filter_block.cc
-        3rdparty/rocksdb/table/mock_table.cc
-        3rdparty/rocksdb/table/cuckoo_table_reader.cc
-        3rdparty/rocksdb/table/cuckoo_table_factory.h
-        3rdparty/rocksdb/table/meta_blocks.cc
-        3rdparty/rocksdb/table/block_based_table_reader.cc
-        3rdparty/rocksdb/table/bloom_block.cc
-        3rdparty/rocksdb/table/plain_table_key_coding.h
-        3rdparty/rocksdb/table/iterator.cc
-        3rdparty/rocksdb/table/get_context.h
-        3rdparty/rocksdb/table/mock_table.h
-        3rdparty/rocksdb/table/block.cc
-        3rdparty/rocksdb/table/block_based_filter_block.h
-        3rdparty/rocksdb/port/stack_trace.h
-        3rdparty/rocksdb/port/port_posix.h
-        3rdparty/rocksdb/port/win/stdint.h
-        3rdparty/rocksdb/port/port.h
-        3rdparty/rocksdb/port/port_posix.cc
-        3rdparty/rocksdb/port/likely.h
-        3rdparty/rocksdb/port/stack_trace.cc
 
         3rdparty/smhasher/MurmurHash3.cpp
         3rdparty/smhasher/MurmurHash3.h
@@ -389,7 +86,28 @@ ExternalProject_Add(
     LOG_CONFIGURE ON
     LOG_BUILD ON)
 
+# Add rocksdb
+ExternalProject_Add(
+    rocksdb
+    GIT_REPOSITORY git@github.com:axiak/rocksdb.git
+    GIT_TAG master
+    TIMEOUT 30
+    CONFIGURE_COMMAND ""
+    BUILD_IN_SOURCE ON
+    BUILD_COMMAND make -j${PROCESSOR_COUNT} static_lib
+    # Disable
+    INSTALL_COMMAND ""
+    LOG_DOWNLOAD ON
+    LOG_BUILD ON
+)
+
 ExternalProject_Get_Property(googletest binary_dir)
+
+SET(GTEST_DIR ${binary_dir})
+
+ExternalProject_Get_Property(rocksdb source_dir)
+
+SET(ROCKSDB_DIR ${source_dir})
 
 add_executable(dullahan_test
     #./dullahan/test/test_readstore.cpp
@@ -397,26 +115,31 @@ add_executable(dullahan_test
     ${SOURCE_FILES}
 )
 
-add_dependencies(dullahan_test googletest)
-
-# Specify include dir
-ExternalProject_Get_Property(googletest source_dir)
-include_directories(${source_dir}/include)
-
 add_executable(dullahan_load_data
     ./dullahan/test.cpp
     ${SOURCE_FILES}
 )
 
 
+add_dependencies(dullahan_test googletest rocksdb)
+add_dependencies(dullahan_load_data rocksdb)
+
+# External include directories
+ExternalProject_Get_Property(googletest source_dir)
+include_directories(${source_dir}/include)
+
+ExternalProject_Get_Property(rocksdb source_dir)
+include_directories(${source_dir}/include)
+
+
 target_link_libraries(
     dullahan_load_data
-    protobuf jemalloc folly profiler
+    ${ROCKSDB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}rocksdb.a protobuf jemalloc
 )
 
 target_link_libraries(
     dullahan_test
-    debug ${binary_dir}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
-    optimized ${binary_dir}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
-    protobuf jemalloc folly profiler
+    debug ${GTEST_DIR}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
+    optimized ${GTEST_DIR}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
+    ${ROCKSDB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}rocksdb.a protobuf jemalloc
 )

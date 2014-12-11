@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <rocksdb/slice.h>
-#include <capnp/blob.h>
 #include <array>
 #include <limits.h>
 #include <MurmurHash3.h>
