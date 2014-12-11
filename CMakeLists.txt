@@ -9,12 +9,19 @@ include_directories(
         3rdparty/fast-cpp-csv-parser
 )
 
-set(CMAKE_CXX_FLAGS  "-DOS_LINUX -DROCKSDB_PLATFORM_POSIX -O3 -g -pedantic -pthread -Wall -std=c++11")
+set(CMAKE_CXX_FLAGS  "-DOS_LINUX -DROCKSDB_PLATFORM_POSIX -pedantic -pthread -Wall -std=c++11")
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 set(SOURCE_FILES
         dullahan/env.hpp
         dullahan/env.cpp
         dullahan/dullahan.hpp
+
+        dullahan/utils/bytes.hpp
+        dullahan/utils/utils.hpp
 
         dullahan/readstore/tablet.cpp
         dullahan/readstore/tablet.hpp
@@ -24,6 +31,8 @@ set(SOURCE_FILES
         dullahan/readstore/models/value.cpp
         dullahan/readstore/ewahmerge.hpp
         dullahan/readstore/ewahmerge.cpp
+        dullahan/readstore/query/tabletreader.cpp
+        dullahan/readstore/query/tabletreader.hpp
 
         dullahan/protos/dullahan.pb.h
         dullahan/protos/dullahan.pb.cc
@@ -349,5 +358,65 @@ set(SOURCE_FILES
         3rdparty/fast-cpp-csv-parser/csv.h
 )
 
-add_executable(dullahan_test ./dullahan/test.cpp ${SOURCE_FILES})
-target_link_libraries(dullahan_test protobuf jemalloc folly profiler)
+
+# Enable ExternalProject CMake module
+include(ExternalProject)
+
+# Set the build type if it isn't already
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# Set default ExternalProject root directory
+set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
+
+# Add gtest
+ExternalProject_Add(
+    googletest
+    GIT_REPOSITORY git@github.com:axiak/googletest.git
+    GIT_TAG f26e19a0a5162a0914b4c0e33429c1e8aa6481af
+    TIMEOUT 10
+    # Force separate output paths for debug and release builds to allow easy
+    # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
+    CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+               -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
+               -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE:PATH=ReleaseLibs
+               -Dgtest_force_shared_crt=ON
+    # Disable install step
+    INSTALL_COMMAND ""
+    # Wrap download, configure and build steps in a script to log output
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON)
+
+ExternalProject_Get_Property(googletest binary_dir)
+
+add_executable(dullahan_test
+    #./dullahan/test/test_readstore.cpp
+    ./dullahan/test/test_all.cpp
+    ${SOURCE_FILES}
+)
+
+add_dependencies(dullahan_test googletest)
+
+# Specify include dir
+ExternalProject_Get_Property(googletest source_dir)
+include_directories(${source_dir}/include)
+
+add_executable(dullahan_load_data
+    ./dullahan/test.cpp
+    ${SOURCE_FILES}
+)
+
+
+target_link_libraries(
+    dullahan_load_data
+    protobuf jemalloc folly profiler
+)
+
+target_link_libraries(
+    dullahan_test
+    debug ${binary_dir}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
+    optimized ${binary_dir}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
+    protobuf jemalloc folly profiler
+)

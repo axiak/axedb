@@ -10,6 +10,7 @@
 namespace dullahan {
 namespace models {
 
+using bitarrayword = uint64_t;
 
 class ScratchValue {
 public:
@@ -23,13 +24,13 @@ public:
 
   void setRecord(const Record & record);
 
-  EWAHBoolArray<uint32_t> * bitarray();
-  const EWAHBoolArray<uint32_t> * const bitarray() const;
+  EWAHBoolArray<bitarrayword> * bitarray();
+  const EWAHBoolArray<bitarrayword> * const bitarray() const;
   const Record & record() const;
 
 private:
   const Record * record_;
-  EWAHBoolArray<uint32_t> bitarray_;
+  EWAHBoolArray<bitarrayword> bitarray_;
 };
 
 

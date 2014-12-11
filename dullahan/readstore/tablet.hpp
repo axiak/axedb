@@ -9,7 +9,7 @@
 #include <iostream>
 #include <type_traits>
 #include <algorithm>
-#include <google/sparse_hash_map>
+#include <unordered_map>
 
 #include <ewah.h>
 
@@ -23,21 +23,28 @@ namespace dullahan {
 
 using namespace models;
 
-class Tablet {
+class TabletWriter {
 public:
-  Tablet() =delete;
-  Tablet(Env * env, long start_time, long stop_time);
-  ~Tablet();
+  TabletWriter() =delete;
+  TabletWriter(Env * env, long start_time, long stop_time);
+  ~TabletWriter();
 
   // NonCopyable
-  Tablet(const Tablet &) =delete;
-  Tablet & operator=(const Tablet &) =delete;
+  TabletWriter(const TabletWriter &) =delete;
+  TabletWriter & operator=(const TabletWriter &) =delete;
 
   // Moveable, though.
-  Tablet(Tablet&& tablet);
-  Tablet & operator=(Tablet && tablet);
+  TabletWriter(TabletWriter && tablet) noexcept;
+  TabletWriter & operator=(TabletWriter && tablet) noexcept;
 
   void compact();
+
+  uint64_t watermark() const;
+
+  template<typename _Iterable>
+  void flushRecords(const _Iterable & iterable) {
+    flushRecords(iterable.begin(), iterable.end());
+  }
 
   // Add records to the tablet
   template<typename _IteratorType>
@@ -51,38 +58,40 @@ public:
     std::for_each(begin, end, [this](const Record & record) {
         addToScratch(record);
     });
-    std::cout << "Size of scratch: " << scratch.size() << std::endl;
     flushScratch();
+  }
+
+  static const std::shared_ptr<std::string> file_name(Env * env, long start_time, long stop_time) {
+    std::shared_ptr<std::string> result(new std::string(env->tabletDir()));
+    result->
+            append("/")
+        .append(std::to_string(start_time))
+        .append("-")
+        .append(std::to_string(stop_time));
+    return result;
   }
 
 private:
   Env * env;
   rocksdb::DB ** db;
-  uint64_t volatile id_watermark;
+  uint64_t id_watermark;
   uint64_t committed_id_watermark;
-  uint64_t num_bits_in_scratch;
-  google::sparse_hash_map<
+  uint64_t current_scratch_bit;
+  uint64_t max_bitarray_bitsize;
+  std::unordered_map<
       ReadStoreKey,
       ScratchValue,
       decltype(ReadStoreKey::hasher()),
       decltype(ReadStoreKey::equality())> scratch;
 
-  void moveTablet(Tablet& dest, Tablet &&src);
+  void moveTablet(TabletWriter & dest, TabletWriter &&src);
 
   void addToScratch(const Record & record);
   void flushScratch();
   void commitWatermark();
   void readWatermark();
 
-  static const std::shared_ptr<std::string> file_name(Env * env, long start_time, long stop_time) {
-    std::shared_ptr<std::string> result(new std::string(env->tabletDir()));
-    result->
-         append("/")
-        .append(std::to_string(start_time))
-        .append("-")
-        .append(std::to_string(stop_time));
-    return result;
-  }
+
 };
 
 

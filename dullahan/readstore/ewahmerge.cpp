@@ -1,14 +1,22 @@
 #include <rocksdb/env.h>
 #include <sstream>
+#include <iostream>
 
+#include "../utils/utils.hpp"
+#include "./models/value.hpp"
 #include "ewahmerge.hpp"
 
-namespace dullahan {
-
+namespace {
 
 inline uint64_t readUInt64(const rocksdb::Slice * const slice, const size_t offset) {
   return *reinterpret_cast<const uint64_t *>(slice->data() + offset);
 }
+
+constexpr size_t WORD_SIZE = sizeof(dullahan::models::bitarrayword);
+
+} // anonymous namespace
+
+namespace dullahan {
 
 /**
 * Merge two EWAH bitmasks assuming that they are already
@@ -24,23 +32,8 @@ bool EWAHMergeOperator::Merge(
   new_value->clear();
 
   if (existing_value) {
-
-    constexpr size_t singleOffset = sizeof(uint64_t);
-
-    const uint64_t bufferSize = readUInt64(existing_value, existing_value->size() - 2 * singleOffset) +
-        readUInt64(&value, value.size() - 2 * singleOffset);
-
-    const uint64_t sizeInBits = readUInt64(existing_value, existing_value->size() - singleOffset) +
-        readUInt64(&value, value.size() - singleOffset);
-
-    new_value->resize(2 * singleOffset + bufferSize);
-
-    new_value->append(existing_value->data(), existing_value->size() - 2 * singleOffset);
-    new_value->append(value.data(), value.size() - 2 * singleOffset);
-    new_value->append(reinterpret_cast<const char *> (&bufferSize),
-        sizeof(bufferSize));
-    new_value->append(reinterpret_cast<const char *> (&sizeInBits),
-        sizeof(sizeInBits));
+    new_value->append(existing_value->data(), existing_value->size());
+    EWAHBoolArray<dullahan::models::bitarrayword>::concatStreams(new_value, value.data(), value.size());
   }
   else {
     new_value->append(value.data(), value.size());

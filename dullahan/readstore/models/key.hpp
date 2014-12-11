@@ -28,12 +28,14 @@ public:
     column_ = std::forward<T1>(column);
     bytes_.reserve(columnData.size());
     bytes_.insert(bytes_.end(), columnData.begin(), columnData.end());
+    updateSlice();
   }
 
   template<typename T1, typename T2>
   ReadStoreKey(T1 &&column, T2 &&bytes) {
     column_ = std::forward<T1>(column);
     bytes_ = std::forward<T2>(bytes);
+    updateSlice();
   }
 
   ReadStoreKey();
@@ -145,8 +147,13 @@ public:
     std::vector<byte> vector;
     const byte *ptr = reinterpret_cast<const byte *>(&rowId);
     vector.insert(vector.end(), ptr, ptr + sizeof(rowId));
-    ReadStoreKey rowKey(MATERIALIZED_ROW_COLUMN, vector);
+    ReadStoreKey rowKey(MATERIALIZED_ROW_COLUMN, std::move(vector));
     return rowKey;
+  }
+
+  static bool isMaterializedRowKey(const rocksdb::Slice & slice) {
+    return (slice.size() > sizeof(column_t) &&
+        *reinterpret_cast<const column_t *>(slice.data()) == MATERIALIZED_ROW_COLUMN);
   }
 
 private:

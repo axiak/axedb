@@ -6,6 +6,7 @@
 #include <rocksdb/slice.h>
 #include <exception>
 #include <string>
+#include <stdint.h>
 
 #include "dullahan.pb.h"
 
