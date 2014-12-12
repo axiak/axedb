@@ -12,6 +12,8 @@
 
 namespace dullahan {
 
+bool IsBigEndian(void);
+
 namespace models {
 
 /**
@@ -25,11 +27,9 @@ namespace models {
 template<typename T>
 T fromSlice(const ::rocksdb::Slice & slice);
 
+TabletMetadata_Endianness CurrentEndianness();
 
 } // namespace models
-
-bool IsBigEndian(void);
-
 } // namespace dullahan
 
 #endif // __DULLAHAN_UTILS_HPP_

@@ -5,7 +5,12 @@ namespace dullahan {
 using namespace models;
 
 TabletReader::TabletReader(Env *env, const TabletMetadata &tablet_metadata) :
-    Tablet(env, tablet_metadata, env->getReadStoreReadingOptions()) {}
+    Tablet(env, tablet_metadata, env->getReadStoreReadingOptions()) {
+  boost::optional<TabletMetadata> maybeMetadata = ReadMetadata();
+  if (maybeMetadata) {
+    tablet_metadata_ = *maybeMetadata;
+  }
+}
 
 TabletReader::TabletReader(TabletReader &&tablet) noexcept :
     Tablet(std::move(tablet)) {

@@ -70,29 +70,59 @@ void Tablet::WriteMetadata() {
   written_highest_id_ = tablet_metadata_.highest_id();
 }
 
+void CheckSystemDataOrDie(const TabletMetadata & tablet_metadata);
+
 boost::optional<TabletMetadata> Tablet::ReadMetadata() {
-  boost::optional<TabletMetadata> result{};
+  TabletMetadata result{};
 
   std::ifstream ifstream;
   ifstream.open(*MetaDataFileName(env_, tablet_metadata_.timestamp_start(), tablet_metadata_.timestamp_stop()), std::ios::in);
+  if (!ifstream.is_open()) {
+    return boost::optional<TabletMetadata>();
+  }
 
-  result->ParseFromIstream(&ifstream);
+  result.ParseFromIstream(&ifstream);
+
+  CheckSystemDataOrDie(result);
 
   return result;
 }
 
-
 void SetSystemData(TabletMetadata & tablet_metadata) {
   tablet_metadata.set_tablet_version(TabletMetadata_TabletVersion::TabletMetadata_TabletVersion_ONE);
-  tablet_metadata.set_endianness(IsBigEndian() ?
-      TabletMetadata_Endianness::TabletMetadata_Endianness_BIG :
-      TabletMetadata_Endianness::TabletMetadata_Endianness_LITTLE);
+  tablet_metadata.set_endianness(CurrentEndianness());
   tablet_metadata.set_size_of_bitword(kSizeOfBitArrayBytes);
 }
 
-// TODO - implement
-void CheckSystemDataOrDie(const TabletMetadata & tablet_metadata) {
 
+struct invalid_tablet_version : std::exception {
+  char const* what() const throw() {
+    return "invalid tablet version";
+  }
+};
+struct invalid_endianness : std::exception {
+  char const* what() const throw() {
+    return "invalid endianness in file";
+  }
+};
+
+struct invalid_word_size : std::exception {
+  char const* what() const throw() {
+    return "invalid word size";
+  }
+};
+
+
+void CheckSystemDataOrDie(const TabletMetadata & tablet_metadata) {
+  if (tablet_metadata.tablet_version() != TabletMetadata_TabletVersion::TabletMetadata_TabletVersion_ONE) {
+    throw invalid_tablet_version{};
+  }
+  if (CurrentEndianness() != tablet_metadata.endianness()) {
+    throw invalid_endianness{};
+  }
+  if (kSizeOfBitArrayBytes != tablet_metadata.size_of_bitword()) {
+    throw invalid_word_size{};
+  }
 }
 
 }

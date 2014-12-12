@@ -1,6 +1,17 @@
 #include "utils.hpp"
+#include "dullahan.pb.h"
 
 namespace dullahan {
+
+bool IsBigEndian() {
+  union {
+    uint32_t i;
+    char c[4];
+  } buffer = {0x01020304};
+
+  return buffer.c[0] == 1;
+}
+
 namespace models {
 /**
 * Serialize a protobuf to a slice, using the provided buffer as
@@ -25,17 +36,16 @@ T fromSlice(const ::rocksdb::Slice & slice) {
   return item;
 }
 
+TabletMetadata_Endianness CurrentEndianness() {
+  if (IsBigEndian()) {
+    return TabletMetadata_Endianness::TabletMetadata_Endianness_BIG;
+  } else {
+    return TabletMetadata_Endianness::TabletMetadata_Endianness_LITTLE;
+  }
+}
 
 } // namespace models
 
-bool IsBigEndian(void)
-{
-  union {
-    uint32_t i;
-    char c[4];
-  } buffer = {0x01020304};
 
-  return buffer.c[0] == 1;
-}
 
 } // namespace dullahan
