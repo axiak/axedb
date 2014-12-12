@@ -131,15 +131,18 @@ include_directories(${source_dir}/include)
 ExternalProject_Get_Property(rocksdb source_dir)
 include_directories(${source_dir}/include)
 
+set(SHARED_LIBRARIES
+    ${ROCKSDB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}rocksdb.a
+    protobuf jemalloc lz4 snappy z)
 
 target_link_libraries(
     dullahan_load_data
-    ${ROCKSDB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}rocksdb.a protobuf jemalloc
+    ${SHARED_LIBRARIES}
 )
 
 target_link_libraries(
     dullahan_test
     debug ${GTEST_DIR}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
     optimized ${GTEST_DIR}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a
-    ${ROCKSDB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}rocksdb.a protobuf jemalloc
+    ${SHARED_LIBRARIES}
 )

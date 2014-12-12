@@ -26,15 +26,19 @@ message ColumnMetadata {
 }
 
 message TabletMetadata {
-    optional uint64 last_tablet_id = 1;
+    enum TabletVersion {
+        ONE = 1;
+    }
+    optional TabletVersion tablet_version = 1;
+    optional uint64 last_tablet_id = 2;
 
     enum Endianness {
         BIG = 0;
         LITTLE = 1;
     }
-    optional Endianness written_endianness = 2;
-    optional uint32 size_of_bitword = 3;
+    optional Endianness written_endianness = 3;
+    optional uint32 size_of_bitword = 4;
 
-    repeated ColumnMetadata column_metadatas = 4;
-    // TabletMetadata last field: 4
+    repeated ColumnMetadata column_metadatas = 5;
+    // TabletMetadata last field: 5
 }
