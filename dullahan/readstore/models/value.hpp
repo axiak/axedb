@@ -5,12 +5,11 @@
 #include <utility>
 #include <ewah.h>
 
+#include "base.hpp"
 #include "../../protos/dullahan.pb.h"
 
 namespace dullahan {
 namespace models {
-
-using bitarrayword = uint64_t;
 
 class ScratchValue {
 public:

@@ -9,14 +9,18 @@
 #include <unordered_set>
 #include <unordered_map>
 
-#include "../readstore/tablet.hpp"
 #include "../readstore/query/tabletreader.hpp"
+#include "../readstore/tabletwriter.hpp"
+
 
 namespace dullahan {
 
 class ReadStoreTest : public ::testing::Test {
 protected:
   virtual void SetUp() {
+    tabletMetadata.set_timestamp_start(0);
+    tabletMetadata.set_timestamp_stop(1);
+
     char * tempFolder = (char *)malloc(255);
     char const *tmpdir = getenv("TMPDIR");
 
@@ -39,7 +43,7 @@ protected:
     Env *env = Env::getEnv();
     env->setDataDir(tempDir);
 
-    tabletWriter = std::make_shared<TabletWriter>(env, 0L, 1L);
+    tabletWriter = std::make_shared<TabletWriter>(env, tabletMetadata);
   }
 
   virtual void TearDown() {
@@ -49,6 +53,7 @@ protected:
     system(command.data());
   }
 
+  TabletMetadata tabletMetadata;
   std::string tempDir;
   std::shared_ptr<TabletWriter> tabletWriter;
 };
@@ -75,21 +80,25 @@ TEST_F(ReadStoreTest, AddAndQueryItems) {
     byValue.emplace(valueInt, id);
 
     if (records.size() >= 32) {
-      tabletWriter->flushRecords(records);
+      tabletWriter->FlushRecords(records);
       records.clear();
     }
   }
 
   if (!records.empty()) {
-    tabletWriter->flushRecords(records);
+    tabletWriter->FlushRecords(records);
   }
 
-  tabletWriter->compact();
+  tabletWriter->Compact();
   tabletWriter.reset();
 
   Env * env = Env::getEnv();
 
-  TabletReader tabletReader{env, 0L, 1L};
+  TabletMetadata tabletMetadata;
+  tabletMetadata.set_timestamp_start(0);
+  tabletMetadata.set_timestamp_stop(1);
+
+  TabletReader tabletReader{env, tabletMetadata};
 
   std::unordered_set<std::string> expected{}, actual{};
 
@@ -103,7 +112,7 @@ TEST_F(ReadStoreTest, AddAndQueryItems) {
 
   std::string valueBytes{};
   valueBytes.append(reinterpret_cast<const char *>(&valueToFind), sizeof(uint32_t));
-  tabletReader.queryExactByColumn(0, valueBytes, [&actual] (const std::string & id) {
+  tabletReader.QueryExactByColumn(0, valueBytes, [&actual] (const std::string & id) {
     actual.emplace(id);
   });
 

@@ -1,171 +1,98 @@
-#include <iomanip>
+#include <rocksdb/db.h>
+#include <fstream>
+#include <boost/optional/optional.hpp>
+#include <stdint-gcc.h>
 
-#include "../dullahan.hpp"
 #include "tablet.hpp"
 #include "../protos/utils.hpp"
+#include "./models/base.hpp"
+
 
 namespace dullahan {
 
-using namespace models;
+void SetSystemData(TabletMetadata & tablet_metadata);
 
-constexpr size_t bitsInWord = sizeof(bitarrayword) * 8;
-
-TabletWriter::TabletWriter(Env *env, long start_time, long stop_time):
-    id_watermark{0},
-    committed_id_watermark{0},
-    current_scratch_bit{0},
-    max_bitarray_bitsize{0},
-    scratch{} {
-  this->env = env;
-  this->db = new rocksdb::DB*;
-
+Tablet::Tablet(Env * env, TabletMetadata tablet_metadata, const rocksdb::Options & dboptions) :
+    env_{env},
+    tablet_metadata_{tablet_metadata},
+    written_highest_id_{0} {
   rocksdb::Status status = rocksdb::DB::Open(
-      env->getReadStoreWritingOptions(),
-      *TabletWriter::file_name(env, start_time, stop_time),
-      db
+      dboptions,
+      *FileName(env, tablet_metadata.timestamp_start(), tablet_metadata.timestamp_stop()),
+      &db_
   );
 
   if (!status.ok()) {
     throw TabletLevelDbException(status);
   }
-
-  readWatermark();
 }
 
-TabletWriter::~TabletWriter() {
-  // Check for null in case of a move
-  if (*db != nullptr) {
-    delete *db;
-    db = nullptr;
+Tablet::~Tablet() {
+  if (db_ != nullptr) {
+    delete db_;
+    db_ = nullptr;
   }
 }
 
-TabletWriter::TabletWriter(TabletWriter &&tablet) noexcept {
-  moveTablet(*this, std::move(tablet));
+// Move operations
+Tablet::Tablet(Tablet &&tablet) noexcept :
+    db_{std::move(tablet.db_)},
+    env_{std::move(tablet.env_)},
+    tablet_metadata_{std::move(tablet.tablet_metadata_)},
+    written_highest_id_{tablet.written_highest_id_}
+{}
+
+Tablet &Tablet::operator=(Tablet &&tablet) noexcept {
+  db_ = std::move(tablet.db_);
+  env_ = std::move(tablet.env_);
+  tablet_metadata_ = std::move(tablet.tablet_metadata_);
+  written_highest_id_ = tablet.written_highest_id_;
 }
 
-TabletWriter &TabletWriter::operator=(TabletWriter &&tablet) noexcept {
-  moveTablet(*this, std::move(tablet));
-  return *this;
+void Tablet::UpdateIdWatermark(uint32_t highest_id) {
+  tablet_metadata_.set_highest_id(highest_id);
 }
 
-inline void TabletWriter::moveTablet(TabletWriter & dest, TabletWriter &&src) {
-  if (dest.db != nullptr) {
-    delete dest.db;
-    dest.db = nullptr;
-  }
-  dest.env = std::move(src.env);
-  dest.db = std::move(src.db);
+
+uint32_t Tablet::HighestIdAndIncrement(int increment_amount) {
+  uint32_t highest_id = tablet_metadata_.highest_id();
+  tablet_metadata_.set_highest_id(highest_id + increment_amount);
+  return highest_id;
 }
 
-void TabletWriter::addToScratch(const Record & record) {
-  uint64_t current_id = id_watermark++;
-  uint64_t current_bit = current_scratch_bit++;
-  auto values = record.values();
+void Tablet::WriteMetadata() {
+  std::ofstream ofstream;
 
-  scratch[ReadStoreKey::materializedRowKey(current_id)].setRecord(record);
+  SetSystemData(tablet_metadata_);
 
-  std::for_each(values.begin(), values.end(), [this, current_bit, &record, current_id](const Record_KeyValue & keyValue) {
-    ReadStoreKey key(keyValue.column(), keyValue.value());
-    ScratchValue & value = scratch[key];
-    value.bitarray()->set(current_bit);
-    const uint64_t bitsize = value.bitarray()->bufferSize() * bitsInWord;
-    if (bitsize > max_bitarray_bitsize) {
-      max_bitarray_bitsize = bitsize;
-    }
-  });
+  ofstream.open(*MetaDataFileName(env_, tablet_metadata_.timestamp_start(), tablet_metadata_.timestamp_stop()), std::ios::out | std::ios::trunc);
+  tablet_metadata_.SerializeToOstream(&ofstream);
+  written_highest_id_ = tablet_metadata_.highest_id();
 }
 
-void TabletWriter::flushScratch() {
-  std::string buffer;
+boost::optional<TabletMetadata> Tablet::ReadMetadata() {
+  boost::optional<TabletMetadata> result{};
 
-  uint64_t word_delta = EWAHBoolArray<word>::padToWord(max_bitarray_bitsize);
-  max_bitarray_bitsize += word_delta;
-  id_watermark += max_bitarray_bitsize - current_scratch_bit;
-  current_scratch_bit += word_delta;
+  std::ifstream ifstream;
+  ifstream.open(*MetaDataFileName(env_, tablet_metadata_.timestamp_start(), tablet_metadata_.timestamp_stop()), std::ios::in);
 
+  result->ParseFromIstream(&ifstream);
 
-  for (auto pair : scratch) {
-    const rocksdb::Slice key = pair.first.toSlice();
-
-    switch (pair.first.getKeyType()) {
-      case ReadStoreKey::KeyType::COLUMN: {
-        buffer.resize(0);
-        EWAHBoolArray<bitarrayword> *newValue = pair.second.bitarray();
-        newValue->padWithZeroes(current_scratch_bit);
-        newValue->appendToString(&buffer, committed_id_watermark);
-
-        rocksdb::Slice newSlice{buffer};
-
-        rocksdb::Status status;
-        status = (*db)->Merge(env->getReadStoreWriteOptions(), key, newSlice);
-
-        if (!status.ok()) {
-          throw TabletLevelDbException(status);
-        }
-      };
-        break;
-
-      case ReadStoreKey::KeyType::MATERIALIZED_ROW: {
-        rocksdb::Status status = (*db)->Put(
-            env->getReadStoreWriteOptions(),
-            key,
-            models::toSlice(pair.second.record(), &buffer)
-        );
-
-        if (!status.ok()) {
-          throw TabletLevelDbException(status);
-        }
-      }
-        break;
-      case ReadStoreKey::KeyType::META:
-        break;
-
-    }
-  }
-  max_bitarray_bitsize = 0;
-  current_scratch_bit = 0;
-  scratch.clear();
-  commitWatermark();
+  return result;
 }
 
-void TabletWriter::commitWatermark() {
-  uint64_t committing_watermark = id_watermark;
-  rocksdb::Slice value{reinterpret_cast<const char *> (&committing_watermark), sizeof(id_watermark)};
 
-  rocksdb::Status status = (*db)->Put(
-      env->getReadStoreWriteOptions(),
-      ReadStoreKey::metadataKey().toSlice(),
-      value
-  );
-  if (!status.ok()) {
-    throw TabletLevelDbException(status);
-  }
-
-  committed_id_watermark = committing_watermark;
+void SetSystemData(TabletMetadata & tablet_metadata) {
+  tablet_metadata.set_tablet_version(TabletMetadata_TabletVersion::TabletMetadata_TabletVersion_ONE);
+  tablet_metadata.set_endianness(IsBigEndian() ?
+      TabletMetadata_Endianness::TabletMetadata_Endianness_BIG :
+      TabletMetadata_Endianness::TabletMetadata_Endianness_LITTLE);
+  tablet_metadata.set_size_of_bitword(kSizeOfBitArrayBytes);
 }
 
-void TabletWriter::readWatermark() {
-  rocksdb::ReadOptions readOptions;
-  std::string value;
-  rocksdb::Status status = (*db)->Get(readOptions, ReadStoreKey::metadataKey().toSlice(), &value);
-  if (!status.ok() && !status.IsNotFound()) {
-    throw TabletLevelDbException(status);
-  }
-  if (status.ok()) {
-    committed_id_watermark = id_watermark = *reinterpret_cast<const unsigned long *>(value.data());
-  }
+// TODO - implement
+void CheckSystemDataOrDie(const TabletMetadata & tablet_metadata) {
+
 }
 
-void TabletWriter::compact() {
-  rocksdb::Status status = (*db)->CompactRange(nullptr, nullptr);
-  if (!status.ok()) {
-    throw TabletLevelDbException(status);
-  }
 }
-
-uint64_t TabletWriter::watermark() const {
-  return id_watermark;
-}
-
-} // namespace dullahan

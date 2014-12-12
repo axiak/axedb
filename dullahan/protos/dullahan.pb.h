@@ -37,27 +37,71 @@ void protobuf_ShutdownFile_dullahan_2eproto();
 
 class Record;
 class Record_KeyValue;
-class ColumnMetadata;
+class TableSchema;
+class TableSchema_Column;
 class TabletMetadata;
 
-enum ColumnMetadata_IndexType {
-  ColumnMetadata_IndexType_NONE = 0,
-  ColumnMetadata_IndexType_BITMAP = 1
+enum TableSchema_Column_ColumnType {
+  TableSchema_Column_ColumnType_BYTES = 1,
+  TableSchema_Column_ColumnType_STRING = 2,
+  TableSchema_Column_ColumnType_BOOL = 3,
+  TableSchema_Column_ColumnType_SMALLINT = 4,
+  TableSchema_Column_ColumnType_INTEGER = 5,
+  TableSchema_Column_ColumnType_BIGINT = 6,
+  TableSchema_Column_ColumnType_FLOAT = 7,
+  TableSchema_Column_ColumnType_DOUBLE = 8
 };
-bool ColumnMetadata_IndexType_IsValid(int value);
-const ColumnMetadata_IndexType ColumnMetadata_IndexType_IndexType_MIN = ColumnMetadata_IndexType_NONE;
-const ColumnMetadata_IndexType ColumnMetadata_IndexType_IndexType_MAX = ColumnMetadata_IndexType_BITMAP;
-const int ColumnMetadata_IndexType_IndexType_ARRAYSIZE = ColumnMetadata_IndexType_IndexType_MAX + 1;
+bool TableSchema_Column_ColumnType_IsValid(int value);
+const TableSchema_Column_ColumnType TableSchema_Column_ColumnType_ColumnType_MIN = TableSchema_Column_ColumnType_BYTES;
+const TableSchema_Column_ColumnType TableSchema_Column_ColumnType_ColumnType_MAX = TableSchema_Column_ColumnType_DOUBLE;
+const int TableSchema_Column_ColumnType_ColumnType_ARRAYSIZE = TableSchema_Column_ColumnType_ColumnType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ColumnMetadata_IndexType_descriptor();
-inline const ::std::string& ColumnMetadata_IndexType_Name(ColumnMetadata_IndexType value) {
+const ::google::protobuf::EnumDescriptor* TableSchema_Column_ColumnType_descriptor();
+inline const ::std::string& TableSchema_Column_ColumnType_Name(TableSchema_Column_ColumnType value) {
   return ::google::protobuf::internal::NameOfEnum(
-    ColumnMetadata_IndexType_descriptor(), value);
+    TableSchema_Column_ColumnType_descriptor(), value);
 }
-inline bool ColumnMetadata_IndexType_Parse(
-    const ::std::string& name, ColumnMetadata_IndexType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ColumnMetadata_IndexType>(
-    ColumnMetadata_IndexType_descriptor(), name, value);
+inline bool TableSchema_Column_ColumnType_Parse(
+    const ::std::string& name, TableSchema_Column_ColumnType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TableSchema_Column_ColumnType>(
+    TableSchema_Column_ColumnType_descriptor(), name, value);
+}
+enum TableSchema_Column_IndexType {
+  TableSchema_Column_IndexType_NONE = 0,
+  TableSchema_Column_IndexType_BITMAP = 1
+};
+bool TableSchema_Column_IndexType_IsValid(int value);
+const TableSchema_Column_IndexType TableSchema_Column_IndexType_IndexType_MIN = TableSchema_Column_IndexType_NONE;
+const TableSchema_Column_IndexType TableSchema_Column_IndexType_IndexType_MAX = TableSchema_Column_IndexType_BITMAP;
+const int TableSchema_Column_IndexType_IndexType_ARRAYSIZE = TableSchema_Column_IndexType_IndexType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* TableSchema_Column_IndexType_descriptor();
+inline const ::std::string& TableSchema_Column_IndexType_Name(TableSchema_Column_IndexType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    TableSchema_Column_IndexType_descriptor(), value);
+}
+inline bool TableSchema_Column_IndexType_Parse(
+    const ::std::string& name, TableSchema_Column_IndexType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TableSchema_Column_IndexType>(
+    TableSchema_Column_IndexType_descriptor(), name, value);
+}
+enum TabletMetadata_TabletVersion {
+  TabletMetadata_TabletVersion_ONE = 1
+};
+bool TabletMetadata_TabletVersion_IsValid(int value);
+const TabletMetadata_TabletVersion TabletMetadata_TabletVersion_TabletVersion_MIN = TabletMetadata_TabletVersion_ONE;
+const TabletMetadata_TabletVersion TabletMetadata_TabletVersion_TabletVersion_MAX = TabletMetadata_TabletVersion_ONE;
+const int TabletMetadata_TabletVersion_TabletVersion_ARRAYSIZE = TabletMetadata_TabletVersion_TabletVersion_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* TabletMetadata_TabletVersion_descriptor();
+inline const ::std::string& TabletMetadata_TabletVersion_Name(TabletMetadata_TabletVersion value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    TabletMetadata_TabletVersion_descriptor(), value);
+}
+inline bool TabletMetadata_TabletVersion_Parse(
+    const ::std::string& name, TabletMetadata_TabletVersion* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TabletMetadata_TabletVersion>(
+    TabletMetadata_TabletVersion_descriptor(), name, value);
 }
 enum TabletMetadata_Endianness {
   TabletMetadata_Endianness_BIG = 0,
@@ -283,14 +327,14 @@ class Record : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ColumnMetadata : public ::google::protobuf::Message {
+class TableSchema_Column : public ::google::protobuf::Message {
  public:
-  ColumnMetadata();
-  virtual ~ColumnMetadata();
+  TableSchema_Column();
+  virtual ~TableSchema_Column();
 
-  ColumnMetadata(const ColumnMetadata& from);
+  TableSchema_Column(const TableSchema_Column& from);
 
-  inline ColumnMetadata& operator=(const ColumnMetadata& from) {
+  inline TableSchema_Column& operator=(const TableSchema_Column& from) {
     CopyFrom(from);
     return *this;
   }
@@ -304,17 +348,17 @@ class ColumnMetadata : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ColumnMetadata& default_instance();
+  static const TableSchema_Column& default_instance();
 
-  void Swap(ColumnMetadata* other);
+  void Swap(TableSchema_Column* other);
 
   // implements Message ----------------------------------------------
 
-  ColumnMetadata* New() const;
+  TableSchema_Column* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const ColumnMetadata& from);
-  void MergeFrom(const ColumnMetadata& from);
+  void CopyFrom(const TableSchema_Column& from);
+  void MergeFrom(const TableSchema_Column& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -334,65 +378,219 @@ class ColumnMetadata : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-  typedef ColumnMetadata_IndexType IndexType;
-  static const IndexType NONE = ColumnMetadata_IndexType_NONE;
-  static const IndexType BITMAP = ColumnMetadata_IndexType_BITMAP;
+  typedef TableSchema_Column_ColumnType ColumnType;
+  static const ColumnType BYTES = TableSchema_Column_ColumnType_BYTES;
+  static const ColumnType STRING = TableSchema_Column_ColumnType_STRING;
+  static const ColumnType BOOL = TableSchema_Column_ColumnType_BOOL;
+  static const ColumnType SMALLINT = TableSchema_Column_ColumnType_SMALLINT;
+  static const ColumnType INTEGER = TableSchema_Column_ColumnType_INTEGER;
+  static const ColumnType BIGINT = TableSchema_Column_ColumnType_BIGINT;
+  static const ColumnType FLOAT = TableSchema_Column_ColumnType_FLOAT;
+  static const ColumnType DOUBLE = TableSchema_Column_ColumnType_DOUBLE;
+  static inline bool ColumnType_IsValid(int value) {
+    return TableSchema_Column_ColumnType_IsValid(value);
+  }
+  static const ColumnType ColumnType_MIN =
+    TableSchema_Column_ColumnType_ColumnType_MIN;
+  static const ColumnType ColumnType_MAX =
+    TableSchema_Column_ColumnType_ColumnType_MAX;
+  static const int ColumnType_ARRAYSIZE =
+    TableSchema_Column_ColumnType_ColumnType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  ColumnType_descriptor() {
+    return TableSchema_Column_ColumnType_descriptor();
+  }
+  static inline const ::std::string& ColumnType_Name(ColumnType value) {
+    return TableSchema_Column_ColumnType_Name(value);
+  }
+  static inline bool ColumnType_Parse(const ::std::string& name,
+      ColumnType* value) {
+    return TableSchema_Column_ColumnType_Parse(name, value);
+  }
+
+  typedef TableSchema_Column_IndexType IndexType;
+  static const IndexType NONE = TableSchema_Column_IndexType_NONE;
+  static const IndexType BITMAP = TableSchema_Column_IndexType_BITMAP;
   static inline bool IndexType_IsValid(int value) {
-    return ColumnMetadata_IndexType_IsValid(value);
+    return TableSchema_Column_IndexType_IsValid(value);
   }
   static const IndexType IndexType_MIN =
-    ColumnMetadata_IndexType_IndexType_MIN;
+    TableSchema_Column_IndexType_IndexType_MIN;
   static const IndexType IndexType_MAX =
-    ColumnMetadata_IndexType_IndexType_MAX;
+    TableSchema_Column_IndexType_IndexType_MAX;
   static const int IndexType_ARRAYSIZE =
-    ColumnMetadata_IndexType_IndexType_ARRAYSIZE;
+    TableSchema_Column_IndexType_IndexType_ARRAYSIZE;
   static inline const ::google::protobuf::EnumDescriptor*
   IndexType_descriptor() {
-    return ColumnMetadata_IndexType_descriptor();
+    return TableSchema_Column_IndexType_descriptor();
   }
   static inline const ::std::string& IndexType_Name(IndexType value) {
-    return ColumnMetadata_IndexType_Name(value);
+    return TableSchema_Column_IndexType_Name(value);
   }
   static inline bool IndexType_Parse(const ::std::string& name,
       IndexType* value) {
-    return ColumnMetadata_IndexType_Parse(name, value);
+    return TableSchema_Column_IndexType_Parse(name, value);
   }
 
   // accessors -------------------------------------------------------
 
-  // optional uint32 column = 1;
-  inline bool has_column() const;
-  inline void clear_column();
-  static const int kColumnFieldNumber = 1;
-  inline ::google::protobuf::uint32 column() const;
-  inline void set_column(::google::protobuf::uint32 value);
-
-  // optional .dullahan.models.ColumnMetadata.IndexType type = 2 [default = BITMAP];
+  // optional .dullahan.models.TableSchema.Column.ColumnType type = 1;
   inline bool has_type() const;
   inline void clear_type();
-  static const int kTypeFieldNumber = 2;
-  inline ::dullahan::models::ColumnMetadata_IndexType type() const;
-  inline void set_type(::dullahan::models::ColumnMetadata_IndexType value);
+  static const int kTypeFieldNumber = 1;
+  inline ::dullahan::models::TableSchema_Column_ColumnType type() const;
+  inline void set_type(::dullahan::models::TableSchema_Column_ColumnType value);
 
-  // @@protoc_insertion_point(class_scope:dullahan.models.ColumnMetadata)
+  // optional string name = 2;
+  inline bool has_name() const;
+  inline void clear_name();
+  static const int kNameFieldNumber = 2;
+  inline const ::std::string& name() const;
+  inline void set_name(const ::std::string& value);
+  inline void set_name(const char* value);
+  inline void set_name(const char* value, size_t size);
+  inline ::std::string* mutable_name();
+  inline ::std::string* release_name();
+  inline void set_allocated_name(::std::string* name);
+
+  // optional bool enabled = 3 [default = true];
+  inline bool has_enabled() const;
+  inline void clear_enabled();
+  static const int kEnabledFieldNumber = 3;
+  inline bool enabled() const;
+  inline void set_enabled(bool value);
+
+  // optional .dullahan.models.TableSchema.Column.IndexType index_type = 4 [default = BITMAP];
+  inline bool has_index_type() const;
+  inline void clear_index_type();
+  static const int kIndexTypeFieldNumber = 4;
+  inline ::dullahan::models::TableSchema_Column_IndexType index_type() const;
+  inline void set_index_type(::dullahan::models::TableSchema_Column_IndexType value);
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.TableSchema.Column)
  private:
-  inline void set_has_column();
-  inline void clear_has_column();
   inline void set_has_type();
   inline void clear_has_type();
+  inline void set_has_name();
+  inline void clear_has_name();
+  inline void set_has_enabled();
+  inline void clear_has_enabled();
+  inline void set_has_index_type();
+  inline void clear_has_index_type();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::uint32 column_;
+  ::std::string* name_;
   int type_;
+  bool enabled_;
+  int index_type_;
   friend void  protobuf_AddDesc_dullahan_2eproto();
   friend void protobuf_AssignDesc_dullahan_2eproto();
   friend void protobuf_ShutdownFile_dullahan_2eproto();
 
   void InitAsDefaultInstance();
-  static ColumnMetadata* default_instance_;
+  static TableSchema_Column* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class TableSchema : public ::google::protobuf::Message {
+ public:
+  TableSchema();
+  virtual ~TableSchema();
+
+  TableSchema(const TableSchema& from);
+
+  inline TableSchema& operator=(const TableSchema& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TableSchema& default_instance();
+
+  void Swap(TableSchema* other);
+
+  // implements Message ----------------------------------------------
+
+  TableSchema* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const TableSchema& from);
+  void MergeFrom(const TableSchema& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef TableSchema_Column Column;
+
+  // accessors -------------------------------------------------------
+
+  // optional string table_name = 1;
+  inline bool has_table_name() const;
+  inline void clear_table_name();
+  static const int kTableNameFieldNumber = 1;
+  inline const ::std::string& table_name() const;
+  inline void set_table_name(const ::std::string& value);
+  inline void set_table_name(const char* value);
+  inline void set_table_name(const char* value, size_t size);
+  inline ::std::string* mutable_table_name();
+  inline ::std::string* release_table_name();
+  inline void set_allocated_table_name(::std::string* table_name);
+
+  // repeated .dullahan.models.TableSchema.Column columns = 2;
+  inline int columns_size() const;
+  inline void clear_columns();
+  static const int kColumnsFieldNumber = 2;
+  inline const ::dullahan::models::TableSchema_Column& columns(int index) const;
+  inline ::dullahan::models::TableSchema_Column* mutable_columns(int index);
+  inline ::dullahan::models::TableSchema_Column* add_columns();
+  inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::TableSchema_Column >&
+      columns() const;
+  inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::TableSchema_Column >*
+      mutable_columns();
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.TableSchema)
+ private:
+  inline void set_has_table_name();
+  inline void clear_has_table_name();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* table_name_;
+  ::google::protobuf::RepeatedPtrField< ::dullahan::models::TableSchema_Column > columns_;
+  friend void  protobuf_AddDesc_dullahan_2eproto();
+  friend void protobuf_AssignDesc_dullahan_2eproto();
+  friend void protobuf_ShutdownFile_dullahan_2eproto();
+
+  void InitAsDefaultInstance();
+  static TableSchema* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -447,6 +645,29 @@ class TabletMetadata : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
+  typedef TabletMetadata_TabletVersion TabletVersion;
+  static const TabletVersion ONE = TabletMetadata_TabletVersion_ONE;
+  static inline bool TabletVersion_IsValid(int value) {
+    return TabletMetadata_TabletVersion_IsValid(value);
+  }
+  static const TabletVersion TabletVersion_MIN =
+    TabletMetadata_TabletVersion_TabletVersion_MIN;
+  static const TabletVersion TabletVersion_MAX =
+    TabletMetadata_TabletVersion_TabletVersion_MAX;
+  static const int TabletVersion_ARRAYSIZE =
+    TabletMetadata_TabletVersion_TabletVersion_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  TabletVersion_descriptor() {
+    return TabletMetadata_TabletVersion_descriptor();
+  }
+  static inline const ::std::string& TabletVersion_Name(TabletVersion value) {
+    return TabletMetadata_TabletVersion_Name(value);
+  }
+  static inline bool TabletVersion_Parse(const ::std::string& name,
+      TabletVersion* value) {
+    return TabletMetadata_TabletVersion_Parse(name, value);
+  }
+
   typedef TabletMetadata_Endianness Endianness;
   static const Endianness BIG = TabletMetadata_Endianness_BIG;
   static const Endianness LITTLE = TabletMetadata_Endianness_LITTLE;
@@ -473,56 +694,85 @@ class TabletMetadata : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional uint64 last_tablet_id = 1;
-  inline bool has_last_tablet_id() const;
-  inline void clear_last_tablet_id();
-  static const int kLastTabletIdFieldNumber = 1;
-  inline ::google::protobuf::uint64 last_tablet_id() const;
-  inline void set_last_tablet_id(::google::protobuf::uint64 value);
+  // optional .dullahan.models.TabletMetadata.TabletVersion tablet_version = 1;
+  inline bool has_tablet_version() const;
+  inline void clear_tablet_version();
+  static const int kTabletVersionFieldNumber = 1;
+  inline ::dullahan::models::TabletMetadata_TabletVersion tablet_version() const;
+  inline void set_tablet_version(::dullahan::models::TabletMetadata_TabletVersion value);
 
-  // optional .dullahan.models.TabletMetadata.Endianness written_endianness = 2;
-  inline bool has_written_endianness() const;
-  inline void clear_written_endianness();
-  static const int kWrittenEndiannessFieldNumber = 2;
-  inline ::dullahan::models::TabletMetadata_Endianness written_endianness() const;
-  inline void set_written_endianness(::dullahan::models::TabletMetadata_Endianness value);
+  // optional uint32 highest_id = 2;
+  inline bool has_highest_id() const;
+  inline void clear_highest_id();
+  static const int kHighestIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 highest_id() const;
+  inline void set_highest_id(::google::protobuf::uint32 value);
 
-  // optional uint32 size_of_bitword = 3;
+  // optional uint64 timestamp_start = 3;
+  inline bool has_timestamp_start() const;
+  inline void clear_timestamp_start();
+  static const int kTimestampStartFieldNumber = 3;
+  inline ::google::protobuf::uint64 timestamp_start() const;
+  inline void set_timestamp_start(::google::protobuf::uint64 value);
+
+  // optional uint64 timestamp_stop = 4;
+  inline bool has_timestamp_stop() const;
+  inline void clear_timestamp_stop();
+  static const int kTimestampStopFieldNumber = 4;
+  inline ::google::protobuf::uint64 timestamp_stop() const;
+  inline void set_timestamp_stop(::google::protobuf::uint64 value);
+
+  // optional .dullahan.models.TabletMetadata.Endianness endianness = 5;
+  inline bool has_endianness() const;
+  inline void clear_endianness();
+  static const int kEndiannessFieldNumber = 5;
+  inline ::dullahan::models::TabletMetadata_Endianness endianness() const;
+  inline void set_endianness(::dullahan::models::TabletMetadata_Endianness value);
+
+  // optional uint32 size_of_bitword = 6;
   inline bool has_size_of_bitword() const;
   inline void clear_size_of_bitword();
-  static const int kSizeOfBitwordFieldNumber = 3;
+  static const int kSizeOfBitwordFieldNumber = 6;
   inline ::google::protobuf::uint32 size_of_bitword() const;
   inline void set_size_of_bitword(::google::protobuf::uint32 value);
 
-  // repeated .dullahan.models.ColumnMetadata column_metadatas = 4;
-  inline int column_metadatas_size() const;
-  inline void clear_column_metadatas();
-  static const int kColumnMetadatasFieldNumber = 4;
-  inline const ::dullahan::models::ColumnMetadata& column_metadatas(int index) const;
-  inline ::dullahan::models::ColumnMetadata* mutable_column_metadatas(int index);
-  inline ::dullahan::models::ColumnMetadata* add_column_metadatas();
-  inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >&
-      column_metadatas() const;
-  inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >*
-      mutable_column_metadatas();
+  // optional .dullahan.models.TableSchema table_metadata = 7;
+  inline bool has_table_metadata() const;
+  inline void clear_table_metadata();
+  static const int kTableMetadataFieldNumber = 7;
+  inline const ::dullahan::models::TableSchema& table_metadata() const;
+  inline ::dullahan::models::TableSchema* mutable_table_metadata();
+  inline ::dullahan::models::TableSchema* release_table_metadata();
+  inline void set_allocated_table_metadata(::dullahan::models::TableSchema* table_metadata);
 
   // @@protoc_insertion_point(class_scope:dullahan.models.TabletMetadata)
  private:
-  inline void set_has_last_tablet_id();
-  inline void clear_has_last_tablet_id();
-  inline void set_has_written_endianness();
-  inline void clear_has_written_endianness();
+  inline void set_has_tablet_version();
+  inline void clear_has_tablet_version();
+  inline void set_has_highest_id();
+  inline void clear_has_highest_id();
+  inline void set_has_timestamp_start();
+  inline void clear_has_timestamp_start();
+  inline void set_has_timestamp_stop();
+  inline void clear_has_timestamp_stop();
+  inline void set_has_endianness();
+  inline void clear_has_endianness();
   inline void set_has_size_of_bitword();
   inline void clear_has_size_of_bitword();
+  inline void set_has_table_metadata();
+  inline void clear_has_table_metadata();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::uint64 last_tablet_id_;
-  int written_endianness_;
+  int tablet_version_;
+  ::google::protobuf::uint32 highest_id_;
+  ::google::protobuf::uint64 timestamp_start_;
+  ::google::protobuf::uint64 timestamp_stop_;
+  int endianness_;
   ::google::protobuf::uint32 size_of_bitword_;
-  ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata > column_metadatas_;
+  ::dullahan::models::TableSchema* table_metadata_;
   friend void  protobuf_AddDesc_dullahan_2eproto();
   friend void protobuf_AssignDesc_dullahan_2eproto();
   friend void protobuf_ShutdownFile_dullahan_2eproto();
@@ -773,119 +1023,403 @@ Record::mutable_values() {
 
 // -------------------------------------------------------------------
 
-// ColumnMetadata
+// TableSchema_Column
 
-// optional uint32 column = 1;
-inline bool ColumnMetadata::has_column() const {
+// optional .dullahan.models.TableSchema.Column.ColumnType type = 1;
+inline bool TableSchema_Column::has_type() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void ColumnMetadata::set_has_column() {
+inline void TableSchema_Column::set_has_type() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void ColumnMetadata::clear_has_column() {
+inline void TableSchema_Column::clear_has_type() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void ColumnMetadata::clear_column() {
-  column_ = 0u;
-  clear_has_column();
-}
-inline ::google::protobuf::uint32 ColumnMetadata::column() const {
-  // @@protoc_insertion_point(field_get:dullahan.models.ColumnMetadata.column)
-  return column_;
-}
-inline void ColumnMetadata::set_column(::google::protobuf::uint32 value) {
-  set_has_column();
-  column_ = value;
-  // @@protoc_insertion_point(field_set:dullahan.models.ColumnMetadata.column)
-}
-
-// optional .dullahan.models.ColumnMetadata.IndexType type = 2 [default = BITMAP];
-inline bool ColumnMetadata::has_type() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void ColumnMetadata::set_has_type() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void ColumnMetadata::clear_has_type() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void ColumnMetadata::clear_type() {
+inline void TableSchema_Column::clear_type() {
   type_ = 1;
   clear_has_type();
 }
-inline ::dullahan::models::ColumnMetadata_IndexType ColumnMetadata::type() const {
-  // @@protoc_insertion_point(field_get:dullahan.models.ColumnMetadata.type)
-  return static_cast< ::dullahan::models::ColumnMetadata_IndexType >(type_);
+inline ::dullahan::models::TableSchema_Column_ColumnType TableSchema_Column::type() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TableSchema.Column.type)
+  return static_cast< ::dullahan::models::TableSchema_Column_ColumnType >(type_);
 }
-inline void ColumnMetadata::set_type(::dullahan::models::ColumnMetadata_IndexType value) {
-  assert(::dullahan::models::ColumnMetadata_IndexType_IsValid(value));
+inline void TableSchema_Column::set_type(::dullahan::models::TableSchema_Column_ColumnType value) {
+  assert(::dullahan::models::TableSchema_Column_ColumnType_IsValid(value));
   set_has_type();
   type_ = value;
-  // @@protoc_insertion_point(field_set:dullahan.models.ColumnMetadata.type)
+  // @@protoc_insertion_point(field_set:dullahan.models.TableSchema.Column.type)
+}
+
+// optional string name = 2;
+inline bool TableSchema_Column::has_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void TableSchema_Column::set_has_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void TableSchema_Column::clear_has_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void TableSchema_Column::clear_name() {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_->clear();
+  }
+  clear_has_name();
+}
+inline const ::std::string& TableSchema_Column::name() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TableSchema.Column.name)
+  return *name_;
+}
+inline void TableSchema_Column::set_name(const ::std::string& value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set:dullahan.models.TableSchema.Column.name)
+}
+inline void TableSchema_Column::set_name(const char* value) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(value);
+  // @@protoc_insertion_point(field_set_char:dullahan.models.TableSchema.Column.name)
+}
+inline void TableSchema_Column::set_name(const char* value, size_t size) {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  name_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:dullahan.models.TableSchema.Column.name)
+}
+inline ::std::string* TableSchema_Column::mutable_name() {
+  set_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    name_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:dullahan.models.TableSchema.Column.name)
+  return name_;
+}
+inline ::std::string* TableSchema_Column::release_name() {
+  clear_has_name();
+  if (name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = name_;
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void TableSchema_Column::set_allocated_name(::std::string* name) {
+  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete name_;
+  }
+  if (name) {
+    set_has_name();
+    name_ = name;
+  } else {
+    clear_has_name();
+    name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:dullahan.models.TableSchema.Column.name)
+}
+
+// optional bool enabled = 3 [default = true];
+inline bool TableSchema_Column::has_enabled() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void TableSchema_Column::set_has_enabled() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void TableSchema_Column::clear_has_enabled() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void TableSchema_Column::clear_enabled() {
+  enabled_ = true;
+  clear_has_enabled();
+}
+inline bool TableSchema_Column::enabled() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TableSchema.Column.enabled)
+  return enabled_;
+}
+inline void TableSchema_Column::set_enabled(bool value) {
+  set_has_enabled();
+  enabled_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TableSchema.Column.enabled)
+}
+
+// optional .dullahan.models.TableSchema.Column.IndexType index_type = 4 [default = BITMAP];
+inline bool TableSchema_Column::has_index_type() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void TableSchema_Column::set_has_index_type() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void TableSchema_Column::clear_has_index_type() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void TableSchema_Column::clear_index_type() {
+  index_type_ = 1;
+  clear_has_index_type();
+}
+inline ::dullahan::models::TableSchema_Column_IndexType TableSchema_Column::index_type() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TableSchema.Column.index_type)
+  return static_cast< ::dullahan::models::TableSchema_Column_IndexType >(index_type_);
+}
+inline void TableSchema_Column::set_index_type(::dullahan::models::TableSchema_Column_IndexType value) {
+  assert(::dullahan::models::TableSchema_Column_IndexType_IsValid(value));
+  set_has_index_type();
+  index_type_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TableSchema.Column.index_type)
+}
+
+// -------------------------------------------------------------------
+
+// TableSchema
+
+// optional string table_name = 1;
+inline bool TableSchema::has_table_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void TableSchema::set_has_table_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void TableSchema::clear_has_table_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void TableSchema::clear_table_name() {
+  if (table_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    table_name_->clear();
+  }
+  clear_has_table_name();
+}
+inline const ::std::string& TableSchema::table_name() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TableSchema.table_name)
+  return *table_name_;
+}
+inline void TableSchema::set_table_name(const ::std::string& value) {
+  set_has_table_name();
+  if (table_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    table_name_ = new ::std::string;
+  }
+  table_name_->assign(value);
+  // @@protoc_insertion_point(field_set:dullahan.models.TableSchema.table_name)
+}
+inline void TableSchema::set_table_name(const char* value) {
+  set_has_table_name();
+  if (table_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    table_name_ = new ::std::string;
+  }
+  table_name_->assign(value);
+  // @@protoc_insertion_point(field_set_char:dullahan.models.TableSchema.table_name)
+}
+inline void TableSchema::set_table_name(const char* value, size_t size) {
+  set_has_table_name();
+  if (table_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    table_name_ = new ::std::string;
+  }
+  table_name_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:dullahan.models.TableSchema.table_name)
+}
+inline ::std::string* TableSchema::mutable_table_name() {
+  set_has_table_name();
+  if (table_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    table_name_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:dullahan.models.TableSchema.table_name)
+  return table_name_;
+}
+inline ::std::string* TableSchema::release_table_name() {
+  clear_has_table_name();
+  if (table_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = table_name_;
+    table_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void TableSchema::set_allocated_table_name(::std::string* table_name) {
+  if (table_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete table_name_;
+  }
+  if (table_name) {
+    set_has_table_name();
+    table_name_ = table_name;
+  } else {
+    clear_has_table_name();
+    table_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:dullahan.models.TableSchema.table_name)
+}
+
+// repeated .dullahan.models.TableSchema.Column columns = 2;
+inline int TableSchema::columns_size() const {
+  return columns_.size();
+}
+inline void TableSchema::clear_columns() {
+  columns_.Clear();
+}
+inline const ::dullahan::models::TableSchema_Column& TableSchema::columns(int index) const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TableSchema.columns)
+  return columns_.Get(index);
+}
+inline ::dullahan::models::TableSchema_Column* TableSchema::mutable_columns(int index) {
+  // @@protoc_insertion_point(field_mutable:dullahan.models.TableSchema.columns)
+  return columns_.Mutable(index);
+}
+inline ::dullahan::models::TableSchema_Column* TableSchema::add_columns() {
+  // @@protoc_insertion_point(field_add:dullahan.models.TableSchema.columns)
+  return columns_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::TableSchema_Column >&
+TableSchema::columns() const {
+  // @@protoc_insertion_point(field_list:dullahan.models.TableSchema.columns)
+  return columns_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::TableSchema_Column >*
+TableSchema::mutable_columns() {
+  // @@protoc_insertion_point(field_mutable_list:dullahan.models.TableSchema.columns)
+  return &columns_;
 }
 
 // -------------------------------------------------------------------
 
 // TabletMetadata
 
-// optional uint64 last_tablet_id = 1;
-inline bool TabletMetadata::has_last_tablet_id() const {
+// optional .dullahan.models.TabletMetadata.TabletVersion tablet_version = 1;
+inline bool TabletMetadata::has_tablet_version() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void TabletMetadata::set_has_last_tablet_id() {
+inline void TabletMetadata::set_has_tablet_version() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void TabletMetadata::clear_has_last_tablet_id() {
+inline void TabletMetadata::clear_has_tablet_version() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void TabletMetadata::clear_last_tablet_id() {
-  last_tablet_id_ = GOOGLE_ULONGLONG(0);
-  clear_has_last_tablet_id();
+inline void TabletMetadata::clear_tablet_version() {
+  tablet_version_ = 1;
+  clear_has_tablet_version();
 }
-inline ::google::protobuf::uint64 TabletMetadata::last_tablet_id() const {
-  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.last_tablet_id)
-  return last_tablet_id_;
+inline ::dullahan::models::TabletMetadata_TabletVersion TabletMetadata::tablet_version() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.tablet_version)
+  return static_cast< ::dullahan::models::TabletMetadata_TabletVersion >(tablet_version_);
 }
-inline void TabletMetadata::set_last_tablet_id(::google::protobuf::uint64 value) {
-  set_has_last_tablet_id();
-  last_tablet_id_ = value;
-  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.last_tablet_id)
+inline void TabletMetadata::set_tablet_version(::dullahan::models::TabletMetadata_TabletVersion value) {
+  assert(::dullahan::models::TabletMetadata_TabletVersion_IsValid(value));
+  set_has_tablet_version();
+  tablet_version_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.tablet_version)
 }
 
-// optional .dullahan.models.TabletMetadata.Endianness written_endianness = 2;
-inline bool TabletMetadata::has_written_endianness() const {
+// optional uint32 highest_id = 2;
+inline bool TabletMetadata::has_highest_id() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void TabletMetadata::set_has_written_endianness() {
+inline void TabletMetadata::set_has_highest_id() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void TabletMetadata::clear_has_written_endianness() {
+inline void TabletMetadata::clear_has_highest_id() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void TabletMetadata::clear_written_endianness() {
-  written_endianness_ = 0;
-  clear_has_written_endianness();
+inline void TabletMetadata::clear_highest_id() {
+  highest_id_ = 0u;
+  clear_has_highest_id();
 }
-inline ::dullahan::models::TabletMetadata_Endianness TabletMetadata::written_endianness() const {
-  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.written_endianness)
-  return static_cast< ::dullahan::models::TabletMetadata_Endianness >(written_endianness_);
+inline ::google::protobuf::uint32 TabletMetadata::highest_id() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.highest_id)
+  return highest_id_;
 }
-inline void TabletMetadata::set_written_endianness(::dullahan::models::TabletMetadata_Endianness value) {
-  assert(::dullahan::models::TabletMetadata_Endianness_IsValid(value));
-  set_has_written_endianness();
-  written_endianness_ = value;
-  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.written_endianness)
+inline void TabletMetadata::set_highest_id(::google::protobuf::uint32 value) {
+  set_has_highest_id();
+  highest_id_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.highest_id)
 }
 
-// optional uint32 size_of_bitword = 3;
-inline bool TabletMetadata::has_size_of_bitword() const {
+// optional uint64 timestamp_start = 3;
+inline bool TabletMetadata::has_timestamp_start() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void TabletMetadata::set_has_size_of_bitword() {
+inline void TabletMetadata::set_has_timestamp_start() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void TabletMetadata::clear_has_size_of_bitword() {
+inline void TabletMetadata::clear_has_timestamp_start() {
   _has_bits_[0] &= ~0x00000004u;
+}
+inline void TabletMetadata::clear_timestamp_start() {
+  timestamp_start_ = GOOGLE_ULONGLONG(0);
+  clear_has_timestamp_start();
+}
+inline ::google::protobuf::uint64 TabletMetadata::timestamp_start() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.timestamp_start)
+  return timestamp_start_;
+}
+inline void TabletMetadata::set_timestamp_start(::google::protobuf::uint64 value) {
+  set_has_timestamp_start();
+  timestamp_start_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.timestamp_start)
+}
+
+// optional uint64 timestamp_stop = 4;
+inline bool TabletMetadata::has_timestamp_stop() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void TabletMetadata::set_has_timestamp_stop() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void TabletMetadata::clear_has_timestamp_stop() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void TabletMetadata::clear_timestamp_stop() {
+  timestamp_stop_ = GOOGLE_ULONGLONG(0);
+  clear_has_timestamp_stop();
+}
+inline ::google::protobuf::uint64 TabletMetadata::timestamp_stop() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.timestamp_stop)
+  return timestamp_stop_;
+}
+inline void TabletMetadata::set_timestamp_stop(::google::protobuf::uint64 value) {
+  set_has_timestamp_stop();
+  timestamp_stop_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.timestamp_stop)
+}
+
+// optional .dullahan.models.TabletMetadata.Endianness endianness = 5;
+inline bool TabletMetadata::has_endianness() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void TabletMetadata::set_has_endianness() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void TabletMetadata::clear_has_endianness() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void TabletMetadata::clear_endianness() {
+  endianness_ = 0;
+  clear_has_endianness();
+}
+inline ::dullahan::models::TabletMetadata_Endianness TabletMetadata::endianness() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.endianness)
+  return static_cast< ::dullahan::models::TabletMetadata_Endianness >(endianness_);
+}
+inline void TabletMetadata::set_endianness(::dullahan::models::TabletMetadata_Endianness value) {
+  assert(::dullahan::models::TabletMetadata_Endianness_IsValid(value));
+  set_has_endianness();
+  endianness_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.endianness)
+}
+
+// optional uint32 size_of_bitword = 6;
+inline bool TabletMetadata::has_size_of_bitword() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void TabletMetadata::set_has_size_of_bitword() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void TabletMetadata::clear_has_size_of_bitword() {
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void TabletMetadata::clear_size_of_bitword() {
   size_of_bitword_ = 0u;
@@ -901,34 +1435,45 @@ inline void TabletMetadata::set_size_of_bitword(::google::protobuf::uint32 value
   // @@protoc_insertion_point(field_set:dullahan.models.TabletMetadata.size_of_bitword)
 }
 
-// repeated .dullahan.models.ColumnMetadata column_metadatas = 4;
-inline int TabletMetadata::column_metadatas_size() const {
-  return column_metadatas_.size();
+// optional .dullahan.models.TableSchema table_metadata = 7;
+inline bool TabletMetadata::has_table_metadata() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
 }
-inline void TabletMetadata::clear_column_metadatas() {
-  column_metadatas_.Clear();
+inline void TabletMetadata::set_has_table_metadata() {
+  _has_bits_[0] |= 0x00000040u;
 }
-inline const ::dullahan::models::ColumnMetadata& TabletMetadata::column_metadatas(int index) const {
-  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.column_metadatas)
-  return column_metadatas_.Get(index);
+inline void TabletMetadata::clear_has_table_metadata() {
+  _has_bits_[0] &= ~0x00000040u;
 }
-inline ::dullahan::models::ColumnMetadata* TabletMetadata::mutable_column_metadatas(int index) {
-  // @@protoc_insertion_point(field_mutable:dullahan.models.TabletMetadata.column_metadatas)
-  return column_metadatas_.Mutable(index);
+inline void TabletMetadata::clear_table_metadata() {
+  if (table_metadata_ != NULL) table_metadata_->::dullahan::models::TableSchema::Clear();
+  clear_has_table_metadata();
 }
-inline ::dullahan::models::ColumnMetadata* TabletMetadata::add_column_metadatas() {
-  // @@protoc_insertion_point(field_add:dullahan.models.TabletMetadata.column_metadatas)
-  return column_metadatas_.Add();
+inline const ::dullahan::models::TableSchema& TabletMetadata::table_metadata() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.TabletMetadata.table_metadata)
+  return table_metadata_ != NULL ? *table_metadata_ : *default_instance_->table_metadata_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >&
-TabletMetadata::column_metadatas() const {
-  // @@protoc_insertion_point(field_list:dullahan.models.TabletMetadata.column_metadatas)
-  return column_metadatas_;
+inline ::dullahan::models::TableSchema* TabletMetadata::mutable_table_metadata() {
+  set_has_table_metadata();
+  if (table_metadata_ == NULL) table_metadata_ = new ::dullahan::models::TableSchema;
+  // @@protoc_insertion_point(field_mutable:dullahan.models.TabletMetadata.table_metadata)
+  return table_metadata_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::ColumnMetadata >*
-TabletMetadata::mutable_column_metadatas() {
-  // @@protoc_insertion_point(field_mutable_list:dullahan.models.TabletMetadata.column_metadatas)
-  return &column_metadatas_;
+inline ::dullahan::models::TableSchema* TabletMetadata::release_table_metadata() {
+  clear_has_table_metadata();
+  ::dullahan::models::TableSchema* temp = table_metadata_;
+  table_metadata_ = NULL;
+  return temp;
+}
+inline void TabletMetadata::set_allocated_table_metadata(::dullahan::models::TableSchema* table_metadata) {
+  delete table_metadata_;
+  table_metadata_ = table_metadata;
+  if (table_metadata) {
+    set_has_table_metadata();
+  } else {
+    clear_has_table_metadata();
+  }
+  // @@protoc_insertion_point(field_set_allocated:dullahan.models.TabletMetadata.table_metadata)
 }
 
 
@@ -941,10 +1486,20 @@ TabletMetadata::mutable_column_metadatas() {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::dullahan::models::ColumnMetadata_IndexType> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::dullahan::models::TableSchema_Column_ColumnType> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::ColumnMetadata_IndexType>() {
-  return ::dullahan::models::ColumnMetadata_IndexType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::TableSchema_Column_ColumnType>() {
+  return ::dullahan::models::TableSchema_Column_ColumnType_descriptor();
+}
+template <> struct is_proto_enum< ::dullahan::models::TableSchema_Column_IndexType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::TableSchema_Column_IndexType>() {
+  return ::dullahan::models::TableSchema_Column_IndexType_descriptor();
+}
+template <> struct is_proto_enum< ::dullahan::models::TabletMetadata_TabletVersion> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::TabletMetadata_TabletVersion>() {
+  return ::dullahan::models::TabletMetadata_TabletVersion_descriptor();
 }
 template <> struct is_proto_enum< ::dullahan::models::TabletMetadata_Endianness> : ::google::protobuf::internal::true_type {};
 template <>

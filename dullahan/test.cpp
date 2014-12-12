@@ -2,7 +2,7 @@
 #include <csv.h>
 #include "env.hpp"
 #include "protos/dullahan.pb.h"
-#include "readstore/tablet.hpp"
+#include "readstore/tabletwriter.hpp"
 #include "readstore/query/tabletreader.hpp"
 
 using namespace dullahan;
@@ -49,13 +49,18 @@ inline std::string & setString(std::string & target, const std::string & ref) {
 }
 
 int main(int argc, char ** argv) {
+
+  TabletMetadata tabletMetadata;
+  tabletMetadata.set_timestamp_start(0);
+  tabletMetadata.set_timestamp_stop(3);
+
   try {
     Env *env = Env::getEnv();
     StringBuffer stringBuffer;
 
     env->setDataDir("/home/axiak/BigDocuments/dullahan-data");
 
-    TabletReader tabletReader(env, 0, 3);
+    TabletReader tabletReader(env, tabletMetadata);
 
     std::cout << argc << std::endl;
 
@@ -65,18 +70,18 @@ int main(int argc, char ** argv) {
       value.append(reinterpret_cast<const char *>(&campaignId), sizeof(int64_t));
       std::cout << "Looking for campaign id " << campaignId << std::endl;
       /*
-      tabletReader.queryExactByColumn(6, value, [&total](const std::string & id) {
+      tabletReader.QueryExactByColumn(6, value, [&total](const std::string & id) {
         std::cout << "id: " << id << std::endl;
       });
       */
-      std::cout << "Total: " << tabletReader.countExactByColumn(6, value) << std::endl;
+      std::cout << "Total: " << tabletReader.CountExactByColumn(6, value) << std::endl;
 
     }
 
 
     return 0;
 
-    TabletWriter tablet(env, 0, 3);
+    TabletWriter tablet(env, tabletMetadata);
 
     io::CSVReader<8> in("/home/axiak/BigDocuments/emailevents.csv");
     in.read_header(io::ignore_extra_column, "id", "created", "dateint", "type", "portalId", "appId", "campaignId", "recipient");
@@ -144,7 +149,7 @@ int main(int argc, char ** argv) {
       records.push_back(record);
 
       if (records.size() == FLUSH_SIZE) {
-        tablet.flushRecords(records);
+        tablet.FlushRecords(records);
         records.clear();
         stringBuffer.clear();
       }
@@ -156,14 +161,13 @@ int main(int argc, char ** argv) {
     }
 
     if (!records.empty()) {
-      tablet.flushRecords(records);
+      tablet.FlushRecords(records);
       records.clear();
       stringBuffer.clear();
     }
 
-    tablet.compact();
+    tablet.Compact();
     std::cout << "total: " << total << std::endl;
-    std::cout << "watermark: " << tablet.watermark() << std::endl;
     /*
     const int max_j = 256;
     const int max_k = 20;
@@ -185,8 +189,8 @@ int main(int argc, char ** argv) {
         records.push_back(record);
       };
 
-      tablet.flushRecords(records.begin(), records.end());
-      tablet.compact();
+      tablet.FlushRecords(records.begin(), records.end());
+      tablet.Compact();
     }
     */
   } catch (TabletLevelDbException e) {

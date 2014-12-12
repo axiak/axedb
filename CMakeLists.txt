@@ -9,6 +9,7 @@ include_directories(
         3rdparty/smhasher
         3rdparty/EWAHBoolArray/headers
         3rdparty/fast-cpp-csv-parser
+        3rdparty/rocksdb/include
 )
 
 set(CMAKE_CXX_FLAGS  "-pedantic -pthread -Wall -std=c++11")
@@ -29,8 +30,11 @@ set(SOURCE_FILES
         dullahan/utils/bytes.hpp
         dullahan/utils/utils.hpp
 
-        dullahan/readstore/tablet.cpp
         dullahan/readstore/tablet.hpp
+        dullahan/readstore/tablet.cpp
+        dullahan/readstore/tabletwriter.cpp
+        dullahan/readstore/tabletwriter.hpp
+        dullahan/readstore/models/base.hpp
         dullahan/readstore/models/key.hpp
         dullahan/readstore/models/key.cpp
         dullahan/readstore/models/value.hpp
@@ -43,6 +47,7 @@ set(SOURCE_FILES
         dullahan/protos/dullahan.pb.h
         dullahan/protos/dullahan.pb.cc
         dullahan/protos/utils.hpp
+        dullahan/protos/utils.cpp
 
         3rdparty/EWAHBoolArray/headers/ewahutil.h
         3rdparty/EWAHBoolArray/headers/boolarray.h
