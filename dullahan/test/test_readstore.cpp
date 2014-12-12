@@ -20,6 +20,8 @@ protected:
   virtual void SetUp() {
     tabletMetadata.set_timestamp_start(0);
     tabletMetadata.set_timestamp_stop(1);
+    TableSchema * schema = tabletMetadata.mutable_table_metadata();
+    schema->clear_columns();
 
     char * tempFolder = (char *)malloc(255);
     char const *tmpdir = getenv("TMPDIR");

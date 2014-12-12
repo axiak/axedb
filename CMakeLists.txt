@@ -39,8 +39,10 @@ set(SOURCE_FILES
         dullahan/readstore/models/key.cpp
         dullahan/readstore/models/value.hpp
         dullahan/readstore/models/value.cpp
-        dullahan/readstore/ewahmerge.hpp
-        dullahan/readstore/ewahmerge.cpp
+        dullahan/readstore/rocksdb/ewahmerge.hpp
+        dullahan/readstore/rocksdb/ewahmerge.cpp
+        dullahan/readstore/rocksdb/columnordering.cpp
+        dullahan/readstore/rocksdb/columnordering.hpp
         dullahan/readstore/query/tabletreader.cpp
         dullahan/readstore/query/tabletreader.hpp
 
@@ -120,14 +122,21 @@ add_executable(dullahan_test
     ${SOURCE_FILES}
 )
 
-add_executable(dullahan_load_data
+add_executable(dullahan_foo_bar
     ./dullahan/test.cpp
     ${SOURCE_FILES}
 )
 
+add_executable(tablet_load_csv
+    ./tools/loadcsv.cpp
+    ${SOURCE_FILES}
+)
+
+
 
 add_dependencies(dullahan_test googletest rocksdb)
-add_dependencies(dullahan_load_data rocksdb)
+add_dependencies(dullahan_foo_bar rocksdb)
+add_dependencies(tablet_load_csv rocksdb)
 
 # External include directories
 ExternalProject_Get_Property(googletest source_dir)
@@ -141,7 +150,12 @@ set(SHARED_LIBRARIES
     protobuf jemalloc lz4 snappy z)
 
 target_link_libraries(
-    dullahan_load_data
+    dullahan_foo_bar
+    ${SHARED_LIBRARIES}
+)
+
+target_link_libraries(
+    tablet_load_csv
     ${SHARED_LIBRARIES}
 )
 

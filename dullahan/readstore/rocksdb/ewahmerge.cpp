@@ -2,19 +2,8 @@
 #include <sstream>
 #include <iostream>
 
-#include "../utils/utils.hpp"
-#include "./models/value.hpp"
+#include "../models/value.hpp"
 #include "ewahmerge.hpp"
-
-namespace {
-
-inline uint64_t readUInt64(const rocksdb::Slice * const slice, const size_t offset) {
-  return *reinterpret_cast<const uint64_t *>(slice->data() + offset);
-}
-
-constexpr size_t WORD_SIZE = sizeof(dullahan::models::bitarrayword);
-
-} // anonymous namespace
 
 namespace dullahan {
 

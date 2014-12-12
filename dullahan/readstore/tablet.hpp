@@ -6,6 +6,7 @@
 
 #include "../protos/dullahan.pb.h"
 #include "../env.hpp"
+#include "rocksdb/columnordering.hpp"
 #include <rocksdb/db.h>
 
 namespace dullahan {
@@ -13,6 +14,8 @@ namespace dullahan {
 using namespace models;
 
 class Tablet {
+private:
+  std::shared_ptr<DullahanReadStoreComparator> comparator_;
 protected:
   Env * env_;
   TabletMetadata tablet_metadata_;

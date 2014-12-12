@@ -3,6 +3,7 @@
 #include "../dullahan.hpp"
 #include "tabletwriter.hpp"
 #include "../protos/utils.hpp"
+#include "./rocksdb/columnordering.hpp"
 
 namespace dullahan {
 

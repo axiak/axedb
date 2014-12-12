@@ -1,7 +1,8 @@
 #include <rocksdb/statistics.h>
 #include <rocksdb/memtablerep.h>
 #include "env.hpp"
-#include "readstore/ewahmerge.hpp"
+#include "readstore/rocksdb/ewahmerge.hpp"
+#include "readstore/rocksdb/columnordering.hpp"
 
 #include "utils/bytes.hpp"
 

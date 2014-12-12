@@ -7,17 +7,22 @@
 #include "../protos/utils.hpp"
 #include "./models/base.hpp"
 
-
 namespace dullahan {
 
 void SetSystemData(TabletMetadata & tablet_metadata);
 
 Tablet::Tablet(Env * env, TabletMetadata tablet_metadata, const rocksdb::Options & dboptions) :
+    comparator_{DullahanReadStoreComparator::createComparator(tablet_metadata_.table_metadata())},
     env_{env},
     tablet_metadata_{tablet_metadata},
     written_highest_id_{0} {
+
+  rocksdb::Options options_copy{dboptions};
+
+  options_copy.comparator = comparator_.get();
+
   rocksdb::Status status = rocksdb::DB::Open(
-      dboptions,
+      options_copy,
       *FileName(env, tablet_metadata.timestamp_start(), tablet_metadata.timestamp_stop()),
       &db_
   );
@@ -93,7 +98,6 @@ void SetSystemData(TabletMetadata & tablet_metadata) {
   tablet_metadata.set_endianness(CurrentEndianness());
   tablet_metadata.set_size_of_bitword(kSizeOfBitArrayBytes);
 }
-
 
 struct invalid_tablet_version : std::exception {
   char const* what() const throw() {
