@@ -40,10 +40,10 @@ Tablet::~Tablet() {
 
 // Move operations
 Tablet::Tablet(Tablet &&tablet) noexcept :
-    db_{std::move(tablet.db_)},
     env_{std::move(tablet.env_)},
     tablet_metadata_{std::move(tablet.tablet_metadata_)},
-    written_highest_id_{tablet.written_highest_id_}
+    written_highest_id_{tablet.written_highest_id_},
+    db_{std::move(tablet.db_)}
 {}
 
 Tablet &Tablet::operator=(Tablet &&tablet) noexcept {
@@ -51,6 +51,7 @@ Tablet &Tablet::operator=(Tablet &&tablet) noexcept {
   env_ = std::move(tablet.env_);
   tablet_metadata_ = std::move(tablet.tablet_metadata_);
   written_highest_id_ = tablet.written_highest_id_;
+  return *this;
 }
 
 void Tablet::UpdateIdWatermark(uint32_t highest_id) {

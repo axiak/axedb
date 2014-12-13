@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-#include "../../protos/dullahan.pb.h";
+#include "../../protos/dullahan.pb.h"
 
 namespace dullahan {
 

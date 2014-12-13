@@ -8,7 +8,7 @@ namespace {
 constexpr int kSizeOfColumn = sizeof(dullahan::column_t);
 
 template<typename T>
-int CompareNumericType(const rocksdb::Comparator *fallback, const rocksdb::Slice &a, const rocksdb::Slice &b) {
+inline int CompareNumericType(const rocksdb::Comparator *fallback, const rocksdb::Slice &a, const rocksdb::Slice &b) {
   constexpr size_t minimum_size = sizeof(T) + kSizeOfColumn;
   if (a.size() < minimum_size || b.size() < minimum_size) {
     return fallback->Compare(a, b);
