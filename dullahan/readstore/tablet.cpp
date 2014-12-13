@@ -1,7 +1,6 @@
 #include <rocksdb/db.h>
 #include <fstream>
 #include <boost/optional/optional.hpp>
-#include <stdint-gcc.h>
 
 #include "tablet.hpp"
 #include "../protos/utils.hpp"
