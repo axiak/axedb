@@ -24,7 +24,7 @@ protected:
 
   Tablet() =delete;
 
-  Tablet(Env * env, TabletMetadata tablet_metadata, const rocksdb::Options & dboptions);
+  Tablet(Env * env, const TabletMetadata &tablet_metadata, const rocksdb::Options & dboptions);
   ~Tablet();
 
   Tablet(const Tablet &) =delete;

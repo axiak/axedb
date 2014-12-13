@@ -11,8 +11,8 @@ namespace dullahan {
 
 void SetSystemData(TabletMetadata & tablet_metadata);
 
-Tablet::Tablet(Env * env, TabletMetadata tablet_metadata, const rocksdb::Options & dboptions) :
-    comparator_{DullahanReadStoreComparator::createComparator(tablet_metadata_.table_metadata())},
+Tablet::Tablet(Env * env, const TabletMetadata & tablet_metadata, const rocksdb::Options & dboptions) :
+    comparator_{DullahanReadStoreComparator::CreateComparator(DullahanReadStoreComparator::BuildColumnVector(tablet_metadata.table_metadata()))},
     env_{env},
     tablet_metadata_{tablet_metadata},
     written_highest_id_{0} {

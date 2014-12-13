@@ -14,7 +14,7 @@ using namespace models;
 
 class DullahanReadStoreComparator : public rocksdb::Comparator {
 public:
-  DullahanReadStoreComparator(const TableSchema &table_schema);
+  DullahanReadStoreComparator(const std::vector<TableSchema_Column_ColumnType> & columns);
 
   int Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const;
 
@@ -26,12 +26,21 @@ public:
     return "DullahanReadStoreComparator";
   }
 
-  static std::shared_ptr<DullahanReadStoreComparator> createComparator(const TableSchema &table_schema) {
-    return std::make_shared<DullahanReadStoreComparator>(table_schema);
+  static std::vector<TableSchema_Column_ColumnType> BuildColumnVector(const TableSchema &table_schema) {
+    std::vector<TableSchema_Column_ColumnType> result{};
+    result.reserve(table_schema.columns_size());
+    for (auto column : table_schema.columns()) {
+      result.emplace_back(column.type());
+    }
+    return result;
+  }
+
+  static std::shared_ptr<DullahanReadStoreComparator> CreateComparator(const std::vector<TableSchema_Column_ColumnType> columns) {
+    return std::make_shared<DullahanReadStoreComparator>(columns);
   }
 
 private:
-  std::vector<TableSchema_Column> columns_;
+  std::vector<TableSchema_Column_ColumnType> columns_;
   const rocksdb::Comparator * bytewise_comparator_;
 };
 

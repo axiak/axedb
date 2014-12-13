@@ -33,13 +33,10 @@ namespace dullahan {
 
 
 
-DullahanReadStoreComparator::DullahanReadStoreComparator(const TableSchema &table_schema) :
-    columns_{},
+DullahanReadStoreComparator::DullahanReadStoreComparator(const std::vector<TableSchema_Column_ColumnType> & columns) :
+    columns_{columns},
     bytewise_comparator_{rocksdb::BytewiseComparator()}
-  {
-    columns_.reserve(table_schema.columns_size());
-    columns_.insert(columns_.end(), table_schema.columns().begin(), table_schema.columns().end());
-  }
+  {}
 
 int DullahanReadStoreComparator::Compare(const rocksdb::Slice &a, const rocksdb::Slice &b) const {
   if (a.size() < kSizeOfColumn || b.size() < kSizeOfColumn) {
@@ -55,7 +52,7 @@ int DullahanReadStoreComparator::Compare(const rocksdb::Slice &a, const rocksdb:
   column_t column = *reinterpret_cast<const column_t *>(a.data());
 
   if (column >= 0 && column < columns_.size()) {
-    switch (columns_[column].type()) {
+    switch (columns_[column]) {
       case TableSchema_Column_ColumnType::TableSchema_Column_ColumnType_SMALLINT:
         return CompareNumericType<int16_t>(bytewise_comparator_, a, b);
       case TableSchema_Column_ColumnType::TableSchema_Column_ColumnType_INTEGER:
