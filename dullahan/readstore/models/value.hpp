@@ -23,13 +23,13 @@ public:
 
   void setRecord(const Record & record);
 
-  EWAHBoolArray<bitarrayword> * bitarray();
-  const EWAHBoolArray<bitarrayword> * const bitarray() const;
+  BitArray * bitarray();
+  const BitArray * const bitarray() const;
   const Record & record() const;
 
 private:
   const Record * record_;
-  EWAHBoolArray<bitarrayword> bitarray_;
+  BitArray bitarray_;
 };
 
 

@@ -40,6 +40,8 @@ class Record_KeyValue;
 class TableSchema;
 class TableSchema_Column;
 class TabletMetadata;
+class Query;
+class Query_Predicate;
 
 enum TableSchema_Column_ColumnType {
   TableSchema_Column_ColumnType_BYTES = 1,
@@ -121,6 +123,57 @@ inline bool TabletMetadata_Endianness_Parse(
     const ::std::string& name, TabletMetadata_Endianness* value) {
   return ::google::protobuf::internal::ParseNamedEnum<TabletMetadata_Endianness>(
     TabletMetadata_Endianness_descriptor(), name, value);
+}
+enum Query_Predicate_PredicateType {
+  Query_Predicate_PredicateType_NODE = 1,
+  Query_Predicate_PredicateType_AND = 2,
+  Query_Predicate_PredicateType_OR = 3
+};
+bool Query_Predicate_PredicateType_IsValid(int value);
+const Query_Predicate_PredicateType Query_Predicate_PredicateType_PredicateType_MIN = Query_Predicate_PredicateType_NODE;
+const Query_Predicate_PredicateType Query_Predicate_PredicateType_PredicateType_MAX = Query_Predicate_PredicateType_OR;
+const int Query_Predicate_PredicateType_PredicateType_ARRAYSIZE = Query_Predicate_PredicateType_PredicateType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Query_Predicate_PredicateType_descriptor();
+inline const ::std::string& Query_Predicate_PredicateType_Name(Query_Predicate_PredicateType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Query_Predicate_PredicateType_descriptor(), value);
+}
+inline bool Query_Predicate_PredicateType_Parse(
+    const ::std::string& name, Query_Predicate_PredicateType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Query_Predicate_PredicateType>(
+    Query_Predicate_PredicateType_descriptor(), name, value);
+}
+enum Query_Predicate_Operator {
+  Query_Predicate_Operator_EQUAL = 1,
+  Query_Predicate_Operator_NOT_EQUAL = 2,
+  Query_Predicate_Operator_GREATER = 3,
+  Query_Predicate_Operator_GREATER_OR_EQUAL = 4,
+  Query_Predicate_Operator_LESS = 5,
+  Query_Predicate_Operator_LESS_OR_EQUAL = 6,
+  Query_Predicate_Operator_IN = 7,
+  Query_Predicate_Operator_NOT_IN = 8,
+  Query_Predicate_Operator_BETWEEN = 9,
+  Query_Predicate_Operator_NOT_BETWEEN = 10,
+  Query_Predicate_Operator_LIKE = 11,
+  Query_Predicate_Operator_NOT_LIKE = 12,
+  Query_Predicate_Operator_IS_NULL = 13,
+  Query_Predicate_Operator_IS_NOT_NULL = 14
+};
+bool Query_Predicate_Operator_IsValid(int value);
+const Query_Predicate_Operator Query_Predicate_Operator_Operator_MIN = Query_Predicate_Operator_EQUAL;
+const Query_Predicate_Operator Query_Predicate_Operator_Operator_MAX = Query_Predicate_Operator_IS_NOT_NULL;
+const int Query_Predicate_Operator_Operator_ARRAYSIZE = Query_Predicate_Operator_Operator_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Query_Predicate_Operator_descriptor();
+inline const ::std::string& Query_Predicate_Operator_Name(Query_Predicate_Operator value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Query_Predicate_Operator_descriptor(), value);
+}
+inline bool Query_Predicate_Operator_Parse(
+    const ::std::string& name, Query_Predicate_Operator* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Query_Predicate_Operator>(
+    Query_Predicate_Operator_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -779,6 +832,267 @@ class TabletMetadata : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static TabletMetadata* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Query_Predicate : public ::google::protobuf::Message {
+ public:
+  Query_Predicate();
+  virtual ~Query_Predicate();
+
+  Query_Predicate(const Query_Predicate& from);
+
+  inline Query_Predicate& operator=(const Query_Predicate& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Query_Predicate& default_instance();
+
+  void Swap(Query_Predicate* other);
+
+  // implements Message ----------------------------------------------
+
+  Query_Predicate* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Query_Predicate& from);
+  void MergeFrom(const Query_Predicate& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef Query_Predicate_PredicateType PredicateType;
+  static const PredicateType NODE = Query_Predicate_PredicateType_NODE;
+  static const PredicateType AND = Query_Predicate_PredicateType_AND;
+  static const PredicateType OR = Query_Predicate_PredicateType_OR;
+  static inline bool PredicateType_IsValid(int value) {
+    return Query_Predicate_PredicateType_IsValid(value);
+  }
+  static const PredicateType PredicateType_MIN =
+    Query_Predicate_PredicateType_PredicateType_MIN;
+  static const PredicateType PredicateType_MAX =
+    Query_Predicate_PredicateType_PredicateType_MAX;
+  static const int PredicateType_ARRAYSIZE =
+    Query_Predicate_PredicateType_PredicateType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  PredicateType_descriptor() {
+    return Query_Predicate_PredicateType_descriptor();
+  }
+  static inline const ::std::string& PredicateType_Name(PredicateType value) {
+    return Query_Predicate_PredicateType_Name(value);
+  }
+  static inline bool PredicateType_Parse(const ::std::string& name,
+      PredicateType* value) {
+    return Query_Predicate_PredicateType_Parse(name, value);
+  }
+
+  typedef Query_Predicate_Operator Operator;
+  static const Operator EQUAL = Query_Predicate_Operator_EQUAL;
+  static const Operator NOT_EQUAL = Query_Predicate_Operator_NOT_EQUAL;
+  static const Operator GREATER = Query_Predicate_Operator_GREATER;
+  static const Operator GREATER_OR_EQUAL = Query_Predicate_Operator_GREATER_OR_EQUAL;
+  static const Operator LESS = Query_Predicate_Operator_LESS;
+  static const Operator LESS_OR_EQUAL = Query_Predicate_Operator_LESS_OR_EQUAL;
+  static const Operator IN = Query_Predicate_Operator_IN;
+  static const Operator NOT_IN = Query_Predicate_Operator_NOT_IN;
+  static const Operator BETWEEN = Query_Predicate_Operator_BETWEEN;
+  static const Operator NOT_BETWEEN = Query_Predicate_Operator_NOT_BETWEEN;
+  static const Operator LIKE = Query_Predicate_Operator_LIKE;
+  static const Operator NOT_LIKE = Query_Predicate_Operator_NOT_LIKE;
+  static const Operator IS_NULL = Query_Predicate_Operator_IS_NULL;
+  static const Operator IS_NOT_NULL = Query_Predicate_Operator_IS_NOT_NULL;
+  static inline bool Operator_IsValid(int value) {
+    return Query_Predicate_Operator_IsValid(value);
+  }
+  static const Operator Operator_MIN =
+    Query_Predicate_Operator_Operator_MIN;
+  static const Operator Operator_MAX =
+    Query_Predicate_Operator_Operator_MAX;
+  static const int Operator_ARRAYSIZE =
+    Query_Predicate_Operator_Operator_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Operator_descriptor() {
+    return Query_Predicate_Operator_descriptor();
+  }
+  static inline const ::std::string& Operator_Name(Operator value) {
+    return Query_Predicate_Operator_Name(value);
+  }
+  static inline bool Operator_Parse(const ::std::string& name,
+      Operator* value) {
+    return Query_Predicate_Operator_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .dullahan.models.Query.Predicate.PredicateType type = 1 [default = NODE];
+  inline bool has_type() const;
+  inline void clear_type();
+  static const int kTypeFieldNumber = 1;
+  inline ::dullahan::models::Query_Predicate_PredicateType type() const;
+  inline void set_type(::dullahan::models::Query_Predicate_PredicateType value);
+
+  // repeated .dullahan.models.Query.Predicate sub_predicates = 2;
+  inline int sub_predicates_size() const;
+  inline void clear_sub_predicates();
+  static const int kSubPredicatesFieldNumber = 2;
+  inline const ::dullahan::models::Query_Predicate& sub_predicates(int index) const;
+  inline ::dullahan::models::Query_Predicate* mutable_sub_predicates(int index);
+  inline ::dullahan::models::Query_Predicate* add_sub_predicates();
+  inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::Query_Predicate >&
+      sub_predicates() const;
+  inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::Query_Predicate >*
+      mutable_sub_predicates();
+
+  // optional uint32 column = 3;
+  inline bool has_column() const;
+  inline void clear_column();
+  static const int kColumnFieldNumber = 3;
+  inline ::google::protobuf::uint32 column() const;
+  inline void set_column(::google::protobuf::uint32 value);
+
+  // optional .dullahan.models.Query.Predicate.Operator operator = 4;
+  inline bool has_operator_() const;
+  inline void clear_operator_();
+  static const int kOperatorFieldNumber = 4;
+  inline ::dullahan::models::Query_Predicate_Operator operator_() const;
+  inline void set_operator_(::dullahan::models::Query_Predicate_Operator value);
+
+  // repeated bytes operands = 5;
+  inline int operands_size() const;
+  inline void clear_operands();
+  static const int kOperandsFieldNumber = 5;
+  inline const ::std::string& operands(int index) const;
+  inline ::std::string* mutable_operands(int index);
+  inline void set_operands(int index, const ::std::string& value);
+  inline void set_operands(int index, const char* value);
+  inline void set_operands(int index, const void* value, size_t size);
+  inline ::std::string* add_operands();
+  inline void add_operands(const ::std::string& value);
+  inline void add_operands(const char* value);
+  inline void add_operands(const void* value, size_t size);
+  inline const ::google::protobuf::RepeatedPtrField< ::std::string>& operands() const;
+  inline ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_operands();
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.Query.Predicate)
+ private:
+  inline void set_has_type();
+  inline void clear_has_type();
+  inline void set_has_column();
+  inline void clear_has_column();
+  inline void set_has_operator_();
+  inline void clear_has_operator_();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::dullahan::models::Query_Predicate > sub_predicates_;
+  int type_;
+  ::google::protobuf::uint32 column_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> operands_;
+  int operator__;
+  friend void  protobuf_AddDesc_dullahan_2eproto();
+  friend void protobuf_AssignDesc_dullahan_2eproto();
+  friend void protobuf_ShutdownFile_dullahan_2eproto();
+
+  void InitAsDefaultInstance();
+  static Query_Predicate* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Query : public ::google::protobuf::Message {
+ public:
+  Query();
+  virtual ~Query();
+
+  Query(const Query& from);
+
+  inline Query& operator=(const Query& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Query& default_instance();
+
+  void Swap(Query* other);
+
+  // implements Message ----------------------------------------------
+
+  Query* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Query& from);
+  void MergeFrom(const Query& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef Query_Predicate Predicate;
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.Query)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_dullahan_2eproto();
+  friend void protobuf_AssignDesc_dullahan_2eproto();
+  friend void protobuf_ShutdownFile_dullahan_2eproto();
+
+  void InitAsDefaultInstance();
+  static Query* default_instance_;
 };
 // ===================================================================
 
@@ -1476,6 +1790,172 @@ inline void TabletMetadata::set_allocated_table_metadata(::dullahan::models::Tab
   // @@protoc_insertion_point(field_set_allocated:dullahan.models.TabletMetadata.table_metadata)
 }
 
+// -------------------------------------------------------------------
+
+// Query_Predicate
+
+// optional .dullahan.models.Query.Predicate.PredicateType type = 1 [default = NODE];
+inline bool Query_Predicate::has_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Query_Predicate::set_has_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Query_Predicate::clear_has_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Query_Predicate::clear_type() {
+  type_ = 1;
+  clear_has_type();
+}
+inline ::dullahan::models::Query_Predicate_PredicateType Query_Predicate::type() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.Query.Predicate.type)
+  return static_cast< ::dullahan::models::Query_Predicate_PredicateType >(type_);
+}
+inline void Query_Predicate::set_type(::dullahan::models::Query_Predicate_PredicateType value) {
+  assert(::dullahan::models::Query_Predicate_PredicateType_IsValid(value));
+  set_has_type();
+  type_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.Query.Predicate.type)
+}
+
+// repeated .dullahan.models.Query.Predicate sub_predicates = 2;
+inline int Query_Predicate::sub_predicates_size() const {
+  return sub_predicates_.size();
+}
+inline void Query_Predicate::clear_sub_predicates() {
+  sub_predicates_.Clear();
+}
+inline const ::dullahan::models::Query_Predicate& Query_Predicate::sub_predicates(int index) const {
+  // @@protoc_insertion_point(field_get:dullahan.models.Query.Predicate.sub_predicates)
+  return sub_predicates_.Get(index);
+}
+inline ::dullahan::models::Query_Predicate* Query_Predicate::mutable_sub_predicates(int index) {
+  // @@protoc_insertion_point(field_mutable:dullahan.models.Query.Predicate.sub_predicates)
+  return sub_predicates_.Mutable(index);
+}
+inline ::dullahan::models::Query_Predicate* Query_Predicate::add_sub_predicates() {
+  // @@protoc_insertion_point(field_add:dullahan.models.Query.Predicate.sub_predicates)
+  return sub_predicates_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::Query_Predicate >&
+Query_Predicate::sub_predicates() const {
+  // @@protoc_insertion_point(field_list:dullahan.models.Query.Predicate.sub_predicates)
+  return sub_predicates_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::Query_Predicate >*
+Query_Predicate::mutable_sub_predicates() {
+  // @@protoc_insertion_point(field_mutable_list:dullahan.models.Query.Predicate.sub_predicates)
+  return &sub_predicates_;
+}
+
+// optional uint32 column = 3;
+inline bool Query_Predicate::has_column() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Query_Predicate::set_has_column() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Query_Predicate::clear_has_column() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Query_Predicate::clear_column() {
+  column_ = 0u;
+  clear_has_column();
+}
+inline ::google::protobuf::uint32 Query_Predicate::column() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.Query.Predicate.column)
+  return column_;
+}
+inline void Query_Predicate::set_column(::google::protobuf::uint32 value) {
+  set_has_column();
+  column_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.Query.Predicate.column)
+}
+
+// optional .dullahan.models.Query.Predicate.Operator operator = 4;
+inline bool Query_Predicate::has_operator_() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Query_Predicate::set_has_operator_() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Query_Predicate::clear_has_operator_() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Query_Predicate::clear_operator_() {
+  operator__ = 1;
+  clear_has_operator_();
+}
+inline ::dullahan::models::Query_Predicate_Operator Query_Predicate::operator_() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.Query.Predicate.operator)
+  return static_cast< ::dullahan::models::Query_Predicate_Operator >(operator__);
+}
+inline void Query_Predicate::set_operator_(::dullahan::models::Query_Predicate_Operator value) {
+  assert(::dullahan::models::Query_Predicate_Operator_IsValid(value));
+  set_has_operator_();
+  operator__ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.Query.Predicate.operator)
+}
+
+// repeated bytes operands = 5;
+inline int Query_Predicate::operands_size() const {
+  return operands_.size();
+}
+inline void Query_Predicate::clear_operands() {
+  operands_.Clear();
+}
+inline const ::std::string& Query_Predicate::operands(int index) const {
+  // @@protoc_insertion_point(field_get:dullahan.models.Query.Predicate.operands)
+  return operands_.Get(index);
+}
+inline ::std::string* Query_Predicate::mutable_operands(int index) {
+  // @@protoc_insertion_point(field_mutable:dullahan.models.Query.Predicate.operands)
+  return operands_.Mutable(index);
+}
+inline void Query_Predicate::set_operands(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:dullahan.models.Query.Predicate.operands)
+  operands_.Mutable(index)->assign(value);
+}
+inline void Query_Predicate::set_operands(int index, const char* value) {
+  operands_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:dullahan.models.Query.Predicate.operands)
+}
+inline void Query_Predicate::set_operands(int index, const void* value, size_t size) {
+  operands_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:dullahan.models.Query.Predicate.operands)
+}
+inline ::std::string* Query_Predicate::add_operands() {
+  return operands_.Add();
+}
+inline void Query_Predicate::add_operands(const ::std::string& value) {
+  operands_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:dullahan.models.Query.Predicate.operands)
+}
+inline void Query_Predicate::add_operands(const char* value) {
+  operands_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:dullahan.models.Query.Predicate.operands)
+}
+inline void Query_Predicate::add_operands(const void* value, size_t size) {
+  operands_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:dullahan.models.Query.Predicate.operands)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+Query_Predicate::operands() const {
+  // @@protoc_insertion_point(field_list:dullahan.models.Query.Predicate.operands)
+  return operands_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+Query_Predicate::mutable_operands() {
+  // @@protoc_insertion_point(field_mutable_list:dullahan.models.Query.Predicate.operands)
+  return &operands_;
+}
+
+// -------------------------------------------------------------------
+
+// Query
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -1505,6 +1985,16 @@ template <> struct is_proto_enum< ::dullahan::models::TabletMetadata_Endianness>
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::TabletMetadata_Endianness>() {
   return ::dullahan::models::TabletMetadata_Endianness_descriptor();
+}
+template <> struct is_proto_enum< ::dullahan::models::Query_Predicate_PredicateType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::Query_Predicate_PredicateType>() {
+  return ::dullahan::models::Query_Predicate_PredicateType_descriptor();
+}
+template <> struct is_proto_enum< ::dullahan::models::Query_Predicate_Operator> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::dullahan::models::Query_Predicate_Operator>() {
+  return ::dullahan::models::Query_Predicate_Operator_descriptor();
 }
 
 }  // namespace google

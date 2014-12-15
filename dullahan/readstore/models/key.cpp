@@ -26,13 +26,13 @@ ReadStoreKey &ReadStoreKey::operator=(ReadStoreKey const &aConst) {
   return *this;
 }
 
-ReadStoreKey::ReadStoreKey(ReadStoreKey &&key) {
+ReadStoreKey::ReadStoreKey(ReadStoreKey &&key) noexcept {
   column_ = key.column_;
   bytes_ = std::move(key.bytes_);
   slice_repr_ = std::move(key.slice_repr_);
 }
 
-ReadStoreKey &ReadStoreKey::operator=(ReadStoreKey &&key) {
+ReadStoreKey &ReadStoreKey::operator=(ReadStoreKey &&key) noexcept {
   column_ = key.column_;
   bytes_ = std::move(key.bytes_);
   slice_repr_ = std::move(key.slice_repr_);
@@ -40,7 +40,7 @@ ReadStoreKey &ReadStoreKey::operator=(ReadStoreKey &&key) {
 }
 
 
-size_t ReadStoreKey::columnSize() const {
+size_t ReadStoreKey::column_size() const {
   return bytes_.size();
 }
 
@@ -56,7 +56,7 @@ void ReadStoreKey::updateSlice() {
   slice_repr_.insert(slice_repr_.end(), bytes_.begin(), bytes_.end());
 }
 
-rocksdb::Slice ReadStoreKey::toSlice() const {
+rocksdb::Slice ReadStoreKey::ToSlice() const {
   return rocksdb::Slice(slice_repr_.data(), slice_repr_.size());
 }
 

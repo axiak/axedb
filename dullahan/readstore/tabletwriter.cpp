@@ -29,24 +29,31 @@ TabletWriter &TabletWriter::operator=(TabletWriter &&tablet) noexcept {
   return *this;
 }
 
+void TabletWriter::AddToBitArray(const uint32_t record_id, const ReadStoreKey & key) {
+  ScratchValue & value = scratch_[key];
+  value.bitarray()->set(record_id);
+  const uint32_t bitsize = static_cast<uint32_t>(value.bitarray()->bufferSize() * kSizeOfBitArrayBits);
+  if (bitsize > max_bitarray_bitsize_) {
+    max_bitarray_bitsize_ = bitsize;
+  }
+}
+
 
 void TabletWriter::AddToScratch(const Record & record) {
-  uint32_t current_id = HighestIdAndIncrement();
-  uint32_t current_bit = current_scratch_bit_++;
+  const uint32_t current_id = HighestIdAndIncrement();
+  const uint32_t current_bit = current_scratch_bit_++;
   auto values = record.values();
 
-  scratch_[ReadStoreKey::materializedRowKey(current_id)].setRecord(record);
+  scratch_[ReadStoreKey::MaterializedRowKey(current_id)].setRecord(record);
+  AddToBitArray(current_bit, ReadStoreKey::AllRowsKey());
 
-  std::for_each(values.begin(), values.end(), [this, current_bit, &record, current_id](const Record_KeyValue & keyValue) {
+  std::for_each(values.begin(), values.end(), [this, current_bit](const Record_KeyValue & keyValue) {
     ReadStoreKey key(keyValue.column(), keyValue.value());
-    ScratchValue & value = scratch_[key];
-    value.bitarray()->set(current_bit);
-    const uint32_t bitsize = static_cast<uint32_t>(value.bitarray()->bufferSize() * kSizeOfBitArrayBits);
-    if (bitsize > max_bitarray_bitsize_) {
-      max_bitarray_bitsize_ = bitsize;
-    }
+    AddToBitArray(current_bit, key);
+    AddToBitArray(current_bit, ReadStoreKey::AllRowsForColumnKey(keyValue.column()));
   });
 }
+
 
 void TabletWriter::FlushScratch() {
   std::string buffer;
@@ -58,12 +65,12 @@ void TabletWriter::FlushScratch() {
 
 
   for (auto pair : scratch_) {
-    const rocksdb::Slice key = pair.first.toSlice();
+    const rocksdb::Slice key = pair.first.ToSlice();
 
     switch (pair.first.getKeyType()) {
       case ReadStoreKey::KeyType::COLUMN: {
         buffer.resize(0);
-        EWAHBoolArray<bitarrayword> *newValue = pair.second.bitarray();
+        BitArray *newValue = pair.second.bitarray();
         newValue->padWithZeroes(current_scratch_bit_);
         newValue->appendToString(&buffer, written_highest_id_);
 
@@ -82,15 +89,13 @@ void TabletWriter::FlushScratch() {
         rocksdb::Status status = db_->Put(
             env_->getReadStoreWriteOptions(),
             key,
-            models::toSlice(pair.second.record(), &buffer)
+            models::ToSlice(pair.second.record(), &buffer)
         );
 
         if (!status.ok()) {
           throw TabletLevelDbException(status);
         }
       }
-        break;
-      case ReadStoreKey::KeyType::META:
         break;
 
     }

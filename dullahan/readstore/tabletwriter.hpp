@@ -70,6 +70,7 @@ private:
       decltype(ReadStoreKey::equality())> scratch_;
 
   void AddToScratch(const Record & record);
+  void AddToBitArray(const uint32_t record_id, const ReadStoreKey & key);
   void FlushScratch();
 };
 

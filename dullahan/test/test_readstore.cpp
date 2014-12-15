@@ -114,8 +114,8 @@ TEST_F(ReadStoreTest, AddAndQueryItems) {
 
   std::string valueBytes{};
   valueBytes.append(reinterpret_cast<const char *>(&valueToFind), sizeof(uint32_t));
-  tabletReader.QueryExactByColumn(0, valueBytes, [&actual] (const std::string & id) {
-    actual.emplace(id);
+  tabletReader.QueryExactByColumn(0, valueBytes, [&actual] (const Record & record) {
+    actual.emplace(record.id());
   });
 
   ASSERT_EQ(expected, actual) << "IDs queried for are as expected.";

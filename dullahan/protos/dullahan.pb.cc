@@ -40,6 +40,14 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
   TabletMetadata_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* TabletMetadata_TabletVersion_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* TabletMetadata_Endianness_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* Query_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  Query_reflection_ = NULL;
+const ::google::protobuf::Descriptor* Query_Predicate_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  Query_Predicate_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* Query_Predicate_PredicateType_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* Query_Predicate_Operator_descriptor_ = NULL;
 
 }  // namespace
 
@@ -142,6 +150,41 @@ void protobuf_AssignDesc_dullahan_2eproto() {
       sizeof(TabletMetadata));
   TabletMetadata_TabletVersion_descriptor_ = TabletMetadata_descriptor_->enum_type(0);
   TabletMetadata_Endianness_descriptor_ = TabletMetadata_descriptor_->enum_type(1);
+  Query_descriptor_ = file->message_type(3);
+  static const int Query_offsets_[1] = {
+  };
+  Query_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      Query_descriptor_,
+      Query::default_instance_,
+      Query_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(Query));
+  Query_Predicate_descriptor_ = Query_descriptor_->nested_type(0);
+  static const int Query_Predicate_offsets_[5] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, type_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, sub_predicates_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, column_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, operator__),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, operands_),
+  };
+  Query_Predicate_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      Query_Predicate_descriptor_,
+      Query_Predicate::default_instance_,
+      Query_Predicate_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Query_Predicate, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(Query_Predicate));
+  Query_Predicate_PredicateType_descriptor_ = Query_Predicate_descriptor_->enum_type(0);
+  Query_Predicate_Operator_descriptor_ = Query_Predicate_descriptor_->enum_type(1);
 }
 
 namespace {
@@ -164,6 +207,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
     TableSchema_Column_descriptor_, &TableSchema_Column::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     TabletMetadata_descriptor_, &TabletMetadata::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    Query_descriptor_, &Query::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    Query_Predicate_descriptor_, &Query_Predicate::default_instance());
 }
 
 }  // namespace
@@ -179,6 +226,10 @@ void protobuf_ShutdownFile_dullahan_2eproto() {
   delete TableSchema_Column_reflection_;
   delete TabletMetadata::default_instance_;
   delete TabletMetadata_reflection_;
+  delete Query::default_instance_;
+  delete Query_reflection_;
+  delete Query_Predicate::default_instance_;
+  delete Query_Predicate_reflection_;
 }
 
 void protobuf_AddDesc_dullahan_2eproto() {
@@ -211,7 +262,20 @@ void protobuf_AddDesc_dullahan_2eproto() {
     "Endianness\022\027\n\017size_of_bitword\030\006 \001(\r\0224\n\016t"
     "able_metadata\030\007 \001(\0132\034.dullahan.models.Ta"
     "bleSchema\"\030\n\rTabletVersion\022\007\n\003ONE\020\001\"!\n\nE"
-    "ndianness\022\007\n\003BIG\020\000\022\n\n\006LITTLE\020\001", 950);
+    "ndianness\022\007\n\003BIG\020\000\022\n\n\006LITTLE\020\001\"\355\003\n\005Query"
+    "\032\343\003\n\tPredicate\022B\n\004type\030\001 \001(\0162..dullahan."
+    "models.Query.Predicate.PredicateType:\004NO"
+    "DE\0228\n\016sub_predicates\030\002 \003(\0132 .dullahan.mo"
+    "dels.Query.Predicate\022\016\n\006column\030\003 \001(\r\022;\n\010"
+    "operator\030\004 \001(\0162).dullahan.models.Query.P"
+    "redicate.Operator\022\020\n\010operands\030\005 \003(\014\"*\n\rP"
+    "redicateType\022\010\n\004NODE\020\001\022\007\n\003AND\020\002\022\006\n\002OR\020\003\""
+    "\314\001\n\010Operator\022\t\n\005EQUAL\020\001\022\r\n\tNOT_EQUAL\020\002\022\013"
+    "\n\007GREATER\020\003\022\024\n\020GREATER_OR_EQUAL\020\004\022\010\n\004LES"
+    "S\020\005\022\021\n\rLESS_OR_EQUAL\020\006\022\006\n\002IN\020\007\022\n\n\006NOT_IN"
+    "\020\010\022\013\n\007BETWEEN\020\t\022\017\n\013NOT_BETWEEN\020\n\022\010\n\004LIKE"
+    "\020\013\022\014\n\010NOT_LIKE\020\014\022\013\n\007IS_NULL\020\r\022\017\n\013IS_NOT_"
+    "NULL\020\016", 1446);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "dullahan.proto", &protobuf_RegisterTypes);
   Record::default_instance_ = new Record();
@@ -219,11 +283,15 @@ void protobuf_AddDesc_dullahan_2eproto() {
   TableSchema::default_instance_ = new TableSchema();
   TableSchema_Column::default_instance_ = new TableSchema_Column();
   TabletMetadata::default_instance_ = new TabletMetadata();
+  Query::default_instance_ = new Query();
+  Query_Predicate::default_instance_ = new Query_Predicate();
   Record::default_instance_->InitAsDefaultInstance();
   Record_KeyValue::default_instance_->InitAsDefaultInstance();
   TableSchema::default_instance_->InitAsDefaultInstance();
   TableSchema_Column::default_instance_->InitAsDefaultInstance();
   TabletMetadata::default_instance_->InitAsDefaultInstance();
+  Query::default_instance_->InitAsDefaultInstance();
+  Query_Predicate::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_dullahan_2eproto);
 }
 
@@ -2044,6 +2112,639 @@ void TabletMetadata::Swap(TabletMetadata* other) {
   ::google::protobuf::Metadata metadata;
   metadata.descriptor = TabletMetadata_descriptor_;
   metadata.reflection = TabletMetadata_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
+const ::google::protobuf::EnumDescriptor* Query_Predicate_PredicateType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return Query_Predicate_PredicateType_descriptor_;
+}
+bool Query_Predicate_PredicateType_IsValid(int value) {
+  switch(value) {
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const Query_Predicate_PredicateType Query_Predicate::NODE;
+const Query_Predicate_PredicateType Query_Predicate::AND;
+const Query_Predicate_PredicateType Query_Predicate::OR;
+const Query_Predicate_PredicateType Query_Predicate::PredicateType_MIN;
+const Query_Predicate_PredicateType Query_Predicate::PredicateType_MAX;
+const int Query_Predicate::PredicateType_ARRAYSIZE;
+#endif  // _MSC_VER
+const ::google::protobuf::EnumDescriptor* Query_Predicate_Operator_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return Query_Predicate_Operator_descriptor_;
+}
+bool Query_Predicate_Operator_IsValid(int value) {
+  switch(value) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const Query_Predicate_Operator Query_Predicate::EQUAL;
+const Query_Predicate_Operator Query_Predicate::NOT_EQUAL;
+const Query_Predicate_Operator Query_Predicate::GREATER;
+const Query_Predicate_Operator Query_Predicate::GREATER_OR_EQUAL;
+const Query_Predicate_Operator Query_Predicate::LESS;
+const Query_Predicate_Operator Query_Predicate::LESS_OR_EQUAL;
+const Query_Predicate_Operator Query_Predicate::IN;
+const Query_Predicate_Operator Query_Predicate::NOT_IN;
+const Query_Predicate_Operator Query_Predicate::BETWEEN;
+const Query_Predicate_Operator Query_Predicate::NOT_BETWEEN;
+const Query_Predicate_Operator Query_Predicate::LIKE;
+const Query_Predicate_Operator Query_Predicate::NOT_LIKE;
+const Query_Predicate_Operator Query_Predicate::IS_NULL;
+const Query_Predicate_Operator Query_Predicate::IS_NOT_NULL;
+const Query_Predicate_Operator Query_Predicate::Operator_MIN;
+const Query_Predicate_Operator Query_Predicate::Operator_MAX;
+const int Query_Predicate::Operator_ARRAYSIZE;
+#endif  // _MSC_VER
+#ifndef _MSC_VER
+const int Query_Predicate::kTypeFieldNumber;
+const int Query_Predicate::kSubPredicatesFieldNumber;
+const int Query_Predicate::kColumnFieldNumber;
+const int Query_Predicate::kOperatorFieldNumber;
+const int Query_Predicate::kOperandsFieldNumber;
+#endif  // !_MSC_VER
+
+Query_Predicate::Query_Predicate()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:dullahan.models.Query.Predicate)
+}
+
+void Query_Predicate::InitAsDefaultInstance() {
+}
+
+Query_Predicate::Query_Predicate(const Query_Predicate& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:dullahan.models.Query.Predicate)
+}
+
+void Query_Predicate::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  type_ = 1;
+  column_ = 0u;
+  operator__ = 1;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+Query_Predicate::~Query_Predicate() {
+  // @@protoc_insertion_point(destructor:dullahan.models.Query.Predicate)
+  SharedDtor();
+}
+
+void Query_Predicate::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void Query_Predicate::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* Query_Predicate::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return Query_Predicate_descriptor_;
+}
+
+const Query_Predicate& Query_Predicate::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_dullahan_2eproto();
+  return *default_instance_;
+}
+
+Query_Predicate* Query_Predicate::default_instance_ = NULL;
+
+Query_Predicate* Query_Predicate::New() const {
+  return new Query_Predicate;
+}
+
+void Query_Predicate::Clear() {
+  if (_has_bits_[0 / 32] & 13) {
+    type_ = 1;
+    column_ = 0u;
+    operator__ = 1;
+  }
+  sub_predicates_.Clear();
+  operands_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool Query_Predicate::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:dullahan.models.Query.Predicate)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .dullahan.models.Query.Predicate.PredicateType type = 1 [default = NODE];
+      case 1: {
+        if (tag == 8) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::dullahan::models::Query_Predicate_PredicateType_IsValid(value)) {
+            set_type(static_cast< ::dullahan::models::Query_Predicate_PredicateType >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(1, value);
+          }
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_sub_predicates;
+        break;
+      }
+
+      // repeated .dullahan.models.Query.Predicate sub_predicates = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_sub_predicates:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_sub_predicates()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_sub_predicates;
+        if (input->ExpectTag(24)) goto parse_column;
+        break;
+      }
+
+      // optional uint32 column = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_column:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &column_)));
+          set_has_column();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_operator;
+        break;
+      }
+
+      // optional .dullahan.models.Query.Predicate.Operator operator = 4;
+      case 4: {
+        if (tag == 32) {
+         parse_operator:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::dullahan::models::Query_Predicate_Operator_IsValid(value)) {
+            set_operator_(static_cast< ::dullahan::models::Query_Predicate_Operator >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(4, value);
+          }
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(42)) goto parse_operands;
+        break;
+      }
+
+      // repeated bytes operands = 5;
+      case 5: {
+        if (tag == 42) {
+         parse_operands:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->add_operands()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(42)) goto parse_operands;
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:dullahan.models.Query.Predicate)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:dullahan.models.Query.Predicate)
+  return false;
+#undef DO_
+}
+
+void Query_Predicate::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:dullahan.models.Query.Predicate)
+  // optional .dullahan.models.Query.Predicate.PredicateType type = 1 [default = NODE];
+  if (has_type()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->type(), output);
+  }
+
+  // repeated .dullahan.models.Query.Predicate sub_predicates = 2;
+  for (int i = 0; i < this->sub_predicates_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, this->sub_predicates(i), output);
+  }
+
+  // optional uint32 column = 3;
+  if (has_column()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->column(), output);
+  }
+
+  // optional .dullahan.models.Query.Predicate.Operator operator = 4;
+  if (has_operator_()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      4, this->operator_(), output);
+  }
+
+  // repeated bytes operands = 5;
+  for (int i = 0; i < this->operands_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+      5, this->operands(i), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:dullahan.models.Query.Predicate)
+}
+
+::google::protobuf::uint8* Query_Predicate::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dullahan.models.Query.Predicate)
+  // optional .dullahan.models.Query.Predicate.PredicateType type = 1 [default = NODE];
+  if (has_type()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->type(), target);
+  }
+
+  // repeated .dullahan.models.Query.Predicate sub_predicates = 2;
+  for (int i = 0; i < this->sub_predicates_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        2, this->sub_predicates(i), target);
+  }
+
+  // optional uint32 column = 3;
+  if (has_column()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->column(), target);
+  }
+
+  // optional .dullahan.models.Query.Predicate.Operator operator = 4;
+  if (has_operator_()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      4, this->operator_(), target);
+  }
+
+  // repeated bytes operands = 5;
+  for (int i = 0; i < this->operands_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteBytesToArray(5, this->operands(i), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dullahan.models.Query.Predicate)
+  return target;
+}
+
+int Query_Predicate::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // optional .dullahan.models.Query.Predicate.PredicateType type = 1 [default = NODE];
+    if (has_type()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
+    }
+
+    // optional uint32 column = 3;
+    if (has_column()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->column());
+    }
+
+    // optional .dullahan.models.Query.Predicate.Operator operator = 4;
+    if (has_operator_()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->operator_());
+    }
+
+  }
+  // repeated .dullahan.models.Query.Predicate sub_predicates = 2;
+  total_size += 1 * this->sub_predicates_size();
+  for (int i = 0; i < this->sub_predicates_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->sub_predicates(i));
+  }
+
+  // repeated bytes operands = 5;
+  total_size += 1 * this->operands_size();
+  for (int i = 0; i < this->operands_size(); i++) {
+    total_size += ::google::protobuf::internal::WireFormatLite::BytesSize(
+      this->operands(i));
+  }
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Query_Predicate::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const Query_Predicate* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const Query_Predicate*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void Query_Predicate::MergeFrom(const Query_Predicate& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  sub_predicates_.MergeFrom(from.sub_predicates_);
+  operands_.MergeFrom(from.operands_);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_type()) {
+      set_type(from.type());
+    }
+    if (from.has_column()) {
+      set_column(from.column());
+    }
+    if (from.has_operator_()) {
+      set_operator_(from.operator_());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void Query_Predicate::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Query_Predicate::CopyFrom(const Query_Predicate& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Query_Predicate::IsInitialized() const {
+
+  return true;
+}
+
+void Query_Predicate::Swap(Query_Predicate* other) {
+  if (other != this) {
+    std::swap(type_, other->type_);
+    sub_predicates_.Swap(&other->sub_predicates_);
+    std::swap(column_, other->column_);
+    std::swap(operator__, other->operator__);
+    operands_.Swap(&other->operands_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata Query_Predicate::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = Query_Predicate_descriptor_;
+  metadata.reflection = Query_Predicate_reflection_;
+  return metadata;
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
+#endif  // !_MSC_VER
+
+Query::Query()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:dullahan.models.Query)
+}
+
+void Query::InitAsDefaultInstance() {
+}
+
+Query::Query(const Query& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:dullahan.models.Query)
+}
+
+void Query::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+Query::~Query() {
+  // @@protoc_insertion_point(destructor:dullahan.models.Query)
+  SharedDtor();
+}
+
+void Query::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void Query::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* Query::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return Query_descriptor_;
+}
+
+const Query& Query::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_dullahan_2eproto();
+  return *default_instance_;
+}
+
+Query* Query::default_instance_ = NULL;
+
+Query* Query::New() const {
+  return new Query;
+}
+
+void Query::Clear() {
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool Query::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:dullahan.models.Query)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0 ||
+        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:dullahan.models.Query)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:dullahan.models.Query)
+  return false;
+#undef DO_
+}
+
+void Query::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:dullahan.models.Query)
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:dullahan.models.Query)
+}
+
+::google::protobuf::uint8* Query::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dullahan.models.Query)
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dullahan.models.Query)
+  return target;
+}
+
+int Query::ByteSize() const {
+  int total_size = 0;
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Query::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const Query* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const Query*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void Query::MergeFrom(const Query& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void Query::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Query::CopyFrom(const Query& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Query::IsInitialized() const {
+
+  return true;
+}
+
+void Query::Swap(Query* other) {
+  if (other != this) {
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata Query::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = Query_descriptor_;
+  metadata.reflection = Query_reflection_;
   return metadata;
 }
 

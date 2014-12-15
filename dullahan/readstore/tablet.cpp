@@ -65,6 +65,10 @@ uint32_t Tablet::HighestIdAndIncrement(int increment_amount) {
   return highest_id;
 }
 
+uint32_t Tablet::HighestId() const {
+  return tablet_metadata_.highest_id();
+}
+
 void Tablet::WriteMetadata() {
   std::ofstream ofstream;
 

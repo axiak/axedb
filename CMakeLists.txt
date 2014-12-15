@@ -45,6 +45,7 @@ set(SOURCE_FILES
         dullahan/readstore/rocksdb/columnordering.hpp
         dullahan/readstore/query/tabletreader.cpp
         dullahan/readstore/query/tabletreader.hpp
+        dullahan/readstore/query/predicate_operators.cpp
 
         dullahan/protos/dullahan.pb.h
         dullahan/protos/dullahan.pb.cc
@@ -108,6 +109,21 @@ ExternalProject_Add(
     LOG_BUILD ON
 )
 
+# Add json2pb
+ExternalProject_Add(
+    json2pb
+    GIT_REPOSITORY git@github.com:axiak/json2pb.git
+    GIT_TAG master
+    TIMEOUT 30
+    CONFIGURE_COMMAND ""
+    BUILD_IN_SOURCE ON
+    BUILD_COMMAND make libjson2pb.so
+    # Disable
+    INSTALL_COMMAND ""
+    LOG_DOWNLOAD ON
+    LOG_BUILD ON
+)
+
 ExternalProject_Get_Property(googletest binary_dir)
 
 SET(GTEST_DIR ${binary_dir})
@@ -116,14 +132,20 @@ ExternalProject_Get_Property(rocksdb source_dir)
 
 SET(ROCKSDB_DIR ${source_dir})
 
+
+ExternalProject_Get_Property(json2pb source_dir)
+
+SET(JSON2PB_DIR ${source_dir})
+
+
 add_executable(dullahan_test
     #./dullahan/test/test_readstore.cpp
     ./dullahan/test/test_all.cpp
     ${SOURCE_FILES}
 )
 
-add_executable(dullahan_foo_bar
-    ./dullahan/test.cpp
+add_executable(dullahan_query
+    ./tools/query.cpp
     ${SOURCE_FILES}
 )
 
@@ -135,7 +157,7 @@ add_executable(tablet_load_csv
 
 
 add_dependencies(dullahan_test googletest rocksdb)
-add_dependencies(dullahan_foo_bar rocksdb)
+add_dependencies(dullahan_query rocksdb json2pb)
 add_dependencies(tablet_load_csv rocksdb)
 
 # External include directories
@@ -145,12 +167,15 @@ include_directories(${source_dir}/include)
 ExternalProject_Get_Property(rocksdb source_dir)
 include_directories(${source_dir}/include)
 
+include_directories(${JSON2PB_DIR})
+
 set(SHARED_LIBRARIES
     ${ROCKSDB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}rocksdb.a
+    ${JSON2PB_DIR}/${CMAKE_FIND_LIBRARY_PREFIXES}json2pb.so
     protobuf jemalloc lz4 snappy z)
 
 target_link_libraries(
-    dullahan_foo_bar
+    dullahan_query
     ${SHARED_LIBRARIES}
 )
 

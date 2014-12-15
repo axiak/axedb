@@ -33,11 +33,11 @@ ScratchValue & ScratchValue::operator=(ScratchValue && s) {
   return *this;
 }
 
-EWAHBoolArray<bitarrayword> * ScratchValue::bitarray() {
+BitArray * ScratchValue::bitarray() {
   return &bitarray_;
 }
 
-const EWAHBoolArray<bitarrayword> * const ScratchValue::bitarray() const {
+const BitArray * const ScratchValue::bitarray() const {
   return &bitarray_;
 }
 

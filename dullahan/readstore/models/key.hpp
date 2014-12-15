@@ -14,13 +14,26 @@ namespace dullahan {
 
 using column_t = std::uint16_t;
 using byte = char;
-const column_t META_COLUMN = -1;
-const column_t MATERIALIZED_ROW_COLUMN = -2;
+const column_t kMaterializedRowColumn = static_cast<column_t>(-1);
+const column_t kAllRowsColumn = static_cast<column_t>(-2);
+const column_t kAllRowsForColumn = static_cast<column_t>(-3);
 
 namespace models {
 
 class ReadStoreKey {
 public:
+  ReadStoreKey();
+
+  ~ReadStoreKey() = default;
+
+  ReadStoreKey(const ReadStoreKey &);
+
+  ReadStoreKey &operator=(const ReadStoreKey &);
+
+  ReadStoreKey(ReadStoreKey &&) noexcept;
+
+  ReadStoreKey &operator=(ReadStoreKey &&) noexcept;
+
 
   template<typename T1>
   ReadStoreKey(T1 &&column, const std::string &columnData) : bytes_{} {
@@ -37,32 +50,18 @@ public:
     updateSlice();
   }
 
-  ReadStoreKey();
 
-  ~ReadStoreKey() = default;
-
-  ReadStoreKey(const ReadStoreKey &);
-
-  ReadStoreKey &operator=(const ReadStoreKey &);
-
-  ReadStoreKey(ReadStoreKey &&);
-
-  ReadStoreKey &operator=(ReadStoreKey &&);
-
-  size_t columnSize() const;
+  size_t column_size() const;
 
   enum KeyType {
-    META,
     MATERIALIZED_ROW,
     COLUMN
   };
 
   inline KeyType getKeyType() const {
     switch (column_) {
-      case MATERIALIZED_ROW_COLUMN:
+      case kMaterializedRowColumn:
         return KeyType::MATERIALIZED_ROW;
-      case META_COLUMN:
-        return KeyType::META;
       default:
         return KeyType::COLUMN;
     }
@@ -70,7 +69,7 @@ public:
 
   column_t column() const;
 
-  rocksdb::Slice toSlice() const;
+  rocksdb::Slice ToSlice() const;
 
   struct Comparator_ {
     bool operator()(const ReadStoreKey &a, const ReadStoreKey &b) const {
@@ -136,23 +135,37 @@ public:
     return hasher;
   }
 
-
-  static ReadStoreKey metadataKey() {
-    ReadStoreKey metadataKey(META_COLUMN, {});
-    return metadataKey;
+  static ReadStoreKey AllRowsKey() {
+    static std::vector<byte> vector{};
+    static ReadStoreKey row_key{kAllRowsColumn, vector};
+    return row_key;
   }
 
-  static ReadStoreKey materializedRowKey(long rowId) {
+  static ReadStoreKey MaterializedRowKey(uint32_t row_id) {
     std::vector<byte> vector;
-    const byte *ptr = reinterpret_cast<const byte *>(&rowId);
-    vector.insert(vector.end(), ptr, ptr + sizeof(rowId));
-    ReadStoreKey rowKey(MATERIALIZED_ROW_COLUMN, std::move(vector));
-    return rowKey;
+    const byte *ptr = reinterpret_cast<const byte *>(&row_id);
+    vector.insert(vector.end(), ptr, ptr + sizeof(uint32_t));
+    ReadStoreKey row_key(kMaterializedRowColumn, std::move(vector));
+    return row_key;
   }
 
-  static bool isMaterializedRowKey(const rocksdb::Slice & slice) {
+  static ReadStoreKey AllRowsForColumnKey(column_t column) {
+    std::vector<byte> vector;
+    const byte *ptr = reinterpret_cast<const byte *>(&column);
+    vector.insert(vector.end(), ptr, ptr + sizeof(column_t));
+    ReadStoreKey row_key{kAllRowsForColumn, std::move(vector)};
+    return row_key;
+  }
+
+  static ReadStoreKey EmptyColumnKey(column_t column) {
+    std::vector<byte> vector{};
+    ReadStoreKey row_key(column, std::move(vector));
+    return row_key;
+  }
+
+  static bool IsMaterializedRowKey(const rocksdb::Slice & slice) {
     return (slice.size() > sizeof(column_t) &&
-        *reinterpret_cast<const column_t *>(slice.data()) == MATERIALIZED_ROW_COLUMN);
+        *reinterpret_cast<const column_t *>(slice.data()) == kMaterializedRowColumn);
   }
 
 private:

@@ -19,7 +19,7 @@ namespace models {
 /**
 * Serialize a protobuf to a slice, using the provided buffer as
 */
-::rocksdb::Slice toSlice(const ::google::protobuf::MessageLite & message, std::string * buffer);
+::rocksdb::Slice ToSlice(const ::google::protobuf::MessageLite & message, std::string * buffer);
 
 /**
 * Deserialize a protobuf from a slice

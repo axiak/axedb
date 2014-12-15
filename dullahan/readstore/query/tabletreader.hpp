@@ -3,10 +3,11 @@
 #define __DULLAHAN_READSTORE_QUERY_TABLETREADER_HPP_
 
 #include "../tablet.hpp"
-
+#include <functional>
 #include <rocksdb/db.h>
 #include <rocksdb/iterator.h>
 #include <ewah.h>
+#include <boost/optional.hpp>
 #include "../../env.hpp"
 #include "../models/key.hpp"
 
@@ -29,74 +30,23 @@ public:
   TabletReader(TabletReader &&tablet) noexcept;
   TabletReader &operator=(TabletReader &&tablet) noexcept;
 
-  template<typename Function>
-  void GetAllRecords(Function callable) const {
-    rocksdb::Status status;
-    Record currentRecord{};
+  void GetAllRecords(std::function<void(const Record &)> callable) const;
 
-    rocksdb::Iterator* it = db_->NewIterator(env_->getReadStoreReadOptions());
-    for (it->Seek(ReadStoreKey::materializedRowKey(0).toSlice()); it->Valid() && ReadStoreKey::isMaterializedRowKey(it->key()); it->Next()) {
-      currentRecord.ParseFromString(it->value().ToString());
-      callable(currentRecord);
-    }
+  uint32_t CountExactByColumn(column_t column, const std::string &value) const;
 
-  }
+  uint32_t TotalRowCount() const;
 
-  uint32_t CountExactByColumn(column_t column, const std::string &value) const {
-    rocksdb::Status status;
-    ReadStoreKey key{column, value};
-    std::string result;
+  BitArray GetBitArray(const ReadStoreKey & key) const;
 
-    status = db_->Get(env_->getReadStoreReadOptions(), key.toSlice(), &result);
-    if (status.IsNotFound()) {
-      return 0;
-    } else if (!status.ok()) {
-      throw TabletLevelDbException{status};
-    }
+  void GetBitArrays(column_t column, const ReadStoreKey & start_key, const ReadStoreKey & stop_key, std::function<void(BitArray)> callable) const;
 
-    EWAHBoolArray<bitarrayword> bitArray;
-    bitArray.readStream(result.data(), result.size());
+  void QueryExactByColumn(column_t column, const std::string &value, std::function<void(const Record &)> callable) const;
 
-    return bitArray.numberOfOnes();
-  }
+  BitArray WhereClause(const Query_Predicate & predicate) const;
 
-  template<typename Function>
-  void QueryExactByColumn(column_t column, const std::string &value, Function callable) const {
-    rocksdb::Status status;
-    ReadStoreKey key{column, value};
-    std::string result;
+  uint32_t CountWhere(const Query_Predicate & predicate) const;
 
-    status = db_->Get(env_->getReadStoreReadOptions(), key.toSlice(), &result);
-    if (status.IsNotFound()) {
-      return;
-    } else if (!status.ok()) {
-      throw TabletLevelDbException{status};
-    }
-
-    EWAHBoolArray<bitarrayword> bitArray;
-    bitArray.readStream(result.data(), result.size());
-
-    result.clear();
-    Record currentRecord;
-
-    bitArray.iterateSetBits([&] (uint64_t pos) {
-      rocksdb::Slice newKey = ReadStoreKey::materializedRowKey(pos).toSlice();
-      status = db_->Get(
-          env_->getReadStoreReadOptions(),
-          newKey,
-          &result
-      );
-      if (status.IsNotFound()) {
-        return;
-      }
-      if (!status.ok()) {
-        throw TabletLevelDbException{status};
-      }
-
-      currentRecord.ParseFromString(result);
-      callable(currentRecord.id());
-    });
-  }
+  const TableSchema & table_schema() const;
 };
 
 }

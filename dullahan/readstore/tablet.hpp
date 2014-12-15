@@ -36,11 +36,14 @@ protected:
 
   uint32_t HighestIdAndIncrement(int increment_amount = 1);
 
+
   boost::optional<TabletMetadata> ReadMetadata();
   void UpdateIdWatermark(uint32_t highest_id);
   void WriteMetadata();
 
 public:
+  uint32_t HighestId() const;
+
   static const std::shared_ptr<std::string> FileName(Env * env, long start_time, long stop_time) {
     std::shared_ptr<std::string> result = std::make_shared<std::string>(env->tabletDir());
     result->

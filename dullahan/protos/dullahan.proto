@@ -62,3 +62,35 @@ message TabletMetadata {
     optional TableSchema table_metadata = 7;
     // TabletMetadata last field: 7
 }
+
+message Query {
+  message Predicate {
+    enum PredicateType {
+        NODE = 1;
+        AND = 2;
+        OR = 3;
+    }
+    optional PredicateType type = 1 [default=NODE];
+    repeated Predicate sub_predicates = 2;
+    optional uint32 column = 3;
+    enum Operator {
+        EQUAL = 1;
+        NOT_EQUAL = 2;
+        GREATER = 3;
+        GREATER_OR_EQUAL = 4;
+        LESS = 5;
+        LESS_OR_EQUAL = 6;
+        IN = 7;
+        NOT_IN = 8;
+        BETWEEN = 9;
+        NOT_BETWEEN = 10;
+        LIKE = 11;
+        NOT_LIKE = 12;
+        IS_NULL = 13;
+        IS_NOT_NULL = 14;
+    }
+    optional Operator operator = 4;
+    repeated bytes operands = 5;
+  }
+
+}
