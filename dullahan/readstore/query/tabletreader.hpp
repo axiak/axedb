@@ -42,6 +42,8 @@ public:
 
   void QueryExactByColumn(column_t column, const std::string &value, std::function<void(const Record &)> callable) const;
 
+  void QueryWhere(const Query_Predicate &predicate, offsetType limit, std::function<void(const Record &)> callback) const;
+
   BitArray WhereClause(const Query_Predicate & predicate) const;
 
   uint32_t CountWhere(const Query_Predicate & predicate) const;

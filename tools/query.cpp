@@ -29,6 +29,9 @@ int main(int argc, char ** argv) {
 
       std::cout << "Count: " << tabletReader.CountWhere(query_predicate) << std::endl;
 
+      tabletReader.QueryWhere(query_predicate, 10, [] (const Record & record) {
+        std::cout << record.ShortDebugString() << std::endl;
+      });
 
       /*
       value.append(reinterpret_cast<const char *>(&campaignId), sizeof(int64_t));

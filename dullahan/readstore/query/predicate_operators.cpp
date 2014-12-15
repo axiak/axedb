@@ -24,8 +24,10 @@ using namespace dullahan::models;
 using namespace dullahan::query;
 
 
-inline ReadStoreKey BinaryIncrement(const std::string & value, bool decrement=false) {
-  std::string incremented{value};
+inline ReadStoreKey BinaryIncrement(const column_t column, const std::string & value, bool decrement=false) {
+  std::string incremented{};
+  incremented.append(reinterpret_cast<const char *>(&column), sizeof(column_t));
+  incremented.append(value);
   const char amount = decrement ? (char)-1 : (char)1;
   for (size_t i = incremented.size() - 1; i >= 0; --i) {
     incremented[i] += amount;
@@ -46,7 +48,7 @@ inline ReadStoreKey NumericIncrement(const column_t column, const std::string & 
 
   if ((amount > 0 && new_value < *ptr) ||
       (amount < 0 && new_value > *ptr)) { //overflow. just do binary increment
-    return BinaryIncrement(value, amount < 0);
+    return BinaryIncrement(column, value, amount < 0);
   } else {
     vector<byte> key_value{};
     const byte * new_ptr = reinterpret_cast<const byte *>(&new_value);
@@ -58,7 +60,7 @@ inline ReadStoreKey NumericIncrement(const column_t column, const std::string & 
 
 inline ReadStoreKey IncrementKey(const TabletReader &tablet_reader, const column_t column, const std::string & value, bool decrement=false) {
   if (column >= tablet_reader.table_schema().columns_size()) {
-    return BinaryIncrement(value, decrement);
+    return BinaryIncrement(column, value, decrement);
   } else {
     switch (tablet_reader.table_schema().columns(column).type()) {
       case TableSchema_Column_ColumnType::TableSchema_Column_ColumnType_SMALLINT:
@@ -72,7 +74,7 @@ inline ReadStoreKey IncrementKey(const TabletReader &tablet_reader, const column
       case TableSchema_Column_ColumnType::TableSchema_Column_ColumnType_DOUBLE:
         return NumericIncrement<double>(column, value, decrement ? -DBL_EPSILON : DBL_EPSILON);
       default:
-        return BinaryIncrement(value, decrement);
+        return BinaryIncrement(column, value, decrement);
     }
   }
 }
@@ -154,7 +156,7 @@ const Predicate kNotBetween = [](const TabletReader &tablet_reader, const Query_
 };
 
 const Predicate kLike = [](const TabletReader &tablet_reader, const Query_Predicate &predicate) -> BitArray {
-  throw std::invalid_argument{"foo"};
+  throw std::invalid_argument{"Not implemented"};
 };
 
 const Predicate kNotLike = [](const TabletReader &tablet_reader, const Query_Predicate &predicate) {

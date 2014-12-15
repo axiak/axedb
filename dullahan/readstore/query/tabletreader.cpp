@@ -113,7 +113,7 @@ void TabletReader::QueryExactByColumn(column_t column, const std::string &value,
   result.clear();
   Record currentRecord;
 
-  bitArray.iterateSetBits([&] (uint64_t pos) {
+  bitArray.iterateSetBits(static_cast<offsetType>(-1), [&] (uint64_t pos) {
     rocksdb::Slice newKey = ReadStoreKey::MaterializedRowKey(pos).ToSlice();
     status = db_->Get(
         env_->getReadStoreReadOptions(),
@@ -134,6 +134,32 @@ void TabletReader::QueryExactByColumn(column_t column, const std::string &value,
 
 uint32_t TabletReader::CountWhere(const Query_Predicate &predicate) const {
   return WhereClause(predicate).numberOfOnes();
+}
+
+void TabletReader::QueryWhere(const Query_Predicate &predicate, offsetType limit, std::function<void(const Record &)> callback) const {
+  BitArray bit_array = WhereClause(predicate);
+
+  Record record;
+  rocksdb::Status status;
+  rocksdb::Slice new_key;
+  std::string buffer;
+
+  bit_array.iterateSetBits(limit, [&] (uint64_t pos) {
+    new_key = ReadStoreKey::MaterializedRowKey(pos).ToSlice();
+    status = db_->Get(
+        env_->getReadStoreReadOptions(),
+        new_key,
+        &buffer
+    );
+    if (status.IsNotFound()) {
+      return;
+    }
+    if (!status.ok()) {
+      throw TabletLevelDbException{status};
+    }
+    record.ParseFromString(buffer);
+    callback(record);
+  });
 }
 
 BitArray TabletReader::WhereClause(const Query_Predicate &predicate) const {
