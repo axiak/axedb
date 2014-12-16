@@ -136,6 +136,31 @@ uint32_t TabletReader::CountWhere(const Query_Predicate &predicate) const {
   return WhereClause(predicate).numberOfOnes();
 }
 
+
+void TabletReader::OrderBy(column_t column, std::function<void(const Record &)> callback) const {
+  std::string buffer;
+  Record record;
+  GetBitArrays(column, ReadStoreKey::EmptyColumnKey(column), ReadStoreKey::EmptyColumnKey(column + 1), [this, &record, &buffer, &callback] (BitArray bit_array) {
+    bit_array.iterateSetBits(std::numeric_limits<offsetType>::max(), [&] (uint64_t pos) {
+
+      rocksdb::Status status = db_->Get(
+          env_->getReadStoreReadOptions(),
+          ReadStoreKey::MaterializedRowKey(pos).ToSlice(),
+          &buffer
+      );
+
+      if (status.IsNotFound()) {
+        return;
+      }
+      if (!status.ok()) {
+        throw TabletLevelDbException(status);
+      }
+      record.ParseFromString(buffer);
+      callback(record);
+    });
+  });
+}
+
 void TabletReader::QueryWhere(const Query_Predicate &predicate, offsetType limit, std::function<void(const Record &)> callback) const {
   BitArray bit_array = WhereClause(predicate);
 

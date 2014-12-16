@@ -44,6 +44,8 @@ public:
 
   void QueryWhere(const Query_Predicate &predicate, offsetType limit, std::function<void(const Record &)> callback) const;
 
+  void OrderBy(column_t column, std::function<void(const Record &)> callback) const;
+
   BitArray WhereClause(const Query_Predicate & predicate) const;
 
   uint32_t CountWhere(const Query_Predicate & predicate) const;
