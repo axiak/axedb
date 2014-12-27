@@ -48,6 +48,15 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
   Query_Predicate_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* Query_Predicate_PredicateType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* Query_Predicate_Operator_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* CRDT_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  CRDT_reflection_ = NULL;
+const ::google::protobuf::Descriptor* CRDT_PNCounter_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  CRDT_PNCounter_reflection_ = NULL;
+const ::google::protobuf::Descriptor* CRDT_PNCounter_ServerItem_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  CRDT_PNCounter_ServerItem_reflection_ = NULL;
 
 }  // namespace
 
@@ -185,6 +194,52 @@ void protobuf_AssignDesc_dullahan_2eproto() {
       sizeof(Query_Predicate));
   Query_Predicate_PredicateType_descriptor_ = Query_Predicate_descriptor_->enum_type(0);
   Query_Predicate_Operator_descriptor_ = Query_Predicate_descriptor_->enum_type(1);
+  CRDT_descriptor_ = file->message_type(4);
+  static const int CRDT_offsets_[1] = {
+  };
+  CRDT_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      CRDT_descriptor_,
+      CRDT::default_instance_,
+      CRDT_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(CRDT));
+  CRDT_PNCounter_descriptor_ = CRDT_descriptor_->nested_type(0);
+  static const int CRDT_PNCounter_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter, server_items_),
+  };
+  CRDT_PNCounter_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      CRDT_PNCounter_descriptor_,
+      CRDT_PNCounter::default_instance_,
+      CRDT_PNCounter_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(CRDT_PNCounter));
+  CRDT_PNCounter_ServerItem_descriptor_ = CRDT_PNCounter_descriptor_->nested_type(0);
+  static const int CRDT_PNCounter_ServerItem_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter_ServerItem, server_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter_ServerItem, positive_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter_ServerItem, negative_),
+  };
+  CRDT_PNCounter_ServerItem_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      CRDT_PNCounter_ServerItem_descriptor_,
+      CRDT_PNCounter_ServerItem::default_instance_,
+      CRDT_PNCounter_ServerItem_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter_ServerItem, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CRDT_PNCounter_ServerItem, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(CRDT_PNCounter_ServerItem));
 }
 
 namespace {
@@ -211,6 +266,12 @@ void protobuf_RegisterTypes(const ::std::string&) {
     Query_descriptor_, &Query::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Query_Predicate_descriptor_, &Query_Predicate::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    CRDT_descriptor_, &CRDT::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    CRDT_PNCounter_descriptor_, &CRDT_PNCounter::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    CRDT_PNCounter_ServerItem_descriptor_, &CRDT_PNCounter_ServerItem::default_instance());
 }
 
 }  // namespace
@@ -230,6 +291,12 @@ void protobuf_ShutdownFile_dullahan_2eproto() {
   delete Query_reflection_;
   delete Query_Predicate::default_instance_;
   delete Query_Predicate_reflection_;
+  delete CRDT::default_instance_;
+  delete CRDT_reflection_;
+  delete CRDT_PNCounter::default_instance_;
+  delete CRDT_PNCounter_reflection_;
+  delete CRDT_PNCounter_ServerItem::default_instance_;
+  delete CRDT_PNCounter_ServerItem_reflection_;
 }
 
 void protobuf_AddDesc_dullahan_2eproto() {
@@ -275,7 +342,11 @@ void protobuf_AddDesc_dullahan_2eproto() {
     "S\020\005\022\021\n\rLESS_OR_EQUAL\020\006\022\006\n\002IN\020\007\022\n\n\006NOT_IN"
     "\020\010\022\013\n\007BETWEEN\020\t\022\017\n\013NOT_BETWEEN\020\n\022\010\n\004LIKE"
     "\020\013\022\014\n\010NOT_LIKE\020\014\022\013\n\007IS_NULL\020\r\022\017\n\013IS_NOT_"
-    "NULL\020\016", 1446);
+    "NULL\020\016\"\233\001\n\004CRDT\032\222\001\n\tPNCounter\022@\n\014server_"
+    "items\030\001 \003(\0132*.dullahan.models.CRDT.PNCou"
+    "nter.ServerItem\032C\n\nServerItem\022\021\n\tserver_"
+    "id\030\001 \001(\r\022\020\n\010positive\030\002 \001(\014\022\020\n\010negative\030\003"
+    " \001(\014", 1604);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "dullahan.proto", &protobuf_RegisterTypes);
   Record::default_instance_ = new Record();
@@ -285,6 +356,9 @@ void protobuf_AddDesc_dullahan_2eproto() {
   TabletMetadata::default_instance_ = new TabletMetadata();
   Query::default_instance_ = new Query();
   Query_Predicate::default_instance_ = new Query_Predicate();
+  CRDT::default_instance_ = new CRDT();
+  CRDT_PNCounter::default_instance_ = new CRDT_PNCounter();
+  CRDT_PNCounter_ServerItem::default_instance_ = new CRDT_PNCounter_ServerItem();
   Record::default_instance_->InitAsDefaultInstance();
   Record_KeyValue::default_instance_->InitAsDefaultInstance();
   TableSchema::default_instance_->InitAsDefaultInstance();
@@ -292,6 +366,9 @@ void protobuf_AddDesc_dullahan_2eproto() {
   TabletMetadata::default_instance_->InitAsDefaultInstance();
   Query::default_instance_->InitAsDefaultInstance();
   Query_Predicate::default_instance_->InitAsDefaultInstance();
+  CRDT::default_instance_->InitAsDefaultInstance();
+  CRDT_PNCounter::default_instance_->InitAsDefaultInstance();
+  CRDT_PNCounter_ServerItem::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_dullahan_2eproto);
 }
 
@@ -2745,6 +2822,718 @@ void Query::Swap(Query* other) {
   ::google::protobuf::Metadata metadata;
   metadata.descriptor = Query_descriptor_;
   metadata.reflection = Query_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int CRDT_PNCounter_ServerItem::kServerIdFieldNumber;
+const int CRDT_PNCounter_ServerItem::kPositiveFieldNumber;
+const int CRDT_PNCounter_ServerItem::kNegativeFieldNumber;
+#endif  // !_MSC_VER
+
+CRDT_PNCounter_ServerItem::CRDT_PNCounter_ServerItem()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:dullahan.models.CRDT.PNCounter.ServerItem)
+}
+
+void CRDT_PNCounter_ServerItem::InitAsDefaultInstance() {
+}
+
+CRDT_PNCounter_ServerItem::CRDT_PNCounter_ServerItem(const CRDT_PNCounter_ServerItem& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:dullahan.models.CRDT.PNCounter.ServerItem)
+}
+
+void CRDT_PNCounter_ServerItem::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  server_id_ = 0u;
+  positive_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  negative_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+CRDT_PNCounter_ServerItem::~CRDT_PNCounter_ServerItem() {
+  // @@protoc_insertion_point(destructor:dullahan.models.CRDT.PNCounter.ServerItem)
+  SharedDtor();
+}
+
+void CRDT_PNCounter_ServerItem::SharedDtor() {
+  if (positive_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete positive_;
+  }
+  if (negative_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete negative_;
+  }
+  if (this != default_instance_) {
+  }
+}
+
+void CRDT_PNCounter_ServerItem::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* CRDT_PNCounter_ServerItem::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CRDT_PNCounter_ServerItem_descriptor_;
+}
+
+const CRDT_PNCounter_ServerItem& CRDT_PNCounter_ServerItem::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_dullahan_2eproto();
+  return *default_instance_;
+}
+
+CRDT_PNCounter_ServerItem* CRDT_PNCounter_ServerItem::default_instance_ = NULL;
+
+CRDT_PNCounter_ServerItem* CRDT_PNCounter_ServerItem::New() const {
+  return new CRDT_PNCounter_ServerItem;
+}
+
+void CRDT_PNCounter_ServerItem::Clear() {
+  if (_has_bits_[0 / 32] & 7) {
+    server_id_ = 0u;
+    if (has_positive()) {
+      if (positive_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        positive_->clear();
+      }
+    }
+    if (has_negative()) {
+      if (negative_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        negative_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool CRDT_PNCounter_ServerItem::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:dullahan.models.CRDT.PNCounter.ServerItem)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional uint32 server_id = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &server_id_)));
+          set_has_server_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_positive;
+        break;
+      }
+
+      // optional bytes positive = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_positive:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_positive()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(26)) goto parse_negative;
+        break;
+      }
+
+      // optional bytes negative = 3;
+      case 3: {
+        if (tag == 26) {
+         parse_negative:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_negative()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:dullahan.models.CRDT.PNCounter.ServerItem)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:dullahan.models.CRDT.PNCounter.ServerItem)
+  return false;
+#undef DO_
+}
+
+void CRDT_PNCounter_ServerItem::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:dullahan.models.CRDT.PNCounter.ServerItem)
+  // optional uint32 server_id = 1;
+  if (has_server_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->server_id(), output);
+  }
+
+  // optional bytes positive = 2;
+  if (has_positive()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      2, this->positive(), output);
+  }
+
+  // optional bytes negative = 3;
+  if (has_negative()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      3, this->negative(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:dullahan.models.CRDT.PNCounter.ServerItem)
+}
+
+::google::protobuf::uint8* CRDT_PNCounter_ServerItem::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dullahan.models.CRDT.PNCounter.ServerItem)
+  // optional uint32 server_id = 1;
+  if (has_server_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->server_id(), target);
+  }
+
+  // optional bytes positive = 2;
+  if (has_positive()) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        2, this->positive(), target);
+  }
+
+  // optional bytes negative = 3;
+  if (has_negative()) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        3, this->negative(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dullahan.models.CRDT.PNCounter.ServerItem)
+  return target;
+}
+
+int CRDT_PNCounter_ServerItem::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // optional uint32 server_id = 1;
+    if (has_server_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->server_id());
+    }
+
+    // optional bytes positive = 2;
+    if (has_positive()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->positive());
+    }
+
+    // optional bytes negative = 3;
+    if (has_negative()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->negative());
+    }
+
+  }
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CRDT_PNCounter_ServerItem::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const CRDT_PNCounter_ServerItem* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const CRDT_PNCounter_ServerItem*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void CRDT_PNCounter_ServerItem::MergeFrom(const CRDT_PNCounter_ServerItem& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_server_id()) {
+      set_server_id(from.server_id());
+    }
+    if (from.has_positive()) {
+      set_positive(from.positive());
+    }
+    if (from.has_negative()) {
+      set_negative(from.negative());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void CRDT_PNCounter_ServerItem::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CRDT_PNCounter_ServerItem::CopyFrom(const CRDT_PNCounter_ServerItem& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CRDT_PNCounter_ServerItem::IsInitialized() const {
+
+  return true;
+}
+
+void CRDT_PNCounter_ServerItem::Swap(CRDT_PNCounter_ServerItem* other) {
+  if (other != this) {
+    std::swap(server_id_, other->server_id_);
+    std::swap(positive_, other->positive_);
+    std::swap(negative_, other->negative_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata CRDT_PNCounter_ServerItem::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = CRDT_PNCounter_ServerItem_descriptor_;
+  metadata.reflection = CRDT_PNCounter_ServerItem_reflection_;
+  return metadata;
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
+const int CRDT_PNCounter::kServerItemsFieldNumber;
+#endif  // !_MSC_VER
+
+CRDT_PNCounter::CRDT_PNCounter()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:dullahan.models.CRDT.PNCounter)
+}
+
+void CRDT_PNCounter::InitAsDefaultInstance() {
+}
+
+CRDT_PNCounter::CRDT_PNCounter(const CRDT_PNCounter& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:dullahan.models.CRDT.PNCounter)
+}
+
+void CRDT_PNCounter::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+CRDT_PNCounter::~CRDT_PNCounter() {
+  // @@protoc_insertion_point(destructor:dullahan.models.CRDT.PNCounter)
+  SharedDtor();
+}
+
+void CRDT_PNCounter::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void CRDT_PNCounter::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* CRDT_PNCounter::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CRDT_PNCounter_descriptor_;
+}
+
+const CRDT_PNCounter& CRDT_PNCounter::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_dullahan_2eproto();
+  return *default_instance_;
+}
+
+CRDT_PNCounter* CRDT_PNCounter::default_instance_ = NULL;
+
+CRDT_PNCounter* CRDT_PNCounter::New() const {
+  return new CRDT_PNCounter;
+}
+
+void CRDT_PNCounter::Clear() {
+  server_items_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool CRDT_PNCounter::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:dullahan.models.CRDT.PNCounter)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated .dullahan.models.CRDT.PNCounter.ServerItem server_items = 1;
+      case 1: {
+        if (tag == 10) {
+         parse_server_items:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_server_items()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(10)) goto parse_server_items;
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:dullahan.models.CRDT.PNCounter)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:dullahan.models.CRDT.PNCounter)
+  return false;
+#undef DO_
+}
+
+void CRDT_PNCounter::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:dullahan.models.CRDT.PNCounter)
+  // repeated .dullahan.models.CRDT.PNCounter.ServerItem server_items = 1;
+  for (int i = 0; i < this->server_items_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, this->server_items(i), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:dullahan.models.CRDT.PNCounter)
+}
+
+::google::protobuf::uint8* CRDT_PNCounter::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dullahan.models.CRDT.PNCounter)
+  // repeated .dullahan.models.CRDT.PNCounter.ServerItem server_items = 1;
+  for (int i = 0; i < this->server_items_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        1, this->server_items(i), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dullahan.models.CRDT.PNCounter)
+  return target;
+}
+
+int CRDT_PNCounter::ByteSize() const {
+  int total_size = 0;
+
+  // repeated .dullahan.models.CRDT.PNCounter.ServerItem server_items = 1;
+  total_size += 1 * this->server_items_size();
+  for (int i = 0; i < this->server_items_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->server_items(i));
+  }
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CRDT_PNCounter::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const CRDT_PNCounter* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const CRDT_PNCounter*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void CRDT_PNCounter::MergeFrom(const CRDT_PNCounter& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  server_items_.MergeFrom(from.server_items_);
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void CRDT_PNCounter::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CRDT_PNCounter::CopyFrom(const CRDT_PNCounter& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CRDT_PNCounter::IsInitialized() const {
+
+  return true;
+}
+
+void CRDT_PNCounter::Swap(CRDT_PNCounter* other) {
+  if (other != this) {
+    server_items_.Swap(&other->server_items_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata CRDT_PNCounter::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = CRDT_PNCounter_descriptor_;
+  metadata.reflection = CRDT_PNCounter_reflection_;
+  return metadata;
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
+#endif  // !_MSC_VER
+
+CRDT::CRDT()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:dullahan.models.CRDT)
+}
+
+void CRDT::InitAsDefaultInstance() {
+}
+
+CRDT::CRDT(const CRDT& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:dullahan.models.CRDT)
+}
+
+void CRDT::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+CRDT::~CRDT() {
+  // @@protoc_insertion_point(destructor:dullahan.models.CRDT)
+  SharedDtor();
+}
+
+void CRDT::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void CRDT::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* CRDT::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CRDT_descriptor_;
+}
+
+const CRDT& CRDT::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_dullahan_2eproto();
+  return *default_instance_;
+}
+
+CRDT* CRDT::default_instance_ = NULL;
+
+CRDT* CRDT::New() const {
+  return new CRDT;
+}
+
+void CRDT::Clear() {
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool CRDT::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:dullahan.models.CRDT)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0 ||
+        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:dullahan.models.CRDT)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:dullahan.models.CRDT)
+  return false;
+#undef DO_
+}
+
+void CRDT::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:dullahan.models.CRDT)
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:dullahan.models.CRDT)
+}
+
+::google::protobuf::uint8* CRDT::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dullahan.models.CRDT)
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dullahan.models.CRDT)
+  return target;
+}
+
+int CRDT::ByteSize() const {
+  int total_size = 0;
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CRDT::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const CRDT* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const CRDT*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void CRDT::MergeFrom(const CRDT& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void CRDT::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CRDT::CopyFrom(const CRDT& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CRDT::IsInitialized() const {
+
+  return true;
+}
+
+void CRDT::Swap(CRDT* other) {
+  if (other != this) {
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata CRDT::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = CRDT_descriptor_;
+  metadata.reflection = CRDT_reflection_;
   return metadata;
 }
 

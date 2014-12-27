@@ -1,0 +1,94 @@
+\title{Locally Invertable Convergent and Commutative Replicated Data Types}
+\author{
+        Michael Axiak \\
+        HubSpot, Inc \\
+        Cambridge, MA
+}
+\date{\today}
+
+\documentclass[12pt]{article}
+\usepackage{textcomp}
+\usepackage{cmbright}
+\usepackage{amsthm}
+
+\newtheorem{mydef}{Definition}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This is the paper's abstract \ldots
+\end{abstract}
+
+\section{Introduction}
+
+Maintaining consistency across a distributed system requires maintaining a global order of
+operations or optimistic replication (also known as eventual consistency). Convergent or commutative
+replicated data types (CRDT) have been shown to provide a theoretical basis for eventually consistent
+systems, rather than ad hoc solutions would could prove to be error prone. \cite{crdt2011}
+
+As CRDTs require no synchronization, they are an attractive building block for highly available
+distributed systems. However, they provide a challenge when trying to build an inverted index
+to make the data in the distributed system queryable --- when should the data be considered
+available for indexing? Typical strategies in building a column index for databases are described
+by Abadi {\em et al.} involve a column store index build step that requires freezing the value
+for a given key ahead of time. \cite{abadi}
+
+In this paper, the author discusses a strategy for using CRDTs in a two phase database system.
+Initially, CRDTs are used to accept writes and serve as the basis or a write optimized store, while
+a column store is used for read optimized querying. A strategy for n
+
+
+\begin{mydef}
+Here is a new definition
+
+\begin{itemize}
+
+\item test
+\item test2
+
+\end{itemize}
+\end{mydef}
+
+
+Convergent Replicated Data Types (CrRDT) and Commuative Replicated Data Types (CmRDT)
+(collectively known as CRDTs) are a useful collection of data structures for highly
+available distributed systems aiming for eventual consistency. These data structures
+define a {\em semilattice} with a  \cite{crdt2011}
+
+\paragraph{Outline}
+The remainder of this article is organized as follows.
+Section~\ref{previous work} gives account of previous work.
+Our new and exciting results are described in Section~\ref{results}.
+Finally, Section~\ref{conclusions} gives the conclusions.
+
+\section{Previous work}\label{previous work}
+A much longer \LaTeXe{} example was written by Gil~\cite{crdt2011}.
+
+\section{Results}\label{results}
+In this section we describe the results.
+
+\section{Conclusions}\label{conclusions}
+We worked hard, and achieved very little.
+
+\bibliographystyle{abbrv}
+
+\begin{thebibliography}{9}
+
+\bibitem{crdt2011}
+  Marc Shapiro, Nuno Pregui\c{c}a, Carlos Baquero, Marek Zawirski.
+  A comprehensive study of Convergent and Commutative Replicated Data Types.
+  [Research Report] RR-7506, 2011, pp.50.
+  \textlangle{}inria-00555588\textrangle{}
+
+
+\bibitem{abadi}
+  Daniel Abadi, Peter Boncz, Stavros Harizopoulos, Stratos Idreos, Samnuel Madden.
+  The Design and Implementation of Modern Column-Oriented Database Systems.
+  Foundations and Trends in Databases, Vol. 5, No. 3 (2012) 197-280.
+
+\end{thebibliography}
+
+
+\end{document}
+This is never printed

@@ -42,6 +42,9 @@ class TableSchema_Column;
 class TabletMetadata;
 class Query;
 class Query_Predicate;
+class CRDT;
+class CRDT_PNCounter;
+class CRDT_PNCounter_ServerItem;
 
 enum TableSchema_Column_ColumnType {
   TableSchema_Column_ColumnType_BYTES = 1,
@@ -1094,6 +1097,270 @@ class Query : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static Query* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class CRDT_PNCounter_ServerItem : public ::google::protobuf::Message {
+ public:
+  CRDT_PNCounter_ServerItem();
+  virtual ~CRDT_PNCounter_ServerItem();
+
+  CRDT_PNCounter_ServerItem(const CRDT_PNCounter_ServerItem& from);
+
+  inline CRDT_PNCounter_ServerItem& operator=(const CRDT_PNCounter_ServerItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CRDT_PNCounter_ServerItem& default_instance();
+
+  void Swap(CRDT_PNCounter_ServerItem* other);
+
+  // implements Message ----------------------------------------------
+
+  CRDT_PNCounter_ServerItem* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CRDT_PNCounter_ServerItem& from);
+  void MergeFrom(const CRDT_PNCounter_ServerItem& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 server_id = 1;
+  inline bool has_server_id() const;
+  inline void clear_server_id();
+  static const int kServerIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 server_id() const;
+  inline void set_server_id(::google::protobuf::uint32 value);
+
+  // optional bytes positive = 2;
+  inline bool has_positive() const;
+  inline void clear_positive();
+  static const int kPositiveFieldNumber = 2;
+  inline const ::std::string& positive() const;
+  inline void set_positive(const ::std::string& value);
+  inline void set_positive(const char* value);
+  inline void set_positive(const void* value, size_t size);
+  inline ::std::string* mutable_positive();
+  inline ::std::string* release_positive();
+  inline void set_allocated_positive(::std::string* positive);
+
+  // optional bytes negative = 3;
+  inline bool has_negative() const;
+  inline void clear_negative();
+  static const int kNegativeFieldNumber = 3;
+  inline const ::std::string& negative() const;
+  inline void set_negative(const ::std::string& value);
+  inline void set_negative(const char* value);
+  inline void set_negative(const void* value, size_t size);
+  inline ::std::string* mutable_negative();
+  inline ::std::string* release_negative();
+  inline void set_allocated_negative(::std::string* negative);
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.CRDT.PNCounter.ServerItem)
+ private:
+  inline void set_has_server_id();
+  inline void clear_has_server_id();
+  inline void set_has_positive();
+  inline void clear_has_positive();
+  inline void set_has_negative();
+  inline void clear_has_negative();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* positive_;
+  ::std::string* negative_;
+  ::google::protobuf::uint32 server_id_;
+  friend void  protobuf_AddDesc_dullahan_2eproto();
+  friend void protobuf_AssignDesc_dullahan_2eproto();
+  friend void protobuf_ShutdownFile_dullahan_2eproto();
+
+  void InitAsDefaultInstance();
+  static CRDT_PNCounter_ServerItem* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CRDT_PNCounter : public ::google::protobuf::Message {
+ public:
+  CRDT_PNCounter();
+  virtual ~CRDT_PNCounter();
+
+  CRDT_PNCounter(const CRDT_PNCounter& from);
+
+  inline CRDT_PNCounter& operator=(const CRDT_PNCounter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CRDT_PNCounter& default_instance();
+
+  void Swap(CRDT_PNCounter* other);
+
+  // implements Message ----------------------------------------------
+
+  CRDT_PNCounter* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CRDT_PNCounter& from);
+  void MergeFrom(const CRDT_PNCounter& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef CRDT_PNCounter_ServerItem ServerItem;
+
+  // accessors -------------------------------------------------------
+
+  // repeated .dullahan.models.CRDT.PNCounter.ServerItem server_items = 1;
+  inline int server_items_size() const;
+  inline void clear_server_items();
+  static const int kServerItemsFieldNumber = 1;
+  inline const ::dullahan::models::CRDT_PNCounter_ServerItem& server_items(int index) const;
+  inline ::dullahan::models::CRDT_PNCounter_ServerItem* mutable_server_items(int index);
+  inline ::dullahan::models::CRDT_PNCounter_ServerItem* add_server_items();
+  inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::CRDT_PNCounter_ServerItem >&
+      server_items() const;
+  inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::CRDT_PNCounter_ServerItem >*
+      mutable_server_items();
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.CRDT.PNCounter)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::dullahan::models::CRDT_PNCounter_ServerItem > server_items_;
+  friend void  protobuf_AddDesc_dullahan_2eproto();
+  friend void protobuf_AssignDesc_dullahan_2eproto();
+  friend void protobuf_ShutdownFile_dullahan_2eproto();
+
+  void InitAsDefaultInstance();
+  static CRDT_PNCounter* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CRDT : public ::google::protobuf::Message {
+ public:
+  CRDT();
+  virtual ~CRDT();
+
+  CRDT(const CRDT& from);
+
+  inline CRDT& operator=(const CRDT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CRDT& default_instance();
+
+  void Swap(CRDT* other);
+
+  // implements Message ----------------------------------------------
+
+  CRDT* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CRDT& from);
+  void MergeFrom(const CRDT& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef CRDT_PNCounter PNCounter;
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:dullahan.models.CRDT)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_dullahan_2eproto();
+  friend void protobuf_AssignDesc_dullahan_2eproto();
+  friend void protobuf_ShutdownFile_dullahan_2eproto();
+
+  void InitAsDefaultInstance();
+  static CRDT* default_instance_;
+};
 // ===================================================================
 
 
@@ -1955,6 +2222,224 @@ Query_Predicate::mutable_operands() {
 // -------------------------------------------------------------------
 
 // Query
+
+// -------------------------------------------------------------------
+
+// CRDT_PNCounter_ServerItem
+
+// optional uint32 server_id = 1;
+inline bool CRDT_PNCounter_ServerItem::has_server_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CRDT_PNCounter_ServerItem::set_has_server_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CRDT_PNCounter_ServerItem::clear_has_server_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CRDT_PNCounter_ServerItem::clear_server_id() {
+  server_id_ = 0u;
+  clear_has_server_id();
+}
+inline ::google::protobuf::uint32 CRDT_PNCounter_ServerItem::server_id() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.CRDT.PNCounter.ServerItem.server_id)
+  return server_id_;
+}
+inline void CRDT_PNCounter_ServerItem::set_server_id(::google::protobuf::uint32 value) {
+  set_has_server_id();
+  server_id_ = value;
+  // @@protoc_insertion_point(field_set:dullahan.models.CRDT.PNCounter.ServerItem.server_id)
+}
+
+// optional bytes positive = 2;
+inline bool CRDT_PNCounter_ServerItem::has_positive() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CRDT_PNCounter_ServerItem::set_has_positive() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CRDT_PNCounter_ServerItem::clear_has_positive() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CRDT_PNCounter_ServerItem::clear_positive() {
+  if (positive_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    positive_->clear();
+  }
+  clear_has_positive();
+}
+inline const ::std::string& CRDT_PNCounter_ServerItem::positive() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.CRDT.PNCounter.ServerItem.positive)
+  return *positive_;
+}
+inline void CRDT_PNCounter_ServerItem::set_positive(const ::std::string& value) {
+  set_has_positive();
+  if (positive_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    positive_ = new ::std::string;
+  }
+  positive_->assign(value);
+  // @@protoc_insertion_point(field_set:dullahan.models.CRDT.PNCounter.ServerItem.positive)
+}
+inline void CRDT_PNCounter_ServerItem::set_positive(const char* value) {
+  set_has_positive();
+  if (positive_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    positive_ = new ::std::string;
+  }
+  positive_->assign(value);
+  // @@protoc_insertion_point(field_set_char:dullahan.models.CRDT.PNCounter.ServerItem.positive)
+}
+inline void CRDT_PNCounter_ServerItem::set_positive(const void* value, size_t size) {
+  set_has_positive();
+  if (positive_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    positive_ = new ::std::string;
+  }
+  positive_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:dullahan.models.CRDT.PNCounter.ServerItem.positive)
+}
+inline ::std::string* CRDT_PNCounter_ServerItem::mutable_positive() {
+  set_has_positive();
+  if (positive_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    positive_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:dullahan.models.CRDT.PNCounter.ServerItem.positive)
+  return positive_;
+}
+inline ::std::string* CRDT_PNCounter_ServerItem::release_positive() {
+  clear_has_positive();
+  if (positive_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = positive_;
+    positive_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void CRDT_PNCounter_ServerItem::set_allocated_positive(::std::string* positive) {
+  if (positive_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete positive_;
+  }
+  if (positive) {
+    set_has_positive();
+    positive_ = positive;
+  } else {
+    clear_has_positive();
+    positive_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:dullahan.models.CRDT.PNCounter.ServerItem.positive)
+}
+
+// optional bytes negative = 3;
+inline bool CRDT_PNCounter_ServerItem::has_negative() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void CRDT_PNCounter_ServerItem::set_has_negative() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void CRDT_PNCounter_ServerItem::clear_has_negative() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void CRDT_PNCounter_ServerItem::clear_negative() {
+  if (negative_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    negative_->clear();
+  }
+  clear_has_negative();
+}
+inline const ::std::string& CRDT_PNCounter_ServerItem::negative() const {
+  // @@protoc_insertion_point(field_get:dullahan.models.CRDT.PNCounter.ServerItem.negative)
+  return *negative_;
+}
+inline void CRDT_PNCounter_ServerItem::set_negative(const ::std::string& value) {
+  set_has_negative();
+  if (negative_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    negative_ = new ::std::string;
+  }
+  negative_->assign(value);
+  // @@protoc_insertion_point(field_set:dullahan.models.CRDT.PNCounter.ServerItem.negative)
+}
+inline void CRDT_PNCounter_ServerItem::set_negative(const char* value) {
+  set_has_negative();
+  if (negative_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    negative_ = new ::std::string;
+  }
+  negative_->assign(value);
+  // @@protoc_insertion_point(field_set_char:dullahan.models.CRDT.PNCounter.ServerItem.negative)
+}
+inline void CRDT_PNCounter_ServerItem::set_negative(const void* value, size_t size) {
+  set_has_negative();
+  if (negative_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    negative_ = new ::std::string;
+  }
+  negative_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:dullahan.models.CRDT.PNCounter.ServerItem.negative)
+}
+inline ::std::string* CRDT_PNCounter_ServerItem::mutable_negative() {
+  set_has_negative();
+  if (negative_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    negative_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:dullahan.models.CRDT.PNCounter.ServerItem.negative)
+  return negative_;
+}
+inline ::std::string* CRDT_PNCounter_ServerItem::release_negative() {
+  clear_has_negative();
+  if (negative_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = negative_;
+    negative_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void CRDT_PNCounter_ServerItem::set_allocated_negative(::std::string* negative) {
+  if (negative_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete negative_;
+  }
+  if (negative) {
+    set_has_negative();
+    negative_ = negative;
+  } else {
+    clear_has_negative();
+    negative_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:dullahan.models.CRDT.PNCounter.ServerItem.negative)
+}
+
+// -------------------------------------------------------------------
+
+// CRDT_PNCounter
+
+// repeated .dullahan.models.CRDT.PNCounter.ServerItem server_items = 1;
+inline int CRDT_PNCounter::server_items_size() const {
+  return server_items_.size();
+}
+inline void CRDT_PNCounter::clear_server_items() {
+  server_items_.Clear();
+}
+inline const ::dullahan::models::CRDT_PNCounter_ServerItem& CRDT_PNCounter::server_items(int index) const {
+  // @@protoc_insertion_point(field_get:dullahan.models.CRDT.PNCounter.server_items)
+  return server_items_.Get(index);
+}
+inline ::dullahan::models::CRDT_PNCounter_ServerItem* CRDT_PNCounter::mutable_server_items(int index) {
+  // @@protoc_insertion_point(field_mutable:dullahan.models.CRDT.PNCounter.server_items)
+  return server_items_.Mutable(index);
+}
+inline ::dullahan::models::CRDT_PNCounter_ServerItem* CRDT_PNCounter::add_server_items() {
+  // @@protoc_insertion_point(field_add:dullahan.models.CRDT.PNCounter.server_items)
+  return server_items_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::dullahan::models::CRDT_PNCounter_ServerItem >&
+CRDT_PNCounter::server_items() const {
+  // @@protoc_insertion_point(field_list:dullahan.models.CRDT.PNCounter.server_items)
+  return server_items_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::dullahan::models::CRDT_PNCounter_ServerItem >*
+CRDT_PNCounter::mutable_server_items() {
+  // @@protoc_insertion_point(field_mutable_list:dullahan.models.CRDT.PNCounter.server_items)
+  return &server_items_;
+}
+
+// -------------------------------------------------------------------
+
+// CRDT
 
 
 // @@protoc_insertion_point(namespace_scope)

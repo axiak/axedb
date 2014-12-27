@@ -47,6 +47,9 @@ set(SOURCE_FILES
         dullahan/readstore/query/tabletreader.hpp
         dullahan/readstore/query/predicate_operators.cpp
 
+        dullahan/writestore/crdt.hpp
+        dullahan/writestore/crdt.cpp
+
         dullahan/protos/dullahan.pb.h
         dullahan/protos/dullahan.pb.cc
         dullahan/protos/utils.hpp
@@ -156,7 +159,7 @@ add_executable(tablet_load_csv
 
 
 
-add_dependencies(dullahan_test googletest rocksdb)
+add_dependencies(dullahan_test googletest rocksdb json2pb)
 add_dependencies(dullahan_query rocksdb json2pb)
 add_dependencies(tablet_load_csv rocksdb)
 

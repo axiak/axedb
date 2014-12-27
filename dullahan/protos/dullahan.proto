@@ -92,5 +92,17 @@ message Query {
     optional Operator operator = 4;
     repeated bytes operands = 5;
   }
+}
+
+message CRDT {
+
+  message PNCounter {
+    message ServerItem {
+      optional uint32 server_id = 1;
+      optional bytes positive = 2;
+      optional bytes negative = 3;
+    }
+    repeated ServerItem server_items = 1;
+  }
 
 }
